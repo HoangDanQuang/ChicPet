@@ -17,3 +17,9 @@ npm install express-handlebars
 
 6. set up node scss
 npm install node-sass --save-dev
+
+
+--- Cách chạy và debug
+- xem các thiết lập trong package.json
+- để chạy trang web, gõ npm start
+- để cập nhật CSS, mở 1 Terminal song song, gõ npm run watch

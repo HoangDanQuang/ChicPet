@@ -27,9 +27,15 @@ app.use(express.json());
 
 
 //route
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
     res.render('home');
 });
+app.get('/service', (req, res) => {
+    res.render('service');
+});
+
+
+
 //route
 app.get('/test', (req, res) => {
     res.render('test');
