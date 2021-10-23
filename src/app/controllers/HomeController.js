@@ -1,10 +1,10 @@
 const res = require("express/lib/response");
 
-class Home1Controller {
+class HomeController {
     // [GET] /home
     index(req, res){
         res.render('home');
     }
 }
 
-module.exports = new Home1Controller;
+module.exports = new HomeController;
