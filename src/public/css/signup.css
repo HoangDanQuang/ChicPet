@@ -16,10 +16,10 @@ html,body{
     }
     
     .card{
-    height: 55%;
+    height: 50%;
     margin-top: auto;
     margin-bottom: auto;
-    width: 400px;
+    width: 600px;
     background-color: rgba(0,0,0,0.5) !important;
     }
     
