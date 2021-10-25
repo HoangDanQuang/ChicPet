@@ -5,6 +5,11 @@ const route = require('./routes');
 const app = express();
 const port = 3000;
 
+// Khắc phục [nodemon] app crashed - waiting for file changes before starting...
+// load('config')
+//   .then('routes')
+//   .into(app);
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({
   extended: true,

@@ -1,9 +1,9 @@
 const homeRouter = require('./home');
-//const accountRouter = require('./account');
+const accountRouter = require('./account');
 
 function route(app) {
 
-    // app.use('/account', accountRouter);
+    app.use('/account', accountRouter);
     app.use('/', homeRouter);
 
     // app.get('/', (req, res) => {
