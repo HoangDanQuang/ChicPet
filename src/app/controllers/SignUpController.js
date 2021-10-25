@@ -18,37 +18,54 @@ class SignupController {
         mail = mail.trim();
 
         if(tenDangNhap == "" || mail == "" || matKhau == "" || hoTen == "" || soDienThoai == ""){
-            res.json({
-                status: "FAILED",
-                message: "Empty input fields!"
-            });
+
+            req.session.message = {
+                type: 'warning-custom',
+                intro: 'Empty input fields!',
+                message: 'Please try again!'
+              }
+               res.redirect('signup'); 
         }else if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(mail)){
-            res.json({
-                status: "FAILED",
-                message: "Invalid email entered"
-            });
+           
+            req.session.message = {
+                type: 'danger-custom',
+                intro: 'Invalid email entered!',
+                message: 'Please try again!'
+              }
+               res.redirect('signup'); 
         }else if(matKhau.lenght < 8){
-            res.json({
-                status: "FAILED",
-                message: "Password is too short!"
-            });
+            req.session.message = {
+                type: 'warning-custom',
+                intro: 'Password is too short!',
+                message: 'Please try again!'
+              }
+               res.redirect('signup'); 
         }else if(matKhau != xacNhanMatKhau){
-            res.json({
-                status: "FAILED",
-                message: "Password is different with repeat password!"
-            });
+            
+            req.session.message = {
+                type: 'danger-custom',
+                intro: 'Password is different with repeat password!',
+                message: 'Please try again!'
+              }
+               res.redirect('signup'); 
         }else if(!/((09|03|07|08|05)+([0-9]{8})\b)/g.test(soDienThoai)){
-            res.json({
-                status: "FAILED",
-                message: "Invalid phone entered"
-            });
+
+            req.session.message = {
+                type: 'danger-custom',
+                intro: 'Invalid phone entered.',
+                message: 'Please try again!'
+              }
+               res.redirect('signup'); 
         }else{
-            TaiKhoan.find({TenDangNhap: tenDangNhap}).then(result => {
+            TaiKhoan.findOne({TenDangNhap: tenDangNhap}).then(result => {
                 if(result){
-                    res.json({
-                        status: "FAILED",
-                        message: "User already exists"
-                    })
+
+                    req.session.message = {
+                        type: 'warning-custom',
+                        intro: 'User already exists.',
+                        message: 'Please try again!'
+                      }
+                       res.redirect('signup'); 
                 }else{
                     //create new user
                     const saltRound = 10;
@@ -61,33 +78,42 @@ class SignupController {
                             Mail: mail
                         });
                         newUser.save().then(result => {
-                            res.json({
-                                status: "SUCCESS",
-                                message: "Signup successful",
-                                data: result,
-                            })
-                            res.render('/login', {layout: 'layout2.hbs'});
+
+                            req.session.message = {
+                                type: 'success-custom',
+                                intro: '',
+                                message: 'Signup successful!'
+                              }
+                              res.redirect('signup'); 
                         })
                         .catch(err => {
-                            res.json({
-                                status: "FAILED",
-                                message: "An error occured while saving taiKhoan!"
-                            })
+
+                            req.session.message = {
+                                type: 'danger-custom',
+                                intro: 'An error occured while saving taiKhoan!',
+                                message: 'Please try again!'
+                              }
+                               res.redirect('signup'); 
                         })
                     })
                     .catch(err => {
-                        res.json({
-                            status: "FAILED",
-                            message: "An error occured while hashing password!"
-                        })
+
+                        req.session.message = {
+                            type: 'danger-custom',
+                            intro: 'An error occured while hashing password!',
+                            message: 'Please try again!'
+                          }
+                           res.redirect('signup'); 
                     })
                 }
             }).catch(err =>{
                 console.log(err);
-                res.json({
-                    status: "FAILED",
-                    message: "An error occcured while checking for existing user!"
-                })
+                req.session.message = {
+                    type: 'danger-custom',
+                    intro: 'An error occcured while checking for existing user!',
+                    message: 'Please try again!'
+                  }
+                   res.redirect('signup'); 
             })
         }
     }
