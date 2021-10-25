@@ -1,6 +1,7 @@
 const res = require("express/lib/response");
 const TaiKhoan = require('./../models/taikhoan');
 const bcrypt = require('bcrypt');
+const { deleteOne, exists } = require("./../models/taikhoan");
 
 class LoginController {
     // [GET] /
@@ -13,37 +14,48 @@ class LoginController {
         matKhau.trim();
 
         if(tenDangNhap == "" || matKhau == "" ){
-            res.json({
-                status: "FAILED",
-                message: "Empty input fields!"
-            });
+
+            req.session.message = {
+                type: 'warning-custom',
+                intro: 'Empty input fields!',
+                message: 'Please try again!'
+              }
+               res.redirect('login'); 
         }else{
-            TaiKhoan.find({TenDangNhap: tenDangNhap}).then(data => {
+            TaiKhoan.findOne({TenDangNhap: tenDangNhap}).then(data => {
                 if(data){
-                   const hashedPassword = data[0].MatKhau;
+                   const hashedPassword = data.MatKhau;
                    bcrypt.compare(matKhau, hashedPassword).then(result =>{
                        if(result){
-                       /*  res.json({
-                            status: "SUCCESS",
-                            message: "Login success",
-                            data: data
-                        }) */
-                        res.render('home');
+                        res.redirect('home');
+                       }else{
+                        req.session.message = {
+                            type: 'danger-custom',
+                            intro: 'Incorrect password.',
+                            message: 'Please try again!'
+                          }
+                           res.redirect('login'); 
                        }
                    })
                     
                 }else{
-                    res.json({
-                        status: "FAILED",
-                        message: "User not exists"
-                    })
+
+                    req.session.message = {
+                        type: 'danger-custom',
+                        intro: 'User is not exists.',
+                        message: 'Please try again!'
+                      }
+                       res.redirect('login'); 
+                   
                 }
             }).catch(err =>{
                 console.log(err);
-                res.json({
-                    status: "FAILED",
-                    message: "An error occcured while checking for existing user!",
-                })
+                req.session.message = {
+                    type: 'danger-custom',
+                    intro: 'An error occcured while checking for existing user!',
+                    message: 'Please try again!'
+                }
+                   res.redirect('login'); 
             })
         }
 
