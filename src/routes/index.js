@@ -1,17 +1,17 @@
 const homeRouter = require('./home');
+const loginRouter = require('./login');
+const signupRouter = require('./signup');
 const accountRouter = require('./account');
 
+
 function route(app) {
-
+    app.get('/', (req, res) => {
+        res.render('home');
+    })
+    app.use('/home', homeRouter);
+    app.use('/login', loginRouter);
+    app.use('/signup', signupRouter);
     app.use('/account', accountRouter);
-    app.use('/', homeRouter);
-
-    // app.get('/', (req, res) => {
-    //     res.render('home');
-    // })
-
-    // app.use('/', homeRouter);
-
 }
 
 module.exports = route;

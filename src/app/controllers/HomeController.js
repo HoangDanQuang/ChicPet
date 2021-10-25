@@ -1,7 +1,8 @@
-//const res = require("express/lib/response");
+const res = require("express/lib/response");
 
 class HomeController {
-    index(req, res) {
+    // [GET] /home
+    index(req, res){
         res.render('home');
     }
 }
