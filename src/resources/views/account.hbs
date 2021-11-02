@@ -1,8 +1,6 @@
-<title>Thông tin tài khoản</title>
+<title>Account</title>
 <link rel="stylesheet" type="text/css" href="./css/account.css">
 
-
-<h1>This is account page</h1>
 <div class="container-xl">
     <div class="bg-light" style="height: 80px;"></div>
     <div class="row">
@@ -12,13 +10,13 @@
                     <p class="bg-dark text-white px-1 m-0">ChicPet Member</p>
                 </div>
                 <div class="account-sidebar__user d-flex align-items-center">
-                    <p class="sidebar-user_name fw-bold">
-                        <i class="sidebar-user__icon fas fa-paw fa-lg px-4"></i>
-                        Hoàng Dận Quang
-                    </p>
+                    <div class="d-flex sidebar-user_name fw-bold text-wrap align-item-center">
+                        <i class="sidebar-user__icon fas fa-paw px-4"></i>
+                        <span>Hoàng Dận Quang</span>
+                    </div>
                 </div>
                 <div class="account-sidebar__itemlist">
-                    <a href="#" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
+                    <a href="#" class="account-sidebar__item account-sidebar__item--active list-group-item list-group-item-action text-wrap">
                         <i class="sidebar-item__icon fas fa-user-alt"></i>
                         <span>Thông tin cá nhân</span>
                     </a>
@@ -62,6 +60,29 @@
                     <label for="inputAddress" class="col-lg-3 col-form-label mb-1">Địa chỉ</label>
                     <div class="col-lg-7">
                     <input type="tel" class="form-control mb-2" id="inputAddress">
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-link text-decoration-none mb-3">Thay đổi mật khẩu</button>
+                </div>
+                <div class="change-password-section">
+                    <div class="mb-4 row">
+                        <label for="inputName" class="col-lg-3 col-form-label mb-1">Password</label>
+                        <div class="col-lg-5">
+                        <input type="password" class="form-control mb-2" id="inputPassword">
+                        </div>
+                    </div>
+                    <div class="mb-4 row">
+                        <label for="inputName" class="col-lg-3 col-form-label mb-1">New Password</label>
+                        <div class="col-lg-5">
+                        <input type="password" class="form-control mb-2" id="inputNewPassword">
+                        </div>
+                    </div>
+                    <div class="mb-4 row">
+                        <label for="inputName" class="col-lg-3 col-form-label mb-1">Confirm Password</label>
+                        <div class="col-lg-5">
+                        <input type="password" class="form-control mb-2" id="inputConfirmPassword">
+                        </div>
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary">Cập Nhật Tài Khoản</button>

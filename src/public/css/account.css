@@ -3,13 +3,13 @@
 }
 
 .account-sidebar__user {
-    padding: 24px 12px;
+    padding: 24px 12px 24px 6px;
 }
 
 .sidebar-user__icon {
     width: 32px;
-    height: 32px;
     margin: 0px 8px 0px 0px;
+    font-size: 24px;
 }
 
 .sidebar-user_name {
@@ -34,7 +34,7 @@
 }
 
 .account-sidebar__item--active {
-    background: transparent;
+    background-color: #e9ecef;
 }
 
 .sidebar-item__icon {
