@@ -1,0 +1,49 @@
+.account-sidebar {
+    border-radius: 12px;
+}
+
+.account-sidebar__user {
+    padding: 24px 12px 24px 6px;
+}
+
+.sidebar-user__icon {
+    width: 32px;
+    margin: 0px 8px 0px 0px;
+    font-size: 24px;
+}
+
+.sidebar-user_name {
+    line-height: 32px;
+    margin: 0;
+}
+
+.account-sidebar__item {
+    display: flex;
+    border: 0;
+    padding: 0px 24px;
+    min-height: 50px;
+    width: 100%;
+    background: transparent;
+    font-size: .9rem;
+    font-family: 'Numans', sans-serif;
+    align-items: center;
+}
+
+.account-sidebar__item:hover {
+    background-color: #e9ecef;
+}
+
+.account-sidebar__item--active {
+    background-color: #e9ecef;
+}
+
+.sidebar-item__icon {
+    width: 16px;
+    height: 100%;
+    margin: 0px 12px 0px 8px;
+    line-height: 100%;
+}
+
+.sidebar-item_name {
+    height: 100%;
+}
