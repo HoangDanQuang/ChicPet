@@ -1,0 +1,26 @@
+.header{
+    background-color: rgb(255, 101, 80);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.hd1{
+    background-color: transparent;
+    height: 30px;
+    color: white;
+    font-size: small;
+}
+.hd2{
+    background-color: white;
+}
+.nav-link {
+    color: black !important;
+    padding-right: 16px !important;
+    padding-left: 16px !important;
+}
+.navbar-nav li a:hover{
+    background-color: rgb(224, 219, 219);
+    color: rgb(255, 101, 80) !important;
+}
+.navbar-brand:hover{
+  color: rgb(255, 101, 80) !important;;
+}

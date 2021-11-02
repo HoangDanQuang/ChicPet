@@ -42,7 +42,7 @@ html,body{
     .social_icon span{
     font-size: 60px;
     margin-left: 10px;
-    color: #FFC312;
+    color: rgb(255, 101, 80);
     }
     
     .social_icon span:hover{
@@ -63,7 +63,7 @@ html,body{
     .input-group-prepend span{
     width: 50px;
     height: 40px;
-    background-color: #FFC312;
+    background-color: rgb(255, 101, 80);
     color: black;
     border:0 !important;
     }
@@ -75,7 +75,7 @@ html,body{
     
     .submit_btn{
     color: black;
-    background-color: #FFC312;
+    background-color: rgb(255, 101, 80);
     width: 100px;
     }
     
