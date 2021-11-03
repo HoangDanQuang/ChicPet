@@ -18,9 +18,15 @@
     padding-left: 16px !important;
 }
 .navbar-nav li a:hover{
-    background-color: rgb(224, 219, 219);
+    background-color: rgb(220, 220, 220);
     color: rgb(255, 101, 80) !important;
+    font-weight: 500;
 }
 .navbar-brand:hover{
   color: rgb(255, 101, 80) !important;;
+}
+.nav-item{
+    height: 100%;
+    width: 90px;
+    text-align: center;
 }
