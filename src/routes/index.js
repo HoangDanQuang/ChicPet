@@ -3,6 +3,7 @@ const loginRouter = require('./login');
 const signupRouter = require('./signup');
 const accountRouter = require('./account');
 const serviceRouter = require('./service');
+const contactRouter = require('./contact');
 
 
 function route(app) {
@@ -14,6 +15,7 @@ function route(app) {
     app.use('/signup', signupRouter);
     app.use('/account', accountRouter);
     app.use('/service', serviceRouter);
+    app.use('/contact', contactRouter);
 }
 
 module.exports = route;
