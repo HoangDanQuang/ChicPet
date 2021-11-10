@@ -27,10 +27,13 @@ const checkUser = (req, res, next) => {
     jwt.verify(token, 'ChicPet super secret password', async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
+        console.log('checkUser user = null');
         next();
       } else {
-        let user = await User.findById(decodedToken.id);
+        let user = await User.findById(decodedToken.id).lean();
         res.locals.user = user;
+        console.log('checkUser user not null');
+        console.log(user);
         next();
       }
     });

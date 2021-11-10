@@ -30,3 +30,10 @@
     width: 90px;
     text-align: center;
 }
+
+.nav-item-account {
+    height: 100%;
+    width: auto;
+    min-width: 90px;
+    text-align: center;
+}

@@ -5,9 +5,11 @@ const authRouter = require('./auth');
 const accountRouter = require('./account');
 const serviceRouter = require('./service');
 const contactRouter = require('./contact');
+const { requireAuth, checkUser } = require('../app/middleware/AuthMiddleware');
 
 
 function route(app) {
+    app.get('*', checkUser);
     app.get('/', (req, res) => {
         res.render('home');
     })

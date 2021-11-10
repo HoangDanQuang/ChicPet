@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const exphandlebars = require('express-handlebars');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const route = require('./routes');
 const connectDB = require('./config/connectDb');
 const app = express();
@@ -17,9 +18,9 @@ app.use(session({cookie: {maxAge: null}}))
 
 //flash message middleware
 app.use((req, res, next)=>{
-  res.locals.message = req.session.message
-  delete req.session.message
-  next()
+  res.locals.user = req.session.user;
+  delete req.session.message;
+  next();
 })
 
 
@@ -34,7 +35,8 @@ app.use(express.json());
 // app.use(morgan('combine'));
 // Template engine
 app.engine('hbs', exphandlebars({
-    extname: '.hbs'
+    extname: '.hbs',
+    // handlebars: allowInsecurePrototypeAccess(exphandlebars)
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
