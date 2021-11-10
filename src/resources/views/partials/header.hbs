@@ -27,14 +27,49 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="./../contact">Contact</a>
                             </li>
-                            <li class="nav-item dropdown">
+
+                            {{#if user }}
+                                <li class="nav-item nav-item-account dropdown">
+                                    <a class="nav-link dropdown-toggle" href="login" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span>
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                        <span class="px-2">
+                                            Username
+                                        </span>
+                                    </a>
+                                    
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" href="./../login">Login</a></li>
+                                        <li><a class="dropdown-item" href="./../signup">Sign Up</a></li>
+                                    </ul>
+                                </li>
+                            {{else}}
+                                <li class="nav-item nav-item-account">
+                                    <a class="nav-link" href="login">
+                                        <i class="fas fa-user"></i>
+                                        <span class="px-2">
+                                            Login
+                                        </span>
+                                    </a>
+                                </li>
+                            {{/if}}
+
+                            {{!-- <li class="nav-item nav-item-account dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user"></i>
+                                    <span>
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <span class="px-2">
+                                        Login
+                                    </span>
                                 </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="./../login">LogIn</a></li>
-                                <li><a class="dropdown-item" href="./../signup">Sign Up</a></li>
-                            </ul>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="./../login">LogIn</a></li>
+                                    <li><a class="dropdown-item" href="./../signup">Sign Up</a></li>
+                                </ul>
+                            </li> --}}
+
                             </li>
                         </ul>
                     </div>
