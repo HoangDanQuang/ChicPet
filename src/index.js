@@ -27,7 +27,7 @@ app.use((req, res, next)=>{
 // Connect mongoDb
 connectDB();
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({
   extended: true,
 }));

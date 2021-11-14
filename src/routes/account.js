@@ -4,7 +4,7 @@ const { requireAuth } = require('../app/middleware/AuthMiddleware');
 
 const accountController = require('../app/controllers/AccountController');
 
-router.use('/', requireAuth, accountController.index);
-
+router.get('/', requireAuth, accountController.profile_get);
+router.get('/order', requireAuth, accountController.order_get);
 
 module.exports = router;
