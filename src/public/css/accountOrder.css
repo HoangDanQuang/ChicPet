@@ -1,0 +1,100 @@
+a {
+    text-decoration: none;
+}
+
+.account-order-container {
+    padding: 100px 0 50px 0;
+}
+
+.account-sidebar {
+    border-radius: 12px;
+}
+
+.account-sidebar__user {
+    padding: 24px 12px 24px 6px;
+}
+
+.sidebar-user__icon {
+    width: 32px;
+    margin: 0px 8px 0px 0px;
+    font-size: 24px;
+}
+
+.sidebar-user_name {
+    line-height: 32px;
+    margin: 0;
+}
+
+.account-sidebar__item {
+    display: flex;
+    border: 0;
+    padding: 0px 24px;
+    min-height: 50px;
+    width: 100%;
+    background: transparent;
+    font-size: .9rem;
+    font-family: 'Numans', sans-serif;
+    align-items: center;
+}
+
+.account-sidebar__item:hover {
+    background-color: #e9ecef;
+}
+
+.account-sidebar__item--active {
+    background-color: #e9ecef;
+}
+
+.sidebar-item__icon {
+    width: 16px;
+    height: 100%;
+    margin: 0px 12px 0px 8px;
+    line-height: 100%;
+}
+
+.sidebar-item_name {
+    height: 100%;
+}
+
+.order-card-header {
+    padding: 10px 15px;
+    width: 100%;
+}
+
+.order-code {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.order-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: gray;
+}
+
+.order-status {
+    font-size: 14px;
+    padding: 2px 12px;
+    border-radius: 15px;
+    background-color: orange;
+    color: white;
+}
+
+.order-status--completed {
+    background-color: #00a900;
+}
+
+.service-item {
+    padding: 10px 15px;
+}
+
+.service-item__image {
+    width: 70px;
+    height: 80px;
+    margin-right: 15px;
+    background-color: #C0C0C0;
+}
+
+.service-item__content {
+
+}
