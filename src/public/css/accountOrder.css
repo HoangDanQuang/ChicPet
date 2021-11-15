@@ -21,8 +21,8 @@ a:hover {
 
 .sidebar-user__icon {
     width: 32px;
-    margin: 0px 8px 0px 0px;
-    font-size: 24px;
+    margin: 0px 16px 0px -10px;
+    font-size: 26px;
 }
 
 .sidebar-user_name {

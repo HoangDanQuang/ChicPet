@@ -9,3 +9,7 @@ module.exports.profile_get = (req, res) => {
 module.exports.order_get = (req, res) => {
     res.render('accountOrder');
 }
+
+module.exports.orderDetail_get = (req, res) => {
+    res.render('accountOrderDetail');
+}
