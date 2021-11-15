@@ -2,12 +2,17 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    color: rgb(255, 101, 80);
+}
+
 .account-order-container {
     padding: 100px 0 50px 0;
 }
 
 .account-sidebar {
     border-radius: 12px;
+    background-color: #f5f5f5;
 }
 
 .account-sidebar__user {
@@ -38,10 +43,12 @@ a {
 }
 
 .account-sidebar__item:hover {
+    color: rgb(255, 101, 80);
     background-color: #e9ecef;
 }
 
 .account-sidebar__item--active {
+    color: rgb(255, 101, 80);
     background-color: #e9ecef;
 }
 
@@ -56,14 +63,22 @@ a {
     height: 100%;
 }
 
+.order-card {
+    border: 2px solid #ebebeb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
 .order-card-header {
     padding: 10px 15px;
     width: 100%;
+    border-bottom: 1px solid #ebebeb;
 }
 
 .order-code {
     font-size: 18px;
     font-weight: 700;
+    line-height: 1.2;
 }
 
 .order-date {
@@ -76,16 +91,31 @@ a {
     font-size: 14px;
     padding: 2px 12px;
     border-radius: 15px;
-    background-color: orange;
+    background-color: #FFA07A;
     color: white;
+}
+
+.order-status--confirming {
+    background-color: orange;
+}
+
+.order-status--confirmed {
+    background-color: yellowgreen;
 }
 
 .order-status--completed {
     background-color: #00a900;
 }
 
+.order-status--canceled {
+    background-color: gray;
+}
+
 .service-item {
     padding: 10px 15px;
+    margin: 0;
+    border-bottom: 1px solid #ebebeb;
+
 }
 
 .service-item__image {
@@ -96,5 +126,30 @@ a {
 }
 
 .service-item__content {
+    width: max-content;
+    font-size: 16px;
+    line-height: 2;
+}
 
+.service-item__name {
+    color: #231f20;
+    font-weight: 700;
+}
+
+.service-item__quantity {
+    color: gray;
+}
+
+.order-card-total {
+    padding: 10px 15px;
+    font-weight: 700;
+    font-size: 14px;
+    background-color: #f5f5f5;
+}
+
+.total__amount {
+    padding-left: 10px;
+    color: rgb(255, 101, 80);
+    font-size: 20px;
+    font-weight: 700;
 }

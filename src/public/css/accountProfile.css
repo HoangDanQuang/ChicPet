@@ -4,6 +4,7 @@
 
 .account-sidebar {
     border-radius: 12px;
+    background-color: #f5f5f5;
 }
 
 .account-sidebar__user {
@@ -34,10 +35,12 @@
 }
 
 .account-sidebar__item:hover {
+    color: rgb(255, 101, 80);
     background-color: #e9ecef;
 }
 
 .account-sidebar__item--active {
+    color: rgb(255, 101, 80);
     background-color: #e9ecef;
 }
 
