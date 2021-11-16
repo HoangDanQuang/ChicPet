@@ -5,6 +5,7 @@ const OrderSchema = new Schema ({
     orderCode: {
         type: String,
         required: true,
+        unique: true,
     },
     customerId: {
         type: Schema.Types.ObjectId,

@@ -128,7 +128,6 @@ a:hover {
 .service-item__content {
     width: max-content;
     font-size: 16px;
-    line-height: 2;
 }
 
 .service-item__name {
@@ -138,6 +137,11 @@ a:hover {
 
 .service-item__quantity {
     color: gray;
+}
+
+.service-item__type {
+    color: #231f20;
+    font-weight: 700;
 }
 
 .order-card-total {

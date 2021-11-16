@@ -1,6 +1,7 @@
 const res = require("express/lib/response");
 const User = require('../models/User');
 const Order = require('../models/Order');
+const { json } = require("express/lib/response");
 
 
 module.exports.profile_get = (req, res) => {
@@ -27,13 +28,27 @@ module.exports.customer_get = (req, res) => {
     else res.render('404NotFound');
 }
 
-module.exports.order_get = (req, res) => {
+module.exports.order_get = async (req, res) => {
     if (res.locals.user) {
         if (res.locals.user.role === 'admin') {
             res.render('adminOrder');
         }
         else {
-            res.render('accountOrder');
+            try {
+                const orderList = await Order.find({ customerId: res.locals.user._id });
+                if (orderList) {
+                    console.log(orderList);
+                    res.render('accountOrder', { orders: orderList.concat(), name: 'Anthony' });
+                }
+                else {
+                    console.log('account orderList null');
+                    console.log(err);
+                }
+            }
+            catch(err) {
+                console.log('account get order error');
+                console.log(err);
+            }
         }
     }
     else res.render('accountOrder');

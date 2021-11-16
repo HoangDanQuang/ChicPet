@@ -2,10 +2,12 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const exphandlebars = require('express-handlebars');
+var bodyParser = require('body-parser');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const route = require('./routes');
 const connectDB = require('./config/connectDb');
 const app = express();
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const port = 3000;
 
 app.use(express.static('public'))
@@ -29,10 +31,10 @@ app.use((req, res, next)=>{
 connectDB();
 
 app.use(express.static(path.join(__dirname + '/public')));
+app.use(express.json());
 app.use(express.urlencoded({
   extended: true,
 }));
-app.use(express.json());
 // app.use(morgan('combine'));
 // Template engine
 app.engine('hbs', exphandlebars({
