@@ -1,0 +1,64 @@
+.book{
+    padding-top:140px;
+    padding-bottom: 7%;
+}
+.container-fluid{
+    padding: 0 10%;
+}
+
+.btn-book{
+    background-color: rgb(255, 101, 80);
+    color: white;
+}
+.btn-book:hover{
+    opacity: 0.8;
+}
+
+.appointment input{
+    height: 38px;
+    width: 100%;
+    border: 1px solid #ced4da;
+}
+
+.nav-pills{
+    width: 30%;
+}
+.nav-pills .nav-link{
+    border: 1px solid rgb(255, 101, 80);
+    border-radius: 0%;
+    width: 100%;
+}
+
+.nav-pills .nav-link.active{
+    background-color: rgb(255, 101, 80)!important;
+    color: white !important;
+}
+.tab-content{
+    border: 1px solid rgb(255, 101, 80);
+    width: 70%;
+}
+
+.service-item{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.service-item:hover{
+    background-color: rgb(255, 101, 80);
+    color: white;
+}
+.service-item .btn-add{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    color: black;
+    font-size: 0.8rem;
+    background-color: white;
+}
+.service-item .btn-add:hover{
+    color: black;
+    opacity: 0.8;
+}
+
+/*-------------------------------*/
