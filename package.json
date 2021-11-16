@@ -19,6 +19,7 @@
   "homepage": "https://github.com/HoangDanQuang/ChicPet#readme",
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.5",
+    "@popperjs/core": "^2.10.2",
     "alert": "^5.0.10",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",

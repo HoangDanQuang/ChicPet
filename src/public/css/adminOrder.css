@@ -62,3 +62,101 @@ a:hover {
 .sidebar-item_name {
     height: 100%;
 }
+
+.btn-search {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 100px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-search:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
+.admin-order-table-container {
+    max-height: 450px;
+    overflow: auto;
+    margin-bottom: 48px;
+}
+
+.order-table thead{
+    background-color: white;
+    position: sticky;
+    top: 0;
+}
+
+.order-table thead tr th {
+    border-bottom: 0;
+}
+
+.order-table thead th:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: -1px;
+    border-bottom: 1px solid black;
+}
+
+.order-detail-header__title {
+    font-size: 2.25rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.order-detail-header__order-code {
+    font-weight: 700;
+}
+
+.order-detail-header__order-status-title {
+    font-size: 18px;
+}
+
+.btn-dropdown-status {
+    font-size: 24px;
+    font-weight: 700;
+    color: rgb(255, 101, 80);
+    background-color: transparent;
+    padding: 0 12px 0px 12px;
+    margin: 0 -20px 8px 0;
+}
+
+.btn-dropdown-status:hover {
+    color: rgb(255, 101, 80);
+}
+
+.dropdown-status-item {
+    font-size: 18px;
+    line-height: 2;
+    width: 180px;
+    padding: 4px 16px 4px 24px;
+}
+
+.dropdown-status-item:hover {
+    color: rgb(255, 101, 80);
+    background-color: #f8f9fa;
+}
+
+.table-light {
+    border: 2px solid white;
+}
+
+.btn-save {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 40px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-save:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
