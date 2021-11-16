@@ -188,16 +188,28 @@
 
     function reply_click(clicked_id)
     {  
+        var b = false;
+        listService.forEach((element) => { 
+            if(element.nameService == clicked_id){
+                b = true;
+                if(element.amount < 10){
+                    element.amount ++;
+                    render();
+                }
+            } 
+        } );
         const Data = {
             nameService: clicked_id,
             amount: "1"
         }
-        listService.push(Data);
-        render();
+        if(!b){
+            listService.push(Data);
+            render();v
+        }
     }
 
     function myFunction(value, id){
-        if(value == 0){
+        if(value < 1){
             listService.splice(id, 1);
             render();
         }
