@@ -35,7 +35,7 @@ module.exports.order_get = async (req, res) => {
         }
         else {
             try {
-                const orderList = await Order.find({ customerId: res.locals.user._id });
+                const orderList = await Order.find({ customerId: res.locals.user._id }).lean();
                 if (orderList) {
                     console.log(orderList);
                     res.render('accountOrder', { orders: orderList, name: 'Anthony' });

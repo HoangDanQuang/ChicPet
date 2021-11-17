@@ -22,7 +22,7 @@ const OrderSchema = new Schema ({
         type: String,
     },
     meetingTime: {
-        type: String,
+        type: Date,
     },
     status: {
         type: String,

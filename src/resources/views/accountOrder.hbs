@@ -44,45 +44,49 @@
                         <a href="/account/get-order" class="order-card-header d-inline-flex d-flex justify-content-between">
                             <div class="col">
                                 <div class="order-code text--primary">{{this.orderCode}}</div>
-                                <span class="order-date ">01/01/2021</span>
+                                <span class="order-date ">{{this.createdAt}}</span>
                             </div>
-                            <div class="order-status order-status--confirming align-self-center">
-                                <span>Chờ xác nhận</span>
-                            </div>
+                            {{#ifCond this.status '==' 'Chờ xác nhận'}}
+                                <div class="order-status order-status--confirming align-self-center">
+                                    <span>Chờ xác nhận</span>
+                                </div>
+                            {{/ifCond}}
+                            {{#ifCond this.status '==' 'Đã xác nhận'}}
+                                <div class="order-status order-status--confirmed align-self-center">
+                                    <span>Đã xác nhận</span>
+                                </div>
+                            {{/ifCond}}
+                            {{#ifCond this.status '==' 'Đã hoàn thành'}}
+                                <div class="order-status order-status--completed align-self-center">
+                                    <span>Đã hoàn thành</span>
+                                </div>
+                            {{/ifCond}}
                         </a>
                         <div class="col service-list">
-                            <div class="row service-item">
-                                <div class="service-item__image">
-                                        
+                            {{#each this.services}}
+                                <div class="row service-item">
+                                    <div class="service-item__image">
+                                            
+                                    </div>
+                                    <span class="col service-item__content">
+                                        <a href="#" class="service-item__name">{{this.serviceName}}</a>
+                                        <div class="service-item__quantity">x {{this.quantity}}</div>
+                                        <div class="service-item__type">{{this.type}}</div>
+                                    </span>
                                 </div>
-                                <span class="col service-item__content">
-                                    <a href="#" class="service-item__name">Cắt tỉa lông chó</a>
-                                    <div class="service-item__quantity">x 2</div>
-                                    <div class="service-item__type">M</div>
-                                </span>
-                            </div>
-                            <div class="row service-item">
-                                <div class="service-item__image">
-                                        
-                                </div>
-                                <span class="col service-item__content">
-                                    <a href="#" class="service-item__name">Spa cho chó</a>
-                                    <div class="service-item__quantity">x 2</div>
-                                    <div class="service-item__type">M</div>
-                                </span>
-                            </div>
+                            {{/each}}
                         </div>
                         <div class="order-card-total d-flex justify-content-end">
                             <div class="total">
                                 Tổng đơn hàng: 
-                                <span class="total__amount">500.000đ</span>
+                                <span class="total__amount">{{this.total}}đ</span>
                             </div>
                         </div>
                     </div>
                 {{/each}}
 
 
-                <div class="order-card">
+                {{!-- <div class="order-card">
                     <a href="/account/get-order" class="order-card-header d-inline-flex d-flex justify-content-between">
                         <div class="col">
                             <div class="order-code text--primary">#123456789</div>
@@ -120,7 +124,7 @@
                             <span class="total__amount">500.000đ</span>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
