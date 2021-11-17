@@ -113,7 +113,7 @@
             </div>
         </div>
     </div>
-    <form class="col-sm-7">
+    <form class="col-sm-7 form-book">
 	    <h3 class="text-center pb-4">BOOK</h3>
 
         <div class="row">
@@ -133,7 +133,7 @@
             </div>          
         </div>
 
-        <table class="table mt-3">
+        <table class="table mt-3 service-table" name = "serviceTable">
             <thead>
                 <tr>
                 <th scope="col">#</th>
@@ -157,10 +157,10 @@
 
 
         <div>
-            <textarea class="form-control mt-3" id="comments" name="comments" placeholder="Note" rows="4"></textarea><br>
+            <textarea class="form-control mt-3" id="comments" name="note" placeholder="Note" rows="4"></textarea><br>
         </div>
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-book ">Book Now</button>
+            <button type="button" class="btn btn-book" >Book Now</button>
         </div>
     </form>
 </div>
@@ -204,7 +204,7 @@
         }
         if(!b){
             listService.push(Data);
-            render();v
+            render();
         }
     }
 
@@ -222,5 +222,58 @@
         }
     }
 
+
+    
+
+    //const formBook = document.querySelector('.form-book');
+    const inputName = document.getElementById('name');
+    const inputPhone = document.getElementById('phone');
+    const inputEmail = document.getElementById('email');
+    const inputAppointment = document.getElementById('appointment');
+    const inputNote = document.getElementById('comments');
+    const btnBook = document.querySelector('.btn-book');
+    //const serviceTable = document.querySelector('.service-table');
+   // const rows = serviceTable.getElementsByTagName('tr');
+    btnBook.addEventListener('click', async ()=>{
+        console.log('btn-book clicked');
+        var services = [];
+        for (i = 0; i < listService.length; i++) {
+            console.log(listService[i].amount);
+            var service = {
+                serviceName: listService[i].nameService,
+                type: '',
+                quantity: listService[i].amount,
+                price: 0,
+                total:  0
+            }
+            console.log(service);
+            services.push(service);
+        }
+        try {
+            const name = inputName.value;
+            const phone = inputPhone.value;
+            const email = inputEmail.value;
+            const appointment = inputAppointment.value;
+            const note = inputNote.value;
+
+
+            const res = await fetch('/service/book', {
+                method: 'POST',
+                body: JSON.stringify({ name, phone, email, appointment, services, note }),
+                headers: {'Content-Type': 'application/json'}
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data) {
+                console.log("DK Thanh Cong");
+            }
+        }
+        catch (err) {
+            console.log('sign up error');
+            console.log(err);
+        }
+
+    });
     
 </script>
+
