@@ -1,10 +1,10 @@
 const res = require("express/lib/response");
 
-class ServiceController {
-    // [GET] /home
-    index(req, res){
-        res.render('service');
-    }
+
+module.exports.service_get = (req, res) => {
+    res.render('service');
 }
 
-module.exports = new ServiceController;
+module.exports.book_get = (req, res) => {
+    res.render('book');
+}
