@@ -140,7 +140,7 @@ module.exports.signup_post = async (req, res) => {
 
     try {
         if (password != confirmPassword) throw Error('Password does not match');
-        const user = await User.create({ username, password, fullname, phone, mail, address: '' });
+        const user = await User.create({ role: 'customer', username, password, fullname, phone, mail, address: '' });
         const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(201).json({ user: user._id });
@@ -263,3 +263,8 @@ module.exports.signup_post = async (req, res) => {
     // }
 }
 
+// Log out
+module.exports.logout_get = (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.redirect('/');
+}

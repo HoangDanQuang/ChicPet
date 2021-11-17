@@ -4,6 +4,10 @@ const bcrypt = require('bcrypt');
 
 
 const UserSchema = new Schema({
+    role: {
+        type: String,
+        required: [true, 'User role not defined'],
+    },
     username: {
         type: String,
         required: [true, 'Please enter a username'],
