@@ -22,7 +22,7 @@ const OrderSchema = new Schema ({
         type: String,
     },
     meetingTime: {
-        type: Date,
+        type: String,
     },
     status: {
         type: String,
@@ -47,7 +47,7 @@ const OrderSchema = new Schema ({
         type: Number,
     },
     voucher: {
-        type: Number,
+        type: String,
     },
     total: {
         type: Number,
