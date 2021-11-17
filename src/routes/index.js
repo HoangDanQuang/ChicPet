@@ -18,7 +18,6 @@ function route(app) {
     app.use('/account', accountRouter);
     app.use('/service', serviceRouter);
     app.use('/contact', contactRouter);
-    app.use('/book', bookRouter);
     app.use('/', authRouter);
 }
 
