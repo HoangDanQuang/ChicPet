@@ -38,7 +38,7 @@ module.exports.order_get = async (req, res) => {
                 const orderList = await Order.find({ customerId: res.locals.user._id });
                 if (orderList) {
                     console.log(orderList);
-                    res.render('accountOrder', { orders: orderList.concat(), name: 'Anthony' });
+                    res.render('accountOrder', { orders: orderList, name: 'Anthony' });
                 }
                 else {
                     console.log('account orderList null');
