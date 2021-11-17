@@ -1,0 +1,342 @@
+<title>Orders</title>
+<link rel="stylesheet" href="/css/general.css">
+<link rel="stylesheet" href="/css/adminOrder.css">
+
+<div class="container-xl account-order-container">
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-3 my-3">
+            <div class="account-sidebar list-group">
+                <div class="d-flex justify-content-center align-items-end" style="height: 48px">
+                    <p class="bg-dark text-white px-1 m-0">ChicPet Admin</p>
+                </div>
+                <div class="account-sidebar__user d-flex align-items-center">
+                    <div class="d-flex sidebar-user_name fw-bold text-wrap align-item-center">
+                        <i class="sidebar-user__icon fas fa-paw px-4"></i>
+                        <span>{{user.fullname}}</span>
+                    </div>
+                </div>
+                <div class="account-sidebar__itemlist">
+                    <a href="/account/profile" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
+                        <i class="sidebar-item__icon fas fa-user-alt"></i>
+                        <span>Thông tin cá nhân</span>
+                    </a>
+                    <a href="/account/customer" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
+                        <i class="sidebar-item__icon fas fa-user-alt"></i>
+                        <span>Danh sách khách hàng</span>
+                    </a>
+                    <a href="/account/order" class="account-sidebar__item account-sidebar__item--active list-group-item list-group-item-action text-wrap">
+                        <i class="sidebar-item__icon fas fa-receipt"></i>
+                        <span class="sidebar-item__name">Danh sách đơn hàng</span>
+                    </a>
+                    <a href="/account/voucher" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
+                        <i class="sidebar-item__icon fas fa-envelope text-wrap"></i>
+                        <span class="sidebar-item__name">Voucher</span>
+                    </a>
+                    <a href="/logout" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
+                        <i class="sidebar-item__icon fas fa-sign-out-alt"></i>
+                        <span class="sidebar-item__name">Thoát</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 col-lg-9 my-3">
+            <div class="row justify-content-between">
+                <h4 class="text-uppercase mb-4 mt-4 w-auto">Danh sách đơn hàng</h4>
+                <button type="button" class="btn btn-search">Tìm kiếm</button>
+            </div>
+            <div class="admin-order-search-container">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="inputOrderCode" class="col-3 col-form-label">Mã đơn</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control col-form-label" id="inputOrderCode">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="inputOrderCustomer" class="col-3">Khách hàng</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control" id="inputOrderCustomer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="inputOrderFromDay" class="col-3 col-form-label">Từ ngày</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control col-form-label" id="inputOrderFromDay">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="inputOrderToDay" class="col-3 col-form-label">Đến ngày</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control col-form-label" id="inputOrderToDay">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-order-table-container">
+                <table class="table table-hover order-table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Mã đơn</th>
+                            <th scope="col">Thời gian</th>
+                            <th scope="col">Khách hàng</th>
+                            <th scope="col">Thành tiền</th>
+                            <th scope="col">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-active">
+                            <th scope="row">1</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">10</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">11</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">12</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">13</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">14</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">15</th>
+                            <td>#123456789</td>
+                            <td>10:30 01/01/2021</td>
+                            <td>Hoang Dan Quang</td>
+                            <td>500.000đ</td>
+                            <td>Đã hoàn thành</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-order-detail-container">
+                <div class="order-detail-header text-center">
+                    <h2 class="text-uppercase order-detail-header__title">Thông tin đơn hàng</h2>
+                    <div class="my-3">
+                        Dưới đây là thông tin đơn hàng 
+                        <span class="order-detail-header__order-code">#123456789</span>
+                        <span class="order-detail-header__order-time"> - 10:30 01/01/2021</span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="order-detail-header__order-status-title mb-3">Trạng thái đơn hàng:</div>
+                        <div class="dropdown">
+                            <button class="btn btn-dropdown-status dropdown-toggle" type="button" id="dropdownOrderStatusButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Đã hoàn thành
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownOrderStatusButton">
+                                <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Chờ xác nhận')">Chờ xác nhận</div></li>
+                                <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã xác nhận')">Đã xác nhận</div></li>
+                                <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã hoàn thành')">Đã hoàn thành</div></li>
+                                <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã hủy')">Đã hủy</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-detail-service-table text-center">
+                    <table class="table service-table table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col-4" class="text-start align-middle" >Tên dịch vụ</th>
+                                <th scope="col-2" class="align-middle">Số lượng</th>
+                                <th scope="col-2" class="align-middle">Đơn giá</th>
+                                <th scope="col-2" class="align-middle">Biến thể</th>
+                                <th scope="col-2" class="align-middle">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-start" style="width: 40%;">Cắt tỉa lông chó</td>
+                                <td style="width: 15%;">2</td>
+                                <td style="width: 15%;">150.000đ</td>
+                                <td style="width: 15%;">M</td>
+                                <td style="width: 15%;">300.000đ</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start">Spa cho chó</td>
+                                <td>2</td>
+                                <td>150.000đ</td>
+                                <td>M</td>
+                                <td>300.000đ</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="order-detail-total-table">
+                    <table class="table total-table table-bordered border-white">
+                        <tbody>
+                            <tr>
+                                <td class="text-start table-light">Tổng giá trị sản phẩm</td>
+                                <td class="text-end table-light">600.000đ</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start table-light">Số tiền giảm giá</td>
+                                <td class="text-end table-light">-50.000đ</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start table-light">Voucher khuyến mãi</td>
+                                <td class="text-end table-light">-50.000đ</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start fw-bold">Tổng thanh toán</td>
+                                <td class="text-end fw-bold">500.000đ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="order-detail-customer-info mt-4">
+                    <p class="fw-bold my-3">
+                        Thông tin nhận hàng
+                    </p>
+                    <div class="row my-3">
+                        <label for="inputCustomerName" class="col-3 col-form-label">Tên người nhận:</label>
+                        <div class="col-6">
+                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerName" value="Hoang Dan Quang">
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <label for="inputCustomerMail" class="col-3 col-form-label">Địa chỉ Email:</label>
+                        <div class="col-6">
+                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerMail" value="hoangdanquang@gmail.com">
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <label for="inputCustomerPhone" class="col-3 col-form-label">Số điện thoại:</label>
+                        <div class="col-6">
+                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerPhone" value="0912345678">
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <label for="inputPayment" class="col-3 col-form-label">Hình thức thanh toán:</label>
+                        <div class="col-6">
+                            <input type="text" class="col-6 form-control col-form-label" id="inputPayment" value="Tiền mặt">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-save">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const dropdownStatusButton = document.querySelector('.btn-dropdown-status');
+    function updateDropdownStatusBtn(status) {
+        dropdownStatusButton.textContent = status;
+    };
+</script>

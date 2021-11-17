@@ -1,5 +1,18 @@
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(255, 101, 80);
+}
+
+.account-order-container {
+    padding: 100px 0 50px 0;
+}
+
 .account-sidebar {
     border-radius: 12px;
+    background-color: #f5f5f5;
 }
 
 .account-sidebar__user {
@@ -8,8 +21,8 @@
 
 .sidebar-user__icon {
     width: 32px;
-    margin: 0px 8px 0px 0px;
-    font-size: 24px;
+    margin: 0px 16px 0px -10px;
+    font-size: 26px;
 }
 
 .sidebar-user_name {
@@ -30,10 +43,12 @@
 }
 
 .account-sidebar__item:hover {
+    color: rgb(255, 101, 80);
     background-color: #e9ecef;
 }
 
 .account-sidebar__item--active {
+    color: rgb(255, 101, 80);
     background-color: #e9ecef;
 }
 
