@@ -257,13 +257,10 @@
             const email = inputEmail.value;
             const appointment = inputAppointment.value;
             const note = inputNote.value;
-            const customerId = '6191231cc86e239b57de0576';
-
-
 
             const res = await fetch('/service/book', {
                 method: 'POST',
-                body: JSON.stringify({ customerId, name, phone, email, appointment, services, note }),
+                body: JSON.stringify({ name, phone, email, appointment, services, note }),
                 headers: {'Content-Type': 'application/json'}
             });
             const data = await res.json();
@@ -279,9 +276,6 @@
 
     });
     
-    const objectIdToString = (objectId) => {
-        
-    }
 
 </script>
 

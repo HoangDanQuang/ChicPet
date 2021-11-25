@@ -12,14 +12,17 @@ module.exports.book_get = (req, res) => {
 }
 
 module.exports.book_post = async (req, res) => {
-    const { customerId, name, phone, email, appointment, services, note} = req.body;
+    const { name, phone, email, appointment, services, note} = req.body;
 
     try {
-        console.log(customerId);
-        console.log(mongoose.Types.ObjectId(customerId));
+        if (req.session.user) {
+            console.log('service controller req.session.user');
+            console.log(req.session.user);
+        }
+        else console.log('service controller req.session.user NULL');
         var newOrder = new Order({
-            orderCode: '#543736268',
-            customerId: mongoose.Types.ObjectId(customerId),
+            orderCode: '#482736259',
+            customerId: req.session.user._id,
             fullname: name,
             phone: phone,
             mail: email,
@@ -33,53 +36,9 @@ module.exports.book_post = async (req, res) => {
         });
         newOrder.save().then(result => {
             console.log('make order successful');
-            console.log(newOrder);
+            console.log(result);
             res.status(200).json({ order: newOrder });
         });
-
-
-        // if (res.locals.user) {
-        //     var newOrder = new Order({
-        //         orderCode: '#543736268',
-        //         customerId: user._id,
-        //         fullname: name,
-        //         phone: phone,
-        //         mail: email,
-        //         meetingTime: appointment,
-        //         status: 'Chờ xác nhận',
-        //         services: services,
-        //         discount: 0,
-        //         voucher: '',
-        //         total: 0,
-        //         note: note,
-        //     });
-        //     newOrder.save().then(result => {
-        //         console.log('make order successful');
-        //         console.log(newOrder);
-        //         res.status(200).json({ order: newOrder });
-        //     });
-        // }
-        // else {
-        //     var newOrder = new Order({
-        //         orderCode: '#543736268',
-        //         customerId: null,
-        //         fullname: name,
-        //         phone: phone,
-        //         mail: email,
-        //         meetingTime: appointment,
-        //         status: 'Chờ xác nhận',
-        //         services: services,
-        //         discount: 0,
-        //         voucher: '',
-        //         total: 0,
-        //         note: note,
-        //     });
-        //     newOrder.save().then(result => {
-        //         console.log('make order successful');
-        //         console.log(newOrder);
-        //         res.status(200).json({ order: newOrder });
-        //     });
-        // }
     }
     catch(err) {
         console.log('book_post error');
