@@ -1,0 +1,103 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html{
+    font-family: Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+}
+.container-fluid{
+    padding: 0 10%;
+}
+/*--------------------------*/
+.blog-head{
+    padding-top: 90px;
+    background-image: url('./../img/blog/blog_head.jpg');
+    background-repeat: no-repeat;
+    height: 550px;
+    background-clip: content-box;
+    background-size: cover;
+}
+.blog-body{
+    height: 500px;
+}
+
+/*-----------------------------*/
+.btn-collapse{
+    border: solid 1px black;
+}
+.card-body{
+    width: 80vw;
+}
+.card-body .body1{
+    width: 100%;
+}
+.card-body button{
+    border: 0;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+}
+
+/*-------------------------------*/
+.box
+{
+    text-align: center;
+    padding: 2px;
+    background-clip: border-box;
+}
+.box:hover{
+    background-color: rgb(255, 101, 80);
+    background-image: 
+    url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8nxrwHwAG1AK1n7JtmgAAAABJRU5ErkJggg==),
+    url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8nxrwHwAG1AK1n7JtmgAAAABJRU5ErkJggg==),
+    url('data:image/gif;base64,R0lGODlhAQABAPAAAP///////yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
+    background-repeat: no-repeat;
+    background-size: 0 2px, 0 100%, 0% 2px;
+    background-position: top center, top center, bottom center;
+    -webkit-animation: drawBorderFromCenter 1s;
+
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes drawBorderFromCenter {
+    0% {
+      background-size: 0 2px, 0 0, 100% 100%;
+    }
+    20% {
+      background-size: 100% 2px, 100% 0, 100% 100%;
+    }
+    66%
+    {
+      background-size: 100% 2px, 100% 98%, 100% 100%;
+    }
+    99%
+    {
+      background-size: 100% 2px, 100% 98%, 0 2px;
+    }
+}
+
+/*-------------------------------------*/
+.content{
+    width: 100%;
+    
+}
+.content .card{
+    border: 0;
+    background-color: transparent;
+}
+.content .card-body{
+    width: 100%;
+    border-bottom: solid 1px gray;
+    border-left: solid 1px gray;
+    border-right: solid 1px gray;
+}
+.content .card-body .btn-read{
+    background-color: rgb(255, 101, 80);
+    color: white;
+}
+.content .card-body .btn-read:hover{
+    opacity: 0.8;
+    color: black;
+}

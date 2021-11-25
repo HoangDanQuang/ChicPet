@@ -1,0 +1,124 @@
+<link rel="stylesheet" href="/css/postBlog.css">
+<title>Post</title>
+
+
+<div class="row flex-nowrap content mx-0">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 menu-bar">
+            <div class="d-flex flex-column align-items-center align-items-sm-start pt-2 list-item">
+                
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <button class="nav-link align-middle px-0 btn">
+                            <i class="far fa-calendar-plus"></i> New 
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link align-middle px-0 btn"> 
+                            <i class="fas fa-chalkboard-teacher"></i> Preview
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link align-middle px-0 btn btn-post">
+                            <i class="far fa-paper-plane"></i> Post
+                        </button>
+                    </li>
+
+                </ul>    
+
+            </div>
+
+            {{!-- <button class="btn btn-submit position-absolute bottom-0 start-0" onClick="post_click()"> Post </button>
+ --}}
+        </div>
+
+        <div class="col py-3 post-content">
+            <form action="Post">
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Title</span>
+                    <input type="text" class="form-control title-blog" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-sm-6">
+                        <input class="form-control form-control-sm img-blog" id="formFileSm" type="file" name="image">
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-select form-select-sm category-blog" aria-label=".form-select-sm example">
+                        <option selected value="Các giống chó">Các giống chó</option>
+                        <option value="Các giống mèo">Các giống mèo</option>
+                        <option value="Chăm sóc chó">Chăm sóc chó</option>
+                        <option value="Chăm sóc mèo">Chăm sóc mèo</option>
+                    </select>
+                    </div>
+                </div>
+                
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
+                    <input type="text" class="form-control description-blog" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+
+                <div class="row justify-content-md-center">
+                    <div class="form-group">
+                        <textarea id="editor"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+{{!-- test value -------------------------------------------------------------}}
+{{!--         <div class="show-value">
+            <textarea name="" id="show-value" cols="30" rows="10"></textarea>
+        </div> --}}
+{{!--  ------ ----------------------------------------------------------------}}
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/2f03u9d8k3bfqttf9dac5pmhdc50rnspe3xpee2cfn8a7plx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+  tinymce.init({
+    selector: 'textarea#editor',
+    skin: 'bootstrap',
+    plugins: 'lists, link, image, media',
+    toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
+    menubar: false
+  });
+    
+</script>
+
+<script>
+    const btnPost = document.querySelector('.btn-post');
+
+    btnPost.addEventListener('click', async ()=> {
+        const inputTitle = document.querySelector('.title-blog').value;
+        const inputImg = document.querySelector('.img-blog').value;
+        const inputCategory = document.querySelector('.category-blog').value;
+        const inputDescription = document.querySelector('.description-blog').value
+        var myContent = tinymce.get("editor").getContent();
+        console.log(inputImg);
+
+        console.log('btn-post clicked');
+        try {
+            const title = inputTitle;
+            const img = inputImg;
+            const category = inputCategory;
+            const description = inputDescription;
+            const contentCode = myContent;
+
+
+            const res = await fetch('/blog/postBlog', {
+                method: 'POST',
+                body: JSON.stringify({ title, img, category, description, contentCode }),
+                headers: {'Content-Type': 'application/json'}
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data) {
+                console.log("Post Thanh Cong");
+            }
+        }
+        catch (err) {
+            console.log('sign up error');
+            console.log(err);
+        }
+    });
+
+</script>

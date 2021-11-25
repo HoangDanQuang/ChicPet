@@ -6,6 +6,7 @@ const accountRouter = require('./account');
 const serviceRouter = require('./service');
 const contactRouter = require('./contact');
 const bookRouter = require('./book');
+const blogRouter = require('./blog');
 const { requireAuth, checkUser } = require('../app/middleware/AuthMiddleware');
 
 
@@ -18,6 +19,7 @@ function route(app) {
     app.use('/account', accountRouter);
     app.use('/service', serviceRouter);
     app.use('/contact', contactRouter);
+    app.use('/blog', blogRouter);
     app.use('/', authRouter);
 }
 
