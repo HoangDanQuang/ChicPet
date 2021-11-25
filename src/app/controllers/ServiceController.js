@@ -21,7 +21,7 @@ module.exports.book_post = async (req, res) => {
         }
         else console.log('service controller req.session.user NULL');
         var newOrder = new Order({
-            orderCode: '#482736259',
+            orderCode: '482736472',
             customerId: req.session.user._id,
             fullname: name,
             phone: phone,

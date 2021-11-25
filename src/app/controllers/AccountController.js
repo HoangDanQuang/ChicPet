@@ -2,6 +2,7 @@ const res = require("express/lib/response");
 const User = require('../models/User');
 const Order = require('../models/Order');
 const { json } = require("express/lib/response");
+const mongoose = require ('mongoose');
 
 
 module.exports.profile_get = (req, res) => {
@@ -35,14 +36,13 @@ module.exports.order_get = async (req, res) => {
         }
         else {
             try {
-                const orderList = await Order.find({ customerId: res.locals.user._id }).lean();
+                const orderList = await Order.find({ customerId: res.locals.user._id }).sort({ createdAt: -1 }).lean();
                 if (orderList) {
                     console.log(orderList);
-                    res.render('accountOrder', { orders: orderList, name: 'Anthony' });
+                    res.render('accountOrder', { orders: orderList });
                 }
                 else {
                     console.log('account orderList null');
-                    console.log(err);
                 }
             }
             catch(err) {
@@ -54,8 +54,22 @@ module.exports.order_get = async (req, res) => {
     else res.render('accountOrder');
 }
 
-module.exports.orderDetail_get = (req, res) => {
-    res.render('accountOrderDetail');
+module.exports.orderDetail_get = async (req, res) => {
+    console.log('order code: ', req.params.code);
+    try {
+        const order = await Order.findOne({ orderCode: req.params.code }).lean();
+        if (order) {
+            console.log(order);
+            res.render('accountOrderDetail', { order: order });
+        }
+        else {
+            console.log('account order detail null');
+        }
+    }
+    catch(err) {
+        console.log('account order detail error');
+        console.log(err);
+    }
 }
 
 module.exports.voucher_get = (req, res) => {
