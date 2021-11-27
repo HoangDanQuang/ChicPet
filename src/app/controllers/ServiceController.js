@@ -21,7 +21,7 @@ module.exports.book_post = async (req, res) => {
         }
         else console.log('service controller req.session.user NULL');
         var newOrder = new Order({
-            orderCode: '482736472',
+            orderCode: generateOrderCode(),
             customerId: req.session.user._id,
             fullname: name,
             phone: phone,
@@ -46,4 +46,10 @@ module.exports.book_post = async (req, res) => {
         var error = JSON.stringify({ error: err });
         res.status(400).json({ error});
     }
+}
+
+const generateOrderCode = () => {
+    var orderCode = Date.now().toString();
+    orderCode = orderCode.substring(orderCode.length - 9);
+    return orderCode;
 }

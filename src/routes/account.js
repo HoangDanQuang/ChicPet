@@ -8,6 +8,7 @@ router.get('/profile', requireAuth, accountController.profile_get);
 router.get('/customer', requireAuth, accountController.customer_get);
 router.get('/order', requireAuth, accountController.order_get);
 router.get('/get-order/:code', requireAuth, accountController.orderDetail_get);
+router.post('/admin-get-order', requireAuth, accountController.adminOrderList_post);
 router.get('/make-order', requireAuth, accountController.makeOrder_get);
 router.get('/voucher', requireAuth, accountController.voucher_get);
 router.get('/', requireAuth, accountController.profile_get);
