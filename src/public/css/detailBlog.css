@@ -17,6 +17,17 @@ html{
 }
 .blog-category{
     color: rgb(255, 80, 101);
+    font-size: larger;
+}
+.blog-timeCreate{
+    font-style: italic;
+    font-size: smaller;
+    width: 107px;
+}
+.blog-timeCreate p{
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: unset;
 }
 .blog-description{
     font-style: italic;

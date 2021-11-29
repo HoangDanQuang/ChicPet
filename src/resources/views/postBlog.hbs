@@ -190,13 +190,18 @@
         const inputCategory = document.querySelector('.category-blog').value;
         const inputDescription = document.querySelector('.description-blog').value
         var myContent = tinymce.get("editor").getContent();
-
+        var today = new Date();
+        today.toISOString().substring(0, 10);
+        
         var html = `    <div class="blog-header mb-5">
                             <div class="blog-category">
                                 <p>${inputCategory}</p>
                             </div>
                             <div>
                                 <h2>${inputTitle}</h2>
+                            </div>
+                            <div class="blog-timeCreate">
+                                <p>${today}</p>
                             </div>
                             <hr>
                         </div>
