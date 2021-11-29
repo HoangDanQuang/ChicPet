@@ -68,3 +68,24 @@ module.exports.postBlog_post = async (req, res) => {
         res.status(400).json({ error});
     }
 };
+
+
+module.exports.detailBlog_get = async (req, res) => {
+    console.log('blog code: ', req.params.code);
+    var objectId = mongoose.Types.ObjectId(req.params.code);
+    console.log('objectID: ',  objectId);
+    try {
+        const blog = await Blog.findOne({ _id: objectId }).lean();
+        if (blog) {
+            console.log(blog);
+            res.render('detailBlog', { blog: blog });
+        }
+        else {
+            console.log('blog null');
+        }
+    }
+    catch(err) {
+        console.log('blog detail error');
+        console.log(err);
+    }
+}

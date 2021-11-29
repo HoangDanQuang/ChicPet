@@ -97,6 +97,24 @@
     </div>
     </div>
 
+{{!-- modal-preview --}}
+
+<!-- Full screen modal -->
+<div class="modal fade" tabindex="-1" id="modal-preview">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Preview blog</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="previewModal-body"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-closeModal" data-bs-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
+
 {{!-- test value -------------------------------------------------------------}}
 {{!--         <div class="show-value">
             <textarea name="" id="show-value" cols="30" rows="10"></textarea>
@@ -160,6 +178,43 @@
     const formPost = document.querySelector('.form-post')
     btnNew.addEventListener('click', ()=>{
         formPost.reset();
+    })
+
+
+    const btnPreview = document.querySelector('.btn-preview');
+    const bodyPreview = document.querySelector('.previewModal-body');
+
+    btnPreview.addEventListener('click', ()=>{
+        const inputTitle = document.querySelector('.title-blog').value;
+        const inputImg = document.querySelector('.img-blog').value;
+        const inputCategory = document.querySelector('.category-blog').value;
+        const inputDescription = document.querySelector('.description-blog').value
+        var myContent = tinymce.get("editor").getContent();
+
+        var html = `    <div class="blog-header mb-5">
+                            <div class="blog-category">
+                                <p>${inputCategory}</p>
+                            </div>
+                            <div>
+                                <h2>${inputTitle}</h2>
+                            </div>
+                            <hr>
+                        </div>
+
+
+                        <div class="blog-body mb-5">
+                            <div class="blog-description ">
+                                <p>${inputDescription}</p>
+                            </div>
+                            <div class="blog-img d-flex justify-content-center mb-5">
+                                <img src="${inputImg}" alt="" height="380">
+                            </div>
+                        </div>` + `${myContent}`
+        bodyPreview.innerHTML = html;
+        
+
+        const modalPreview = new bootstrap.Modal(document.getElementById('modal-preview'));
+        modalPreview.show();
     })
 
 </script>

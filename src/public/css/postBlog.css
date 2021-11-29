@@ -77,3 +77,26 @@ html{
 #modal-inform .btn-closeModal:hover{
     border: solid 1px black;
 }
+/*------------------------------------------*/
+#modal-preview .previewModal-body{
+    padding: 30px 10%;
+    background-color: white !important;
+}
+#modal-preview .modal-footer{
+    background-color: white;
+}
+#modal-preview .blog-header{
+    padding-top: 30px;
+}
+#modal-preview .blog-category{
+    color: rgb(255, 80, 101);
+}
+#modal-preview .blog-description{
+    font-style: italic;
+    color: gray;
+    font-weight: 500;
+}
+#modal-preview .modal-footer button{
+    background-color: rgb(255, 101, 80);
+    color: white;
+}

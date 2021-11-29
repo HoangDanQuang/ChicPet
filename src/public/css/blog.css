@@ -79,6 +79,9 @@ html{
     }
 }
 /*---------------------------------------------------*/
+.btn-allCatagory{
+    border: solid 1px black;
+}
 .btn-allCatagory:hover{
     color: rgb(255, 80, 101);
     border: solid 1px rgb(255, 80, 101);

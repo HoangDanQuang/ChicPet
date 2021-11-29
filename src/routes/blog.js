@@ -20,5 +20,6 @@ const upload = multer({ storage: storage, limits: {
 router.get('/postBlog', BlogController.postBlog_get);
 router.post('/postBlog/uploadSingle', /* upload.single('image-blog'), */ BlogController.postBlog_post);
 router.get('/', BlogController.blog_get);
+router.get('/:code', BlogController.detailBlog_get);
 
 module.exports = router;
