@@ -29,10 +29,12 @@ module.exports.book_post = async (req, res) => {
             meetingTime: appointment,
             status: 'Chờ xác nhận',
             services: services,
+            sum: 0,
             discount: 0,
             voucher: '',
             total: 0,
             note: note,
+            payment: 'Tiền mặt',
         });
         newOrder.save().then(result => {
             console.log('make order successful');

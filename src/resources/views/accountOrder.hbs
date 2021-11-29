@@ -44,7 +44,7 @@
                         <a href="/account/get-order/{{this.orderCode}}" class="order-card-header d-inline-flex d-flex justify-content-between">
                             <div class="col">
                                 <div class="order-code text--primary">#{{this.orderCode}}</div>
-                                <span class="order-date ">{{this.createdAt}}</span>
+                                <span class="order-date ">{{toDateTimeString this.createdAt}}</span>
                             </div>
                             {{#ifCond this.status '==' 'Chờ xác nhận'}}
                                 <div class="order-status order-status--confirming align-self-center">

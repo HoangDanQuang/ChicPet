@@ -43,7 +43,7 @@
                 <div class="my-3">
                     Dưới đây là thông tin đơn hàng 
                     <span class="order-detail-header__order-code">#{{order.orderCode}}</span>
-                    <span class="order-detail-header__order-time"> - {{order.createdAt}}</span>
+                    <span class="order-detail-header__order-time"> - {{toDateTimeString order.createdAt}}</span>
                 </div>
                 <div class="mb-4">
                     <div class="order-detail-header__order-status-title mb-3">Trạng thái đơn hàng:</div>
@@ -97,7 +97,7 @@
                     <tbody>
                         <tr>
                             <td class="text-start table-light">Tổng giá trị sản phẩm</td>
-                            <td class="text-end table-light">{{order.total}}</td>
+                            <td class="text-end table-light">{{order.sum}}</td>
                         </tr>
                         <tr>
                             <td class="text-start table-light">Số tiền giảm giá</td>
@@ -132,8 +132,16 @@
                 </p>
                 <p class="my-3">
                     Hình thức thanh toán: 
-                    <span class="fw-bold">Tiền mặt</span>
+                    <span class="fw-bold">{{order.payment}}</span>
                 </p>
+            </div>
+            <div class="row order-detail-note my-3">
+                <div class="col-2">
+                    Ghi chú:
+                </div>
+                <div class="col-8">
+                    {{order.note}}
+                </div>
             </div>
 
         </div>

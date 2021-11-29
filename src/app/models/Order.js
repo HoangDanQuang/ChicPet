@@ -43,6 +43,9 @@ const OrderSchema = new Schema ({
         price: Number,
         total: Number,
     }],
+    sum: {
+        type: Number,
+    },
     discount: {
         type: Number,
     },
@@ -53,6 +56,9 @@ const OrderSchema = new Schema ({
         type: Number,
     },
     note: {
+        type: String,
+    },
+    payment: {
         type: String,
     },
 },{ timestamps: true });

@@ -76,15 +76,17 @@ module.exports.adminOrderList_post = async (req, res) => {
         console.log(orderToDaySearch);
         var orderList = [];
         if (orderCodeSearch === '' && orderCustomerSearch === '' && orderFromDaySearch === '' && orderToDaySearch === '') {
-            console.log('get all orders in last 30 days');
-            var currentDate = new Date();
-            console.log(currentDate.toString());
-            var fromDate = currentDate;
-            fromDate.setDate(fromDate.getDate() - 29);
-            fromDate.setHours(0, 0, 0);
-            fromDate = new Date(fromDate);
-            console.log(fromDate.toString());
-            orderList = await Order.find({  }).sort({ createdAt: -1 });
+            console.log('get all orders');
+            // console.log('get all orders in last 30 days');
+            // var currentDate = Date.now();
+            // currentDate = new Date(currentDate);
+            // console.log(currentDate);
+            // var fromDate = currentDate;
+            // fromDate.setDate(fromDate.getDate() - 29);
+            // fromDate.setHours(0, 0, 0);
+            // fromDate = new Date(fromDate);
+            // console.log(fromDate);
+            orderList = await Order.find({ }).sort({ createdAt: -1 });
         }
         else if (orderCodeSearch !== '') {
             console.log('search by order code');
@@ -160,7 +162,7 @@ module.exports.adminOrderList_post = async (req, res) => {
         }
     }
     catch(err) {
-        console.log('admi post orderList error');
+        console.log('admin post orderList error');
         console.log(err);
     }
 }
@@ -171,7 +173,12 @@ module.exports.orderDetail_get = async (req, res) => {
         const order = await Order.findOne({ orderCode: req.params.code }).lean();
         if (order) {
             console.log(order);
-            res.render('accountOrderDetail', { order: order });
+            if (order.customerId.equals(req.session.user._id)) {
+                res.render('accountOrderDetail', { order: order });
+            }
+            else {
+                res.render('404NotFound');
+            }
         }
         else {
             console.log('account order detail null');

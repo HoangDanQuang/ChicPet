@@ -220,6 +220,21 @@
                         </div>
                     </div>
                 </div>
+                {{!-- <div class="row order-detail-note my-3">
+                    <label for="inputNote" class="col-3 col-form-label">Ghi chú:</label>
+                    <div class="col-6">
+                        <textarea type="text" class="col-6 form-control col-form-label" id="inputNote" value="Note">
+                    </div>
+                </div> --}}
+                <div>
+                    <div class="row">
+
+                    </div>
+                </div>
+                <div class="form-floating my-3">
+                    <textarea class="form-control" id="inputNote" style="height: 100px"></textarea>
+                    <label for="inputNote">Ghi chú</label>
+                </div>
                 <div class="d-flex justify-content-end">
                     <button type="button" class="btn btn-save">Lưu</button>
                 </div>
@@ -260,6 +275,9 @@
     const orderDetailCustomerName = document.getElementById('inputCustomerName');
     const orderDetailCustomerMail = document.getElementById('inputCustomerMail');
     const orderDetailCustomerPhone = document.getElementById('inputCustomerPhone');
+    const orderDetailPayment = document.getElementById('dropdownOrderPayment');
+    const orderDetailNote = document.getElementById('inputNote');
+
 
     
 
@@ -284,6 +302,8 @@
         orderDetailCustomerName.value = data.orderList[currentIndex].fullname;
         orderDetailCustomerMail.value = data.orderList[currentIndex].mail;
         orderDetailCustomerPhone.value = data.orderList[currentIndex].phone;
+        orderDetailPayment.textContent = data.orderList[currentIndex].payment;
+        orderDetailNote.value = data.orderList[currentIndex].note;
         var serviceTableBody = '';
         for (i = 0; i < data.orderList[currentIndex].services.length; i++) {
             var row = '<tr>'
