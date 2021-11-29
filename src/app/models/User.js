@@ -37,11 +37,12 @@ const UserSchema = new Schema({
 });
 
 // fire a function before doc saved to db
-UserSchema.pre('save', async function(next) {
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-});
+// UserSchema.pre('save', async function(next) {
+//     console.log('pre save userSchema');
+//     const salt = await bcrypt.genSalt();
+//     this.password = await bcrypt.hash(this.password, salt);
+//     next();
+// });
 
 // static method to login user
 UserSchema.statics.login = async function(username, password) {

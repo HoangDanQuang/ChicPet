@@ -54,3 +54,17 @@
 .sidebar-item_name {
     height: 100%;
 }
+
+.btn-update {
+    color: white;
+    background-color: rgb(255, 101, 80);
+}
+
+.btn-update:hover {
+    color: white;
+    background-color: rgba(255, 101, 80, 85%);
+}
+
+.text-error {
+    color: red;
+}

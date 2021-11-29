@@ -3,6 +3,7 @@ const User = require('../models/User');
 const Order = require('../models/Order');
 const { json } = require("express/lib/response");
 const mongoose = require ('mongoose');
+const bcrypt = require('bcrypt');
 
 
 module.exports.profile_get = (req, res) => {
@@ -15,6 +16,53 @@ module.exports.profile_get = (req, res) => {
         }
     }
     else res.render('accountProfile');
+}
+
+module.exports.profile_post = async (req, res) => {
+    const { newName, newEmail, newPhone, newAddress, oldPassword, newPassword } = req.body;
+    if (res.locals.user) {
+        try {
+            if (oldPassword === '' || newPassword === '') {
+                console.log('update user without updating password');
+                var updateUser = await User.findById(res.locals.user._id);
+                updateUser.fullname = newName;
+                updateUser.phone = newPhone;
+                updateUser.mail = newEmail;
+                updateUser.address = newAddress;
+                updateUser.save().then(result => {
+                    res.locals.user = updateUser;
+                    req.session.user = updateUser;
+                    res.json({ info: { newName, newEmail, newPhone, newAddress } });
+                });
+            }
+            else {
+                console.log('update user with updating password');
+                var updateUser = await User.findById(res.locals.user._id);
+                const auth = await bcrypt.compare(oldPassword, updateUser.password);
+                if (auth) {
+                    updateUser.fullname = newName;
+                    updateUser.phone = newPhone;
+                    updateUser.mail = newEmail;
+                    updateUser.address = newAddress;
+                    const salt = await bcrypt.genSalt();
+                    updateUser.password = await bcrypt.hash(newPassword, salt);
+                    updateUser.save().then(result => {
+                        res.locals.user = updateUser;
+                        req.session.user = updateUser;
+                        res.json({ info: { newName, newEmail, newPhone, newAddress } });
+                    });
+                }
+                else {
+                    res.json({ error: { password: 'Incorrect Password' } });
+                }
+            }
+        }
+        catch(err) {
+            console.log('account post profile error');
+            console.log(err);
+        }
+    }
+    else res.render('404NotFound');
 }
 
 module.exports.customer_get = (req, res) => {
@@ -36,7 +84,7 @@ module.exports.order_get = async (req, res) => {
                 const orderList = await Order.find({}).sort({ createdAt: -1 }).lean();
                 if (orderList) {
                     console.log(orderList);
-                    res.render('adminOrder', { orders: orderList });
+                    res.render('adminOrder');
                 }
                 else {
                     console.log('account orderList Null');
