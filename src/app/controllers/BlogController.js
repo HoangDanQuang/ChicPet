@@ -1,38 +1,58 @@
 const res = require("express/lib/response");
 const Blog = require('../models/Blog');
-/* const multer = require('multer');
-const path = require('path')
- */
-module.exports.blog_get = (req, res) => {
-    res.render('blog');
+const mongoose = require ('mongoose');
+
+/* const path = require('path') */
+/* var fs = require('fs'); */
+
+
+module.exports.blog_get = async (req, res) => {
+    try {
+        const blogList = await Blog.find({}).sort({ createdAt: -1 }).limit(15).lean();
+        if (blogList) {
+            console.log(blogList);
+            res.render('blog', { blogs: blogList });
+        }
+        else {
+            console.log('blogList Null');
+        }
+    }
+    catch(err) {
+        console.log('get blog error');
+        console.log(err);
+    }
 }
 
 module.exports.postBlog_get = (req, res) => {
     res.render('postBlog');
 }
 
-/* const storage = multer.diskStorage({
-    destination: (req, file, cb) =>{
-        cb(null, './../public/img/blog')
-    }, 
-    filename: (req, file, cb) =>{
-        console.log(file);
-        cb(null, Date.now() + path.extname(file.originalname))
-    }
-})
-const upload = multer({storage: storage}) */
+
+//---------------------------------------------------------------------------
 
 module.exports.postBlog_post = async (req, res) => {
+    console.log('req.body: ' + req.body);
+
+/*     if (req.files == undefined) {
+        return res.send({
+          message: "You must select a file.",
+        });
+    }
+    else{
+        console.log(req.file)
+    } */
+  
     const { title, img, category, description, contentCode} = req.body;
-   // upload.single(img);
+/*     var image = fs.readFileSync(req.file.path);
+    var encode_image = image.toString('base64'); */
     try {
         var newBlog = new Blog({
-            blogCode: '#000000',
+           /*  blogCode: Date.now(), */
             title: title,
-            img: 'image',
+            img: img,
             category: category,
             description: description,
-            postingTime: Date.now(),
+           /*  postingTime: Date.now(), */
             contentCode: contentCode
         });
         newBlog.save().then(result => {
@@ -47,4 +67,4 @@ module.exports.postBlog_post = async (req, res) => {
         var error = JSON.stringify({ error: err });
         res.status(400).json({ error});
     }
-}
+};
