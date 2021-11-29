@@ -42,12 +42,12 @@
                 <h2 class="text-uppercase order-detail-header__title">Thông tin đơn hàng của bạn</h2>
                 <div class="my-3">
                     Dưới đây là thông tin đơn hàng 
-                    <span class="order-detail-header__order-code">#123456789</span>
-                    <span class="order-detail-header__order-time"> - 10:30 01/01/2021</span>
+                    <span class="order-detail-header__order-code">#{{order.orderCode}}</span>
+                    <span class="order-detail-header__order-time"> - {{toDateTimeString order.createdAt}}</span>
                 </div>
                 <div class="mb-4">
                     <div class="order-detail-header__order-status-title mb-3">Trạng thái đơn hàng:</div>
-                    <span class="order-detail-header__order-status text--primary pb-2">Đã hoàn thành</span>
+                    <span class="order-detail-header__order-status text--primary pb-2">{{order.status}}</span>
                 </div>
             </div>
             <div class="order-detail-service-table text-center">
@@ -62,7 +62,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+
+                        {{#each order.services}}
+                            <tr>
+                                <td class="text-start" style="width: 40%;">{{this.serviceName}}</td>
+                                <td style="width: 15%;">{{this.quantity}}</td>
+                                <td style="width: 15%;">{{this.price}}</td>
+                                <td style="width: 15%;">{{this.type}}</td>
+                                <td style="width: 15%;">{{this.total}}</td>
+                            </tr>
+                        {{/each}}
+
+
+                        {{!-- <tr>
                             <td class="text-start" style="width: 40%;">Cắt tỉa lông chó</td>
                             <td style="width: 15%;">2</td>
                             <td style="width: 15%;">150.000đ</td>
@@ -75,7 +87,7 @@
                             <td>150.000đ</td>
                             <td>M</td>
                             <td>300.000đ</td>
-                        </tr>
+                        </tr> --}}
                         
                     </tbody>
                 </table>
@@ -85,19 +97,19 @@
                     <tbody>
                         <tr>
                             <td class="text-start table-light">Tổng giá trị sản phẩm</td>
-                            <td class="text-end table-light">600.000đ</td>
+                            <td class="text-end table-light">{{order.sum}}</td>
                         </tr>
                         <tr>
                             <td class="text-start table-light">Số tiền giảm giá</td>
-                            <td class="text-end table-light">-50.000đ</td>
+                            <td class="text-end table-light">{{order.discount}}</td>
                         </tr>
                         <tr>
                             <td class="text-start table-light">Voucher khuyến mãi</td>
-                            <td class="text-end table-light">-50.000đ</td>
+                            <td class="text-end table-light">{{order.voucher}}</td>
                         </tr>
                         <tr>
                             <td class="text-start fw-bold">Tổng thanh toán</td>
-                            <td class="text-end fw-bold">500.000đ</td>
+                            <td class="text-end fw-bold">{{order.total}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -108,20 +120,28 @@
                 </p>
                 <p class="my-3">
                     Tên người nhận: 
-                    <span class="fw-bold">Hoang Dan Quang</span>
+                    <span class="fw-bold">{{order.fullname}}</span>
                 </p>
                 <p class="my-3">
                     Địa chỉ Email: 
-                    <span class="fw-bold">hoangdanquang@gmail.com</span>
+                    <span class="fw-bold">{{order.mail}}</span>
                 </p>
                 <p class="my-3">
                     Số điện thoại: 
-                    <span class="fw-bold">0912345678</span>
+                    <span class="fw-bold">{{order.phone}}</span>
                 </p>
                 <p class="my-3">
                     Hình thức thanh toán: 
-                    <span class="fw-bold">Tiền mặt</span>
+                    <span class="fw-bold">{{order.payment}}</span>
                 </p>
+            </div>
+            <div class="row order-detail-note my-3">
+                <div class="col-2">
+                    Ghi chú:
+                </div>
+                <div class="col-8">
+                    {{order.note}}
+                </div>
             </div>
 
         </div>

@@ -73,6 +73,10 @@ hbs.handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
           return options.inverse(this);
   }
 });
+hbs.handlebars.registerHelper('toDateTimeString', function (datetime) {
+    var datetimeString = datetime.toDateString() + ' ' + datetime.toTimeString().substring(0, 5);
+    return datetimeString;
+});
 
 //route init
 route(app);

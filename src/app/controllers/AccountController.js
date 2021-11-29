@@ -2,6 +2,8 @@ const res = require("express/lib/response");
 const User = require('../models/User');
 const Order = require('../models/Order');
 const { json } = require("express/lib/response");
+const mongoose = require ('mongoose');
+const bcrypt = require('bcrypt');
 
 
 module.exports.profile_get = (req, res) => {
@@ -14,6 +16,53 @@ module.exports.profile_get = (req, res) => {
         }
     }
     else res.render('accountProfile');
+}
+
+module.exports.profile_post = async (req, res) => {
+    const { newName, newEmail, newPhone, newAddress, oldPassword, newPassword } = req.body;
+    if (res.locals.user) {
+        try {
+            if (oldPassword === '' || newPassword === '') {
+                console.log('update user without updating password');
+                var updateUser = await User.findById(res.locals.user._id);
+                updateUser.fullname = newName;
+                updateUser.phone = newPhone;
+                updateUser.mail = newEmail;
+                updateUser.address = newAddress;
+                updateUser.save().then(result => {
+                    res.locals.user = updateUser;
+                    req.session.user = updateUser;
+                    res.json({ info: { newName, newEmail, newPhone, newAddress } });
+                });
+            }
+            else {
+                console.log('update user with updating password');
+                var updateUser = await User.findById(res.locals.user._id);
+                const auth = await bcrypt.compare(oldPassword, updateUser.password);
+                if (auth) {
+                    updateUser.fullname = newName;
+                    updateUser.phone = newPhone;
+                    updateUser.mail = newEmail;
+                    updateUser.address = newAddress;
+                    const salt = await bcrypt.genSalt();
+                    updateUser.password = await bcrypt.hash(newPassword, salt);
+                    updateUser.save().then(result => {
+                        res.locals.user = updateUser;
+                        req.session.user = updateUser;
+                        res.json({ info: { newName, newEmail, newPhone, newAddress } });
+                    });
+                }
+                else {
+                    res.json({ error: { password: 'Incorrect Password' } });
+                }
+            }
+        }
+        catch(err) {
+            console.log('account post profile error');
+            console.log(err);
+        }
+    }
+    else res.render('404NotFound');
 }
 
 module.exports.customer_get = (req, res) => {
@@ -31,18 +80,30 @@ module.exports.customer_get = (req, res) => {
 module.exports.order_get = async (req, res) => {
     if (res.locals.user) {
         if (res.locals.user.role === 'admin') {
-            res.render('adminOrder');
+            try {
+                const orderList = await Order.find({}).sort({ createdAt: -1 }).lean();
+                if (orderList) {
+                    console.log(orderList);
+                    res.render('adminOrder');
+                }
+                else {
+                    console.log('account orderList Null');
+                }
+            }
+            catch(err) {
+                console.log('account get order error');
+                console.log(err);
+            }
         }
         else {
             try {
-                const orderList = await Order.find({ customerId: res.locals.user._id });
+                const orderList = await Order.find({ customerId: res.locals.user._id }).sort({ createdAt: -1 }).lean();
                 if (orderList) {
                     console.log(orderList);
-                    res.render('accountOrder', { orders: orderList.concat(), name: 'Anthony' });
+                    res.render('accountOrder', { orders: orderList });
                 }
                 else {
                     console.log('account orderList null');
-                    console.log(err);
                 }
             }
             catch(err) {
@@ -54,8 +115,127 @@ module.exports.order_get = async (req, res) => {
     else res.render('accountOrder');
 }
 
-module.exports.orderDetail_get = (req, res) => {
-    res.render('accountOrderDetail');
+module.exports.adminOrderList_post = async (req, res) => {
+    try {
+        const { orderCodeSearch, orderCustomerSearch, orderFromDaySearch, orderToDaySearch } = req.body;
+        console.log(orderCodeSearch);
+        console.log(orderCustomerSearch);
+        console.log(orderFromDaySearch);
+        console.log(orderToDaySearch);
+        var orderList = [];
+        if (orderCodeSearch === '' && orderCustomerSearch === '' && orderFromDaySearch === '' && orderToDaySearch === '') {
+            console.log('get all orders');
+            // console.log('get all orders in last 30 days');
+            // var currentDate = Date.now();
+            // currentDate = new Date(currentDate);
+            // console.log(currentDate);
+            // var fromDate = currentDate;
+            // fromDate.setDate(fromDate.getDate() - 29);
+            // fromDate.setHours(0, 0, 0);
+            // fromDate = new Date(fromDate);
+            // console.log(fromDate);
+            orderList = await Order.find({ }).sort({ createdAt: -1 });
+        }
+        else if (orderCodeSearch !== '') {
+            console.log('search by order code');
+            orderList = await Order.find({ orderCode: orderCodeSearch }).sort({ createdAt: -1 });
+        }
+        else if (orderCustomerSearch !== '') {
+            if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
+                console.log('search by customer name and from date, to date');
+                var fromDate = new Date(orderFromDaySearch);
+                fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                fromDate = new Date(fromDate);
+                var toDate = new Date(orderToDaySearch);
+                toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                toDate = new Date(toDate);
+                orderList = await Order.find({ fullname: orderCustomerSearch, createdAt: { $gte: fromDate, $lte: toDate } }).sort({ createdAt: -1 });
+            }
+            else if (orderFromDaySearch !== '') {
+                console.log('search by customer name and from date');
+                var fromDate = new Date(orderFromDaySearch);
+                fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                fromDate = new Date(fromDate);
+                orderList = await Order.find({ fullname: orderCustomerSearch, createdAt: { $gte: fromDate } }).sort({ createdAt: -1 });
+            }
+            else if (orderToDaySearch !== '') {
+                console.log('search by customer name and to date');
+                var toDate = new Date(orderToDaySearch);
+                toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                toDate = new Date(toDate);
+                orderList = await Order.find({ fullname: orderCustomerSearch, createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
+            }
+            else {
+                console.log('search by customer name');
+                orderList = await Order.find({ fullname: orderCustomerSearch }).sort({ createdAt: -1 });
+            }
+
+            
+        }
+        else if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
+            console.log('search by from date and to date');
+            var fromDate = new Date(orderFromDaySearch);
+            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+            fromDate = new Date(fromDate);
+            var toDate = new Date(orderToDaySearch);
+            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+            toDate = new Date(toDate);
+            console.log(fromDate);
+            console.log(toDate);
+            orderList = await Order.find({ createdAt: { $gte: fromDate, $lte: toDate } }).sort({ createdAt: -1 });
+        }
+        else if (orderFromDaySearch !== '') {
+            console.log('search by from date');
+            var fromDate = new Date(orderFromDaySearch);
+            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+            fromDate = new Date(fromDate);
+            orderList = await Order.find({ createdAt: { $gte: fromDate } }).sort({ createdAt: -1 });
+        }
+        else if (orderToDaySearch !== '') {
+            console.log('search by to date');
+            var toDate = new Date(orderToDaySearch);
+            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+            toDate = new Date(toDate);
+            orderList = await Order.find({ createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
+        }
+
+
+        
+        if (orderList) {
+            console.log(orderList);
+            res.json({ orderList: orderList });
+        }
+        else {
+            console.log('admin orderList null');
+        }
+    }
+    catch(err) {
+        console.log('admin post orderList error');
+        console.log(err);
+    }
+}
+
+module.exports.orderDetail_get = async (req, res) => {
+    console.log('order code: ', req.params.code);
+    try {
+        const order = await Order.findOne({ orderCode: req.params.code }).lean();
+        if (order) {
+            console.log(order);
+            if (order.customerId.equals(req.session.user._id)) {
+                res.render('accountOrderDetail', { order: order });
+            }
+            else {
+                res.render('404NotFound');
+            }
+        }
+        else {
+            console.log('account order detail null');
+        }
+    }
+    catch(err) {
+        console.log('account order detail error');
+        console.log(err);
+    }
 }
 
 module.exports.voucher_get = (req, res) => {

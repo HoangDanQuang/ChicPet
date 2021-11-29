@@ -146,6 +146,19 @@ a:hover {
     border: 2px solid white;
 }
 
+.btn-dropdown-payment {
+    width: 120px;
+}
+
+.dropdown-payment-item {
+    line-height: 1.5;
+    padding: 6px 24px;
+}
+
+.dropdown-payment-item:hover {
+    background-color: #f8f9fa;
+}
+
 .btn-save {
     background-color: rgb(255, 101, 80);
     color: white;

@@ -1,4 +1,4 @@
-const mongoose = require ('mongoose')
+const mongoose = require ('mongoose');
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema ({
@@ -22,7 +22,7 @@ const OrderSchema = new Schema ({
         type: String,
     },
     meetingTime: {
-        type: String,
+        type: Date,
     },
     status: {
         type: String,
@@ -43,6 +43,9 @@ const OrderSchema = new Schema ({
         price: Number,
         total: Number,
     }],
+    sum: {
+        type: Number,
+    },
     discount: {
         type: Number,
     },
@@ -53,6 +56,9 @@ const OrderSchema = new Schema ({
         type: Number,
     },
     note: {
+        type: String,
+    },
+    payment: {
         type: String,
     },
 },{ timestamps: true });

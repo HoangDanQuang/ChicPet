@@ -1,5 +1,6 @@
 const res = require("express/lib/response");
 const Order = require('../models/Order');
+const mongoose = require ('mongoose');
 
 
 module.exports.service_get = (req, res) => {
@@ -14,49 +15,32 @@ module.exports.book_post = async (req, res) => {
     const { name, phone, email, appointment, services, note} = req.body;
 
     try {
-
-        if (res.locals.user) {
-            var newOrder = new Order({
-                orderCode: '#543736268',
-                customerId: res.locals.user._id,
-                fullname: name,
-                phone: phone,
-                mail: email,
-                meetingTime: appointment,
-                status: 'Chờ xác nhận',
-                services: services,
-                discount: 0,
-                voucher: '',
-                total: 0,
-                note: note,
-            });
-            newOrder.save().then(result => {
-                console.log('make order successful');
-                console.log(newOrder);
-                res.status(200).json({ order: newOrder });
-            });
+        if (req.session.user) {
+            console.log('service controller req.session.user');
+            console.log(req.session.user);
         }
-        else {
-            var newOrder = new Order({
-                orderCode: '#543736268',
-                customerId: null,
-                fullname: name,
-                phone: phone,
-                mail: email,
-                meetingTime: appointment,
-                status: 'Chờ xác nhận',
-                services: services,
-                discount: 0,
-                voucher: '',
-                total: 0,
-                note: note,
-            });
-            newOrder.save().then(result => {
-                console.log('make order successful');
-                console.log(newOrder);
-                res.status(200).json({ order: newOrder });
-            });
-        }
+        else console.log('service controller req.session.user NULL');
+        var newOrder = new Order({
+            orderCode: generateOrderCode(),
+            customerId: req.session.user._id,
+            fullname: name,
+            phone: phone,
+            mail: email,
+            meetingTime: appointment,
+            status: 'Chờ xác nhận',
+            services: services,
+            sum: 0,
+            discount: 0,
+            voucher: '',
+            total: 0,
+            note: note,
+            payment: 'Tiền mặt',
+        });
+        newOrder.save().then(result => {
+            console.log('make order successful');
+            console.log(result);
+            res.status(200).json({ order: newOrder });
+        });
     }
     catch(err) {
         console.log('book_post error');
@@ -64,4 +48,10 @@ module.exports.book_post = async (req, res) => {
         var error = JSON.stringify({ error: err });
         res.status(400).json({ error});
     }
+}
+
+const generateOrderCode = () => {
+    var orderCode = Date.now().toString();
+    orderCode = orderCode.substring(orderCode.length - 9);
+    return orderCode;
 }
