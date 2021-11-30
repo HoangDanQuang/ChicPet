@@ -16,28 +16,28 @@ html {
 
 /*-------------------------------------*/
 
-.blog-header {
+.service-header {
     padding-top: 150px;
 }
 
-.blog-category {
+.service-category {
     color: rgb(255, 80, 101);
     font-size: larger;
 }
 
-.blog-timeCreate {
+.service-timeCreate {
     font-style: italic;
     font-size: smaller;
     width: 107px;
 }
 
-.blog-timeCreate p {
+.service-timeCreate p {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: unset;
 }
 
-.blog-description {
+.service-description {
     font-style: italic;
     color: gray;
     font-weight: 500;

@@ -74,10 +74,22 @@
             <div class="card-body"><p class="text-white m-0">Below are the best services we can provide for pets, choose the service that best suits your pet!</p></div>
         </div> 
 
+        <div class="content row mx-0 mt-4">
+            {{#each services }}
+                <div class="card col-md-4 mb-4">
+                <img src="{{this.img}}" class="card-img-top" alt="" height="250">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text">{{this.description}}</p>
+                    <a href="/service/{{this._id}}" class="btn btn-read">Read</a>
+                </div>
+                </div>
+            {{/each}}
+        </div>
 
         
 
-        {{!-- blog cards --}}
+        {{!-- service cards --}}
             <div class="row gx-4 gx-lg-5">
                <div class="col-md-4 mb-5">
                     <div class="card h-100">
