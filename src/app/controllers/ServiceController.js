@@ -5,7 +5,7 @@ const Service = require('../models/Service');
 
 module.exports.service_get = async(req, res) => {
     try {
-        const serviceList = await Service.find({}).sort({ createdAt: -1 }).limit(15).lean();
+        const serviceList = await Service.find({}).sort({ createdAt: -1 }).lean();
         if (serviceList) {
             console.log(serviceList);
             res.render('service', { services: serviceList });
@@ -35,16 +35,19 @@ module.exports.postService_post = async(req, res) => {
             console.log(req.file)
         } */
 
-    const { title, img, category, description, contentCode } = req.body;
+    const { title, img, category, description, priceS, priceM, priceL, contentCode } = req.body;
     /*     var image = fs.readFileSync(req.file.path);
         var encode_image = image.toString('base64'); */
     try {
-        var newService = new Service({
+        const newService = new Service({
             /*  serviceCode: Date.now(), */
             title: title,
             img: img,
             category: category,
             description: description,
+            priceS: priceS,
+            priceM: priceM,
+            priceL: priceL,
             /*  postingTime: Date.now(), */
             contentCode: contentCode
         });

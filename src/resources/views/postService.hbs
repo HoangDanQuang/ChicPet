@@ -22,7 +22,11 @@
                             <i class="far fa-paper-plane"></i> Post
                         </button>
                     </li>
-
+                    <li class="nav-item">
+                        <button class="nav-link align-middle px-0 btn btn-manager" type="manager" onclick="window.location.href='/service/book'">
+                           <i class="fas fa-chalkboard-teacher"></i> Manager
+                        </button>
+                    </li>
                 </ul>    
 
             </div>
@@ -34,7 +38,7 @@
         <div class="col py-3 post-content">
             <form action="/uploadSingle" method="post" enctype="multipart/form-data" class="form-post">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Title</span>
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Service name</span>
                     <input type="text" class="form-control title-service" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
 {{!--                 <div class="mb-3 row">
@@ -56,16 +60,24 @@
                     <input type="text" aria-label="First name" class="form-control img-service">
                     <span class="input-group-text">Category</span>
                     <select class="form-select form-select-sm category-service" aria-label=".form-select-sm example">
-                        <option selected value="Các giống chó">Các giống chó</option>
-                        <option value="Các giống mèo">Các giống mèo</option>
-                        <option value="Chăm sóc chó">Chăm sóc chó</option>
-                        <option value="Chăm sóc mèo">Chăm sóc mèo</option>
+                        <option selected value="dog-service">Dog's service</option>
+                        <option value="cat-service">Cat's service</option>
+                        <option value="other-service">Other</option>
                     </select>
                 </div>
 
                 <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
                     <input type="text" class="form-control description-service" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Price: </span>
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Size S </span>
+                    <input type="number" class="form-control size-service-s" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Size M </span>
+                    <input type="number" class="form-control size-service-m" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Size L </span>
+                    <input type="number" class="form-control size-service-l" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
 
                 <div class="row justify-content-md-center">
@@ -141,7 +153,10 @@
         const inputTitle = document.querySelector('.title-service').value;
         const inputImg = document.querySelector('.img-service').value;
         const inputCategory = document.querySelector('.category-service').value;
-        const inputDescription = document.querySelector('.description-service').value
+        const inputDescription = document.querySelector('.description-service').value;
+        const inputServicePriceS = document.querySelector('.size-service-s').value;
+        const inputServicePriceM = document.querySelector('.size-service-m').value;
+        const inputServicePriceL = document.querySelector('.size-service-l').value;
         var myContent = tinymce.get("editor").getContent();
         console.log(inputImg);
 
@@ -151,11 +166,14 @@
             const img = inputImg;
             const category = inputCategory;
             const description = inputDescription;
+            const priceS = inputServicePriceS;
+            const priceM = inputServicePriceM;
+            const priceL = inputServicePriceL;
             const contentCode = myContent;
 
             const res = await fetch('/service/postService/uploadSingle', {
                 method: 'POST',
-                body: JSON.stringify({ title, img, category, description, contentCode }),
+                body: JSON.stringify({ title, img, category, description,priceS,priceM, priceL, contentCode }),
                 headers: {'Content-Type': 'application/json'}
             });
             const data = await res.json();
@@ -188,7 +206,13 @@
         const inputTitle = document.querySelector('.title-service').value;
         const inputImg = document.querySelector('.img-service').value;
         const inputCategory = document.querySelector('.category-service').value;
-        const inputDescription = document.querySelector('.description-service').value
+        const inputDescription = document.querySelector('.description-service').value;
+        const inputServicePriceS = document.querySelector('.size-service-s').value;
+        const inputServicePriceM = document.querySelector('.size-service-m').value;
+        const inputServicePriceL = document.querySelector('.size-service-l').value;
+        const priceS = inputServicePriceS;
+        const priceM = inputServicePriceM;
+        const priceL = inputServicePriceL;
         var myContent = tinymce.get("editor").getContent();
         var today = new Date();
         today.toISOString().substring(0, 10);
@@ -211,6 +235,9 @@
                             <div class="service-description ">
                                 <p>${inputDescription}</p>
                             </div>
+                            <div class="service-description ">
+                                <p>Price for size S: ${priceS}, size M: ${priceM}, size L: ${priceL} </p>
+                            </div>
                             <div class="service-img d-flex justify-content-center mb-5">
                                 <img src="${inputImg}" alt="" height="380">
                             </div>
@@ -222,4 +249,5 @@
         modalPreview.show();
     })
 
+    
 </script>
