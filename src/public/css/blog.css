@@ -11,19 +11,21 @@ html{
     padding: 0 10%;
 }
 /*--------------------------*/
-.blog-head{
-    padding-top: 90px;
-    background-image: url('./../img/blog/blog_head.jpg');
-    background-repeat: no-repeat;
-    height: 550px;
-    background-clip: content-box;
-    background-size: cover;
+
+.blog-head img{
+    height: 600px;
+    margin-top: 90px;
 }
 .blog-body{
     /* height: 500px; */
 
 }
-
+.carousel-control-prev{
+    margin-top: 90px !important;
+}
+.carousel-control-next{
+    margin-top: 90px !important;
+}
 /*-----------------------------*/
 .btn-collapse{
     border: solid 1px black;

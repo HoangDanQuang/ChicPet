@@ -1,16 +1,17 @@
 const res = require("express/lib/response");
 const Blog = require('../models/Blog');
 const mongoose = require ('mongoose');
+const { blogListcache } = require("../middleware/BlogsCacheMiddleware");
 
 /* const path = require('path') */
 /* var fs = require('fs'); */
-
 
 module.exports.blog_get = async (req, res) => {
     try {
         const blogList = await Blog.find({}).sort({ createdAt: -1 }).limit(15).lean();
         if (blogList) {
-            console.log(blogList);
+           // console.log(blogList);
+            blogListcache.set("blogList", blogList);
             res.render('blog', { blogs: blogList });
         }
         else {
@@ -68,7 +69,7 @@ module.exports.postBlog_post = async (req, res) => {
         res.status(400).json({ error});
     }
 };
-
+//-----------------------------------------------------------------//
 
 module.exports.detailBlog_get = async (req, res) => {
     console.log('blog code: ', req.params.code);
@@ -77,7 +78,7 @@ module.exports.detailBlog_get = async (req, res) => {
     try {
         const blog = await Blog.findOne({ _id: objectId }).lean();
         if (blog) {
-            console.log(blog);
+            //console.log(blog);
             res.render('detailBlog', { blog: blog });
         }
         else {
