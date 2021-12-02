@@ -23,6 +23,7 @@ module.exports.book_post = async (req, res) => {
         var newOrder = new Order({
             orderCode: generateOrderCode(),
             customerId: req.session.user._id,
+            userCode: req.session.user.userCode,
             fullname: name,
             phone: phone,
             mail: email,

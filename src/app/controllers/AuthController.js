@@ -142,7 +142,7 @@ module.exports.signup_post = async (req, res) => {
         if (password != confirmPassword) throw Error('Password does not match');
         const salt = await bcrypt.genSalt();
         encryptedPassword = await bcrypt.hash(password, salt);
-        const user = await User.create({ role: 'customer', username, password: encryptedPassword, fullname, phone, mail, address: '' });
+        const user = await User.create({ role: 'customer', userCode: generateUserCode(), username, password: encryptedPassword, fullname, phone, mail, address: '' });
         const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(201).json({ user: user._id });
@@ -263,6 +263,12 @@ module.exports.signup_post = async (req, res) => {
     //             res.redirect('signup'); 
     //     })
     // }
+}
+
+const generateUserCode = () => {
+    var orderCode = Date.now().toString();
+    orderCode = orderCode.substring(orderCode.length - 9);
+    return orderCode;
 }
 
 // Log out

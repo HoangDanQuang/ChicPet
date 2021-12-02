@@ -9,6 +9,11 @@ const OrderSchema = new Schema ({
     },
     customerId: {
         type: Schema.Types.ObjectId,
+        required: true,
+    },
+    userCode: {
+        type: String,
+        required: true,
     },
     fullname: {
         type: String,
