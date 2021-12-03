@@ -107,7 +107,7 @@
                     <h2 class="text-uppercase customer-detail-header__title">Thông tin khách hàng</h2>
                     <div class="my-3">
                         Dưới đây là thông tin khách hàng 
-                        <span class="customer-detail-header__customer-code">#</span>
+                        <span class="customer-detail-header__customer-code"></span>
                     </div>
                 </div>
                 <div class="customer-detail-info mt-4">
@@ -181,7 +181,7 @@
         customerTable.rows[rowIndex].classList.add('table-active');
         currentIndex = rowIndex - 1;
         console.log(data.customerList[currentIndex]);
-        customerDetailCustomerCode.textContent = '#' + data.customerList[currentIndex].userCode;
+        customerDetailCustomerCode.textContent = data.customerList[currentIndex].userCode;
         customerDetailCustomerName.textContent = data.customerList[currentIndex].fullname;
         customerDetailCustomerPhone.textContent = data.customerList[currentIndex].phone;
         customerDetailCustomerMail.textContent = data.customerList[currentIndex].mail;
@@ -210,7 +210,7 @@
                 for (i = 0; i < data.customerList.length; i++) {
                     var row = '<tr class="" onclick="customerTableRowClick(' + (i + 1) + ')">'
                                 + '<th scope="row">' + (i + 1) + '</th>'
-                                + '<td>#' + data.customerList[i].userCode + '</td>'
+                                + '<td>' + data.customerList[i].userCode + '</td>'
                                 + '<td>' + data.customerList[i].fullname + '</td>'
                                 + '<td>' + data.customerList[i].phone + '</td>'
                                 + '<td>' + data.customerList[i].mail + '</td>'
@@ -239,7 +239,7 @@
     }
 
     btnDelete.addEventListener('click', async () => {
-        if (confirm('Bạn có chắc muốn xóa khách hàng #' + data.customerList[currentIndex].userCode + '?')) {
+        if (confirm('Bạn có chắc muốn xóa khách hàng ' + data.customerList[currentIndex].userCode + '?')) {
             try {
                 const userCodeToDelete = data.customerList[currentIndex].userCode;
                 const res = await fetch('/account/admin-delete-customer', {

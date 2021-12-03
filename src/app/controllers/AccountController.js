@@ -191,13 +191,15 @@ module.exports.adminOrderList_post = async (req, res) => {
     if (res.locals.user) {
         if (res.locals.user.role === 'admin') {
             try {
-                const { orderCodeSearch, orderCustomerSearch, orderFromDaySearch, orderToDaySearch } = req.body;
+                const { orderCodeSearch, orderCustomerCodeSearch, orderCustomerNameSearch, orderStatusSearch, orderFromDaySearch, orderToDaySearch } = req.body;
                 console.log(orderCodeSearch);
-                console.log(orderCustomerSearch);
+                console.log(orderCustomerCodeSearch);
+                console.log(orderCustomerNameSearch);
+                console.log(orderStatusSearch);
                 console.log(orderFromDaySearch);
                 console.log(orderToDaySearch);
                 var orderList = [];
-                if (orderCodeSearch === '' && orderCustomerSearch === '' && orderFromDaySearch === '' && orderToDaySearch === '') {
+                if (orderCodeSearch === '' && orderCustomerCodeSearch === '' && orderCustomerNameSearch === '' && orderStatusSearch === 'Tất cả' && orderFromDaySearch === '' && orderToDaySearch === '') {
                     console.log('get all orders');
                     // console.log('get all orders in last 30 days');
                     // var currentDate = Date.now();
@@ -214,37 +216,159 @@ module.exports.adminOrderList_post = async (req, res) => {
                     console.log('search by order code');
                     orderList = await Order.find({ orderCode: orderCodeSearch }).sort({ createdAt: -1 });
                 }
-                else if (orderCustomerSearch !== '') {
-                    if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
-                        console.log('search by customer name and from date, to date');
-                        var fromDate = new Date(orderFromDaySearch);
-                        fromDate = fromDate.setHours(fromDate.getHours() - 7);
-                        fromDate = new Date(fromDate);
-                        var toDate = new Date(orderToDaySearch);
-                        toDate = toDate.setHours(toDate.getHours() - 7 + 24);
-                        toDate = new Date(toDate);
-                        orderList = await Order.find({ fullname: orderCustomerSearch, createdAt: { $gte: fromDate, $lte: toDate } }).sort({ createdAt: -1 });
-                    }
-                    else if (orderFromDaySearch !== '') {
-                        console.log('search by customer name and from date');
-                        var fromDate = new Date(orderFromDaySearch);
-                        fromDate = fromDate.setHours(fromDate.getHours() - 7);
-                        fromDate = new Date(fromDate);
-                        orderList = await Order.find({ fullname: orderCustomerSearch, createdAt: { $gte: fromDate } }).sort({ createdAt: -1 });
-                    }
-                    else if (orderToDaySearch !== '') {
-                        console.log('search by customer name and to date');
-                        var toDate = new Date(orderToDaySearch);
-                        toDate = toDate.setHours(toDate.getHours() - 7 + 24);
-                        toDate = new Date(toDate);
-                        orderList = await Order.find({ fullname: orderCustomerSearch, createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
+                else if (orderCustomerCodeSearch !== '') {
+                    if (orderStatusSearch !== 'Tất cả') {
+                        if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
+                            console.log('search by customer code, order status, from date and to date');
+                            var fromDate = new Date(orderFromDaySearch);
+                            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                            fromDate = new Date(fromDate);
+                            var toDate = new Date(orderToDaySearch);
+                            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                            toDate = new Date(toDate);
+                            orderList = await Order.find({ userCode: orderCustomerCodeSearch, status: orderStatusSearch, createdAt: { $gte: fromDate, $lte: toDate } }).sort({ createdAt: -1 });
+                        }
+                        else if (orderFromDaySearch !== '') {
+                            console.log('search by customer code, order status, from date');
+                            var fromDate = new Date(orderFromDaySearch);
+                            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                            fromDate = new Date(fromDate);
+                            orderList = await Order.find({ userCode: orderCustomerCodeSearch, status: orderStatusSearch, createdAt: { $gte: fromDate } }).sort({ createdAt: -1 });
+                        }
+                        else if (orderToDaySearch !== '') {
+                            console.log('search by customer code, order status, to date');
+                            var toDate = new Date(orderToDaySearch);
+                            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                            toDate = new Date(toDate);
+                            orderList = await Order.find({ userCode: orderCustomerCodeSearch, status: orderStatusSearch, createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
+                        }
+                        else {
+                            console.log('search by customer code, order status');
+                            orderList = await Order.find({ userCode: orderCustomerCodeSearch, status: orderStatusSearch }).sort({ createdAt: -1 });
+                        }
                     }
                     else {
-                        console.log('search by customer name');
-                        orderList = await Order.find({ fullname: orderCustomerSearch }).sort({ createdAt: -1 });
+                        if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
+                            console.log('search by customer code, from date and to date');
+                            var fromDate = new Date(orderFromDaySearch);
+                            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                            fromDate = new Date(fromDate);
+                            var toDate = new Date(orderToDaySearch);
+                            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                            toDate = new Date(toDate);
+                            orderList = await Order.find({ userCode: orderCustomerCodeSearch, createdAt: { $gte: fromDate, $lte: toDate } }).sort({ createdAt: -1 });
+                        }
+                        else if (orderFromDaySearch !== '') {
+                            console.log('search by customer code, from date');
+                            var fromDate = new Date(orderFromDaySearch);
+                            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                            fromDate = new Date(fromDate);
+                            orderList = await Order.find({ userCode: orderCustomerCodeSearch, createdAt: { $gte: fromDate } }).sort({ createdAt: -1 });
+                        }
+                        else if (orderToDaySearch !== '') {
+                            console.log('search by customer code, to date');
+                            var toDate = new Date(orderToDaySearch);
+                            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                            toDate = new Date(toDate);
+                            orderList = await Order.find({ userCode: orderCustomerCodeSearch, createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
+                        }
+                        else {
+                            console.log('search by customer code');
+                            orderList = await Order.find({ userCode: orderCustomerCodeSearch }).sort({ createdAt: -1 });
+                        }
                     }
-        
-                    
+                }
+                else if (orderCustomerNameSearch !== '') {
+                    if (orderStatusSearch !== 'Tất cả') {
+                        if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
+                            console.log('search by customer name, order status, from date and to date');
+                            var fromDate = new Date(orderFromDaySearch);
+                            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                            fromDate = new Date(fromDate);
+                            var toDate = new Date(orderToDaySearch);
+                            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                            toDate = new Date(toDate);
+                            orderList = await Order.find({ fullname: orderCustomerNameSearch, status: orderStatusSearch, createdAt: { $gte: fromDate, $lte: toDate } }).sort({ createdAt: -1 });
+                        }
+                        else if (orderFromDaySearch !== '') {
+                            console.log('search by customer name, order status, from date');
+                            var fromDate = new Date(orderFromDaySearch);
+                            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                            fromDate = new Date(fromDate);
+                            orderList = await Order.find({ fullname: orderCustomerNameSearch, status: orderStatusSearch, createdAt: { $gte: fromDate } }).sort({ createdAt: -1 });
+                        }
+                        else if (orderToDaySearch !== '') {
+                            console.log('search by customer name, order status, to date');
+                            var toDate = new Date(orderToDaySearch);
+                            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                            toDate = new Date(toDate);
+                            orderList = await Order.find({ fullname: orderCustomerNameSearch, status: orderStatusSearch, createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
+                        }
+                        else {
+                            console.log('search by customer name, order status');
+                            orderList = await Order.find({ fullname: orderCustomerNameSearch, status: orderStatusSearch }).sort({ createdAt: -1 });
+                        }
+                    }
+                    else {
+                        if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
+                            console.log('search by customer name, from date and to date');
+                            var fromDate = new Date(orderFromDaySearch);
+                            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                            fromDate = new Date(fromDate);
+                            var toDate = new Date(orderToDaySearch);
+                            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                            toDate = new Date(toDate);
+                            orderList = await Order.find({ fullname: orderCustomerNameSearch, createdAt: { $gte: fromDate, $lte: toDate } }).sort({ createdAt: -1 });
+                        }
+                        else if (orderFromDaySearch !== '') {
+                            console.log('search by customer name, from date');
+                            var fromDate = new Date(orderFromDaySearch);
+                            fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                            fromDate = new Date(fromDate);
+                            orderList = await Order.find({ fullname: orderCustomerNameSearch, createdAt: { $gte: fromDate } }).sort({ createdAt: -1 });
+                        }
+                        else if (orderToDaySearch !== '') {
+                            console.log('search by customer name, to date');
+                            var toDate = new Date(orderToDaySearch);
+                            toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                            toDate = new Date(toDate);
+                            orderList = await Order.find({ fullname: orderCustomerNameSearch, createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
+                        }
+                        else {
+                            console.log('search by customer name');
+                            orderList = await Order.find({ fullname: orderCustomerNameSearch }).sort({ createdAt: -1 });
+                        }
+                    }
+                }
+                else if (orderStatusSearch !== 'Tất cả') {
+                    if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
+                        console.log('search by order status, from date and to date');
+                        var fromDate = new Date(orderFromDaySearch);
+                        fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                        fromDate = new Date(fromDate);
+                        var toDate = new Date(orderToDaySearch);
+                        toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                        toDate = new Date(toDate);
+                        orderList = await Order.find({ status: orderStatusSearch, createdAt: { $gte: fromDate, $lte: toDate } }).sort({ createdAt: -1 });
+                    }
+                    else if (orderFromDaySearch !== '') {
+                        console.log('search by order status, from date');
+                        var fromDate = new Date(orderFromDaySearch);
+                        fromDate = fromDate.setHours(fromDate.getHours() - 7);
+                        fromDate = new Date(fromDate);
+                        orderList = await Order.find({ status: orderStatusSearch, createdAt: { $gte: fromDate } }).sort({ createdAt: -1 });
+                    }
+                    else if (orderToDaySearch !== '') {
+                        console.log('search by order status, to date');
+                        var toDate = new Date(orderToDaySearch);
+                        toDate = toDate.setHours(toDate.getHours() - 7 + 24);
+                        toDate = new Date(toDate);
+                        orderList = await Order.find({ status: orderStatusSearch, createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
+                    }
+                    else {
+                        console.log('search by order status');
+                        orderList = await Order.find({ status: orderStatusSearch }).sort({ createdAt: -1 });
+                    }
                 }
                 else if (orderFromDaySearch !== '' && orderToDaySearch !== '') {
                     console.log('search by from date and to date');
@@ -272,9 +396,7 @@ module.exports.adminOrderList_post = async (req, res) => {
                     toDate = new Date(toDate);
                     orderList = await Order.find({ createdAt: { $lte: toDate } }).sort({ createdAt: -1 });
                 }
-        
-        
-                
+
                 if (orderList) {
                     console.log(orderList);
                     res.json({ orderList: orderList });
