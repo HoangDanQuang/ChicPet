@@ -5,9 +5,8 @@ const blogListcache = new NodeCache({ stdTTL: 150 });
 
 const verifyCache = (req, res, next) => {
     try {
-      //const id = "blogList";
         console.log("bloglist cache have");
-        console.log(blogListcache);
+        //console.log(blogListcache);
         if (blogListcache.has("blogList")) {
             console.log("cache have");
             //return res.status(200).json(blogListcache.get("blogList"));

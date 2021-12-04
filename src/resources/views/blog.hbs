@@ -85,17 +85,18 @@
                             </button>
                         </div>
                         
-                            
                     </div>
-
-                    
                 </div>
             </div>
         </div>
     </div>
     <hr>
     <div class="d-flex justify-content-end"> 
-        <button class="btn p-2 btn-allCatagory">All blog</a>
+        {{#ifCond user.role '==' 'admin'}}
+        <a href="/blog/editBlog" class="btn p-2 btn-createBlog"><i class="far fa-edit"></i></a>
+        <a href="/blog/postBlog" class="btn p-2 btn-createBlog"><i class="fas fa-upload"></i></a>
+        {{/ifCond}}
+        <button class="btn p-2 btn-allCatagory">All blog</button>
     </div>
     <div class="content row mx-0 mt-4" id="content">
         {{#each blogs }}
@@ -104,10 +105,14 @@
             <div class="card-body">
                 <h5 class="card-title">{{this.title}}</h5>
                 <p class="card-text">{{this.description}}</p>
-                <a href="/blog/{{this._id}}" class="btn btn-read">Read</a>
+                <div class="row"> 
+                    <a href="/blog/{{this._id}}" class="btn btn-read col-3 ms-3">Read</a>  
+                        {{!-- <button class="btn btn-adjust mx-2 col">Adjust</button>
+                        <button class="btn btn-delete mx-2 col">Delete</button> --}}
+                </div>
             </div>
             </div>
-        {{/each}}
+        {{/each}}    
     </div>
 
     {{!------------------------------------------------- page navigation --------------------------------}}
@@ -146,7 +151,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{this.title}}</h5>
                             <p class="card-text">{{this.description}}</p>
-                            <a href="/blog/{{this._id}}" class="btn btn-read">Read</a>
+                            <a href="/blog/{{this._id}}" class="btn btn-read">Read</a>      
                         </div>
                         </div>
                     {{/ifCond}}

@@ -1,10 +1,39 @@
 const res = require("express/lib/response");
 const Blog = require('../models/Blog');
+const User = require('../models/User');
 const mongoose = require ('mongoose');
 const { blogListcache } = require("../middleware/BlogsCacheMiddleware");
+const { render } = require("express/lib/response");
 
 /* const path = require('path') */
 /* var fs = require('fs'); */
+const handleErrors = (err) => {
+    let errors = { title: '', img: '', category: '', description: '', contentCode: ''};
+    
+    if (err.message === 'Title is required') {
+        errors.title = '*Title is required';
+        return errors;
+    }
+  
+    if (err.message === 'Image is required') {
+        errors.img = '*Image is required';
+        return errors;
+    }
+
+    if (err.message === "Category is required") {
+        errors.category = "*Category is required";
+        return errors;
+    }
+    if (err.message === "Description is required") {
+        errors.description = "*Description is required";
+        return errors;
+    }
+    if (err.message === "Content is required") {
+        errors.contentCode = "*Content is required";
+        return errors;
+    }
+  return errors;
+}
 
 module.exports.blog_get = async (req, res) => {
     try {
@@ -47,13 +76,17 @@ module.exports.postBlog_post = async (req, res) => {
 /*     var image = fs.readFileSync(req.file.path);
     var encode_image = image.toString('base64'); */
     try {
+        if(title == '') throw Error('Title is required');
+        if(img == '') throw Error('Image is required');
+        if(category == '') throw Error('Category is required');
+        if(description == '') throw Error('Description is required');
+        if(contentCode == '') throw Error('Content is required');
+        
         var newBlog = new Blog({
-           /*  blogCode: Date.now(), */
             title: title,
             img: img,
             category: category,
             description: description,
-           /*  postingTime: Date.now(), */
             contentCode: contentCode
         });
         newBlog.save().then(result => {
@@ -63,10 +96,9 @@ module.exports.postBlog_post = async (req, res) => {
         });
     }
     catch(err) {
-        console.log('book_post error');
-        console.log(err);
-        var error = JSON.stringify({ error: err });
-        res.status(400).json({ error});
+        console.log(err.message);
+        const errors = handleErrors(err);
+        res.status(400).json({ errors: errors });
     }
 };
 //-----------------------------------------------------------------//
@@ -87,6 +119,44 @@ module.exports.detailBlog_get = async (req, res) => {
     }
     catch(err) {
         console.log('blog detail error');
+        console.log(err);
+    }
+}
+//-------------------------------------------------------------------------//
+module.exports.editBlog_get = async (req, res) => {
+    try {
+        const blogList = await Blog.find({}).sort({ createdAt: -1 }).lean();
+        if (blogList) {
+            res.render('editBlog', { blogs: blogList });
+        }
+        else {
+            console.log('blogList Null');
+        }
+    }
+    catch(err) {
+        console.log('get blog error');
+        console.log(err);
+    }
+}
+
+module.exports.editBlog_post = async (req, res) => {
+
+    const{id, status} = req.body;
+    var objectId = mongoose.Types.ObjectId(id);
+    try {
+        if(status == "delete"){
+            const query = { _id: objectId };
+            const result = await Blog.deleteOne(query);
+            if (result.deletedCount === 1) {
+                console.log("Successfully deleted one document.");
+                res.status(200).json({ status: "deleted" });
+            } else {
+                console.log("No documents matched the query. Deleted 0 documents.");
+            }
+        }
+    }
+    catch(err) {
+        console.log('delete blog error');
         console.log(err);
     }
 }

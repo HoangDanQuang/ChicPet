@@ -88,6 +88,16 @@ html{
     color: rgb(255, 80, 101);
     border: solid 1px rgb(255, 80, 101);
 }
+.btn-createBlog{
+    border: solid 1px black;
+    text-decoration: none;
+    margin-right: 10px;
+}
+.btn-createBlog:hover{
+    color: rgb(255, 80, 101);
+    border: solid 1px rgb(255, 80, 101);
+}
+
 /*-------------------------------------*/
 .content{
     width: 100%;
@@ -131,3 +141,16 @@ html{
     opacity: 0.8;
     color: black;
 }
+/* .content .card-body .btn-adjust{
+    border: solid 1px transparent;
+}
+.content .card-body .btn-adjust:hover{
+    border: solid 1px black;
+}
+
+.content .card-body .btn-delete{
+    border: solid 1px transparent;
+}
+.content .card-body .btn-delete:hover{
+    border: solid 1px black;
+} */
