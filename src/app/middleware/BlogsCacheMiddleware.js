@@ -1,7 +1,7 @@
 const NodeCache = require("node-cache");
 const mongoose = require ('mongoose');
 
-const blogListcache = new NodeCache({ stdTTL: 150 });
+const blogListcache = new NodeCache({ stdTTL: 120 });
 
 const verifyCache = (req, res, next) => {
     try {

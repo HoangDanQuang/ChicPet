@@ -91,6 +91,7 @@ module.exports.postBlog_post = async (req, res) => {
         });
         newBlog.save().then(result => {
             console.log('posting successful');
+            blogListcache.del( "blogList" );//remove cache
             console.log(newBlog);
             res.status(200).json({ blog: newBlog });
         });
@@ -149,6 +150,7 @@ module.exports.editBlog_post = async (req, res) => {
             const result = await Blog.deleteOne(query);
             if (result.deletedCount === 1) {
                 console.log("Successfully deleted one document.");
+                blogListcache.del( "blogList" );//remove cache
                 res.status(200).json({ status: "deleted" });
             } else {
                 console.log("No documents matched the query. Deleted 0 documents.");
