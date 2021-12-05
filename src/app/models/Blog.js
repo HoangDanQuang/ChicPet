@@ -9,24 +9,24 @@ const BlogSchema = new Schema ({
     }, */
     title: {
         type: String,
-        required: true,
+        required: [true, 'Please enter a title'],
     },
     img: {
         type: String,
         /* data: Buffer,  */
-        required: true,
+        required: [true, 'Please enter a image source'],
     },
     category: {
         type: String,
-        required: true,
+        required: [true, 'Please enter a category'],
     },
     description: {
         type: String,
-        required: true,
+        required: [true, 'Please enter a description'],
     },
     contentCode: {
         type: String,
-        required: true, 
+        required: [true, 'Please enter a content'],
     }
 },{ timestamps: true });
 
