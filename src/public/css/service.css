@@ -140,3 +140,26 @@ img {
     opacity: 0.8;
     color: black;
 }
+
+
+/*---------------------------------------------------*/
+
+.btn-allCatagory {
+    border: solid 1px black;
+}
+
+.btn-allCatagory:hover {
+    color: rgb(255, 80, 101);
+    border: solid 1px rgb(255, 80, 101);
+}
+
+.btn-createService {
+    border: solid 1px black;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.btn-createService:hover {
+    color: rgb(255, 80, 101);
+    border: solid 1px rgb(255, 80, 101);
+}

@@ -73,7 +73,13 @@
         <div class="card text-white my-5 py-4 text-center" style="background-color: rgb(255, 101, 80)">
             <div class="card-body"><p class="text-white m-0">Below are the best services we can provide for pets, choose the service that best suits your pet!</p></div>
         </div> 
-
+        <div class="d-flex justify-content-end"> 
+        {{#ifCond user.role '==' 'admin'}}
+        <a href="/service/editService" class="btn p-2 btn-createService"><i class="far fa-edit"></i></a>
+        <a href="/service/postService" class="btn p-2 btn-createService"><i class="fas fa-upload"></i></a>
+        {{/ifCond}}
+        <button class="btn p-2 btn-allCatagory">All service</button>
+    </div>
         <div class="content row mx-0 mt-4">
             {{#each services }}
                 <div class="card col-md-4 mb-4">

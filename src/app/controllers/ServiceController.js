@@ -2,12 +2,55 @@ const res = require("express/lib/response");
 const Order = require('../models/Order');
 const mongoose = require('mongoose');
 const Service = require('../models/Service');
+const User = require('../models/User');
+const { serviceListcache } = require("../middleware/ServicesCacheMiddleware");
+const { render } = require("express/lib/response");
 
+
+const handleErrors = (err) => {
+    let errors = { title: '', img: '', category: '', description: '', priceS, priceM, priceL, contentCode: '' };
+
+    if (err.message === 'Title is required') {
+        errors.title = '*Title is required';
+        return errors;
+    }
+
+    if (err.message === 'Image is required') {
+        errors.img = '*Image is required';
+        return errors;
+    }
+
+    if (err.message === "Category is required") {
+        errors.category = "*Category is required";
+        return errors;
+    }
+    if (err.message === "Description is required") {
+        errors.description = "*Description is required";
+        return errors;
+    }
+    if (err.message === "Content is required") {
+        errors.contentCode = "*Content is required";
+        return errors;
+    }
+    if (err.message === "PriceS is required") {
+        errors.priceS = "*PriceS is required";
+        return errors;
+    }
+    if (err.message === "PriceM is required") {
+        errors.priceM = "*PriceM is required";
+        return errors;
+    }
+    if (err.message === "PriceL is required") {
+        errors.priceL = "*PriceL is required";
+        return errors;
+    }
+    return errors;
+}
 module.exports.service_get = async(req, res) => {
     try {
         const serviceList = await Service.find({}).sort({ createdAt: -1 }).lean();
         if (serviceList) {
-            console.log(serviceList);
+            //console.log(serviceList);
             res.render('service', { services: serviceList });
         } else {
             console.log('serviceList Null');
@@ -83,6 +126,42 @@ module.exports.detailService_get = async(req, res) => {
     }
 }
 
+//-------------------------------------------------------------------------//
+module.exports.editService_get = async(req, res) => {
+    try {
+        const serviceList = await Service.find({}).sort({ createdAt: -1 }).lean();
+        if (serviceList) {
+            res.render('editService', { services: serviceList });
+        } else {
+            console.log('serviceList Null');
+        }
+    } catch (err) {
+        console.log('get service error');
+        console.log(err);
+    }
+}
+
+module.exports.editService_post = async(req, res) => {
+
+    const { id, status } = req.body;
+    var objectId = mongoose.Types.ObjectId(id);
+    try {
+        if (status == "delete") {
+            const query = { _id: objectId };
+            const result = await Service.deleteOne(query);
+            if (result.deletedCount === 1) {
+                console.log("Successfully deleted one document.");
+                serviceListcache.del("serviceList"); //remove cache
+                res.status(200).json({ status: "deleted" });
+            } else {
+                console.log("No documents matched the query. Deleted 0 documents.");
+            }
+        }
+    } catch (err) {
+        console.log('delete service error');
+        console.log(err);
+    }
+}
 
 
 //----------------------------------------------

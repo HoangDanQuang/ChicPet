@@ -20,7 +20,7 @@ html {
     padding-top: 100px;
     padding-bottom: 10px;
     width: 100%;
-    height: 98vh;
+    height: 99vh;
 }
 
 .menu-bar button span {
@@ -133,4 +133,12 @@ html {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: unset;
+}
+
+
+/*------------------------------*/
+
+.error-text {
+    color: red;
+    font-size: smaller;
 }
