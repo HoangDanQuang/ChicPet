@@ -1,4 +1,4 @@
-const slideImage = document.querySelectorAll(".slide-image");
+/* const slideImage = document.querySelectorAll(".slide-image");
 const slidesContainer = document.querySelector(".slides-container");
 const nextBtn = document.querySelector(".next-btn");
 const prevBtn = document.querySelector(".prev-btn");
@@ -98,4 +98,4 @@ window.onresize = function(){/////////////////////////////////////////
   slidesContainer.transition = 0;
   slidesContainer.style.transform =
   "translateX(-" + slideWidth * currentSlide + "px)";
-}
+} */
