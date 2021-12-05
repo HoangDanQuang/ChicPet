@@ -8,6 +8,11 @@ const UserSchema = new Schema({
         type: String,
         required: [true, 'User role not defined'],
     },
+    userCode: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     username: {
         type: String,
         required: [true, 'Please enter a username'],

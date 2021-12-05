@@ -78,6 +78,20 @@ a:hover {
     background-color: rgba(255, 101, 80, 75%);
 }
 
+.btn-dropdown-status-search {
+    width: 100%;
+    border: 1px solid #ced4da;
+}
+
+.dropdown-status-search-item {
+    line-height: 1.5;
+    padding: 6px 24px;
+}
+
+.dropdown-status-search-item:hover {
+    background-color: #f8f9fa;
+}
+
 .admin-order-table-container {
     max-height: 450px;
     overflow: auto;
@@ -118,6 +132,7 @@ a:hover {
 }
 
 .btn-dropdown-status {
+    min-width: 180px;
     font-size: 24px;
     font-weight: 700;
     color: rgb(255, 101, 80);
@@ -142,12 +157,17 @@ a:hover {
     background-color: #f8f9fa;
 }
 
+.customer-info__customer-code {
+    padding: 7px 12px;
+}
+
 .table-light {
     border: 2px solid white;
 }
 
 .btn-dropdown-payment {
-    width: 120px;
+    width: 10rem;
+    border: 1px solid #ced4da;
 }
 
 .dropdown-payment-item {

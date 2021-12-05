@@ -58,9 +58,38 @@
                     <div class="col-6">
                         <div class="row">
                             <div class="col-1"></div>
-                            <label for="inputOrderCustomer" class="col-3">Khách hàng</label>
+                            <label for="inputOrderCustomerCode" class="col-3 col-form-label">Mã KH</label>
                             <div class="col-7">
-                                <input type="text" class="form-control" id="inputOrderCustomer">
+                                <input type="text" class="form-control" id="inputOrderCustomerCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="inputOrderCustomerName" class="col-3 col-form-label">Tên KH</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control col-form-label" id="inputOrderCustomerName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="dropdownStatusSearch" class="col-3 col-form-label">Trạng thái</label>
+                            <div class="col-7">
+                                <div class="dropdown dropdown-status-search-container">
+                                    <button class="btn btn-dropdown-status-search dropdown-toggle" type="button" id="dropdownStatusSearch" data-bs-toggle="dropdown" aria-expanded="false">Tất cả</button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownOrderPayment">
+                                        <li><div class="dropdown-item dropdown-status-search-item" onclick="updateDropdownStatusSearchBtn('Tất cả')">Tất cả</div></li>
+                                        <li><div class="dropdown-item dropdown-status-search-item" onclick="updateDropdownStatusSearchBtn('Chờ xác nhận')">Chờ xác nhận</div></li>
+                                        <li><div class="dropdown-item dropdown-status-search-item" onclick="updateDropdownStatusSearchBtn('Đã xác nhận')">Đã xác nhận</div></li>
+                                        <li><div class="dropdown-item dropdown-status-search-item" onclick="updateDropdownStatusSearchBtn('Đã hoàn thành')">Đã hoàn thành</div></li>
+                                        <li><div class="dropdown-item dropdown-status-search-item" onclick="updateDropdownStatusSearchBtn('Đã hủy')">Đã hủy</div></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -92,6 +121,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Mã đơn</th>
+                            <th scope="col">Mã KH</th>
                             <th scope="col">Thời gian</th>
                             <th scope="col">Khách hàng</th>
                             <th scope="col">Thành tiền</th>
@@ -110,7 +140,7 @@
                     <h2 class="text-uppercase order-detail-header__title">Thông tin đơn hàng</h2>
                     <div class="my-3">
                         Dưới đây là thông tin đơn hàng 
-                        <span class="order-detail-header__order-code">#123456789</span>
+                        <span class="order-detail-header__order-code">123456789</span>
                         <span class="order-detail-header__order-time"> - 10:30 01/01/2021</span>
                     </div>
                     <div class="mb-4">
@@ -189,6 +219,12 @@
                         Thông tin nhận hàng
                     </p>
                     <div class="row my-3">
+                        <label for="customerCode" class="col-3 col-form-label">Mã khách hàng:</label>
+                        <div class="col-9">
+                            <div id="customerCode" class="customer-info__customer-code">123456789</div>
+                        </div>
+                    </div>
+                    <div class="row my-3">
                         <label for="inputCustomerName" class="col-3 col-form-label">Tên người nhận:</label>
                         <div class="col-6">
                             <input type="text" class="col-6 form-control col-form-label" id="inputCustomerName" value="Hoang Dan Quang">
@@ -220,17 +256,6 @@
                         </div>
                     </div>
                 </div>
-                {{!-- <div class="row order-detail-note my-3">
-                    <label for="inputNote" class="col-3 col-form-label">Ghi chú:</label>
-                    <div class="col-6">
-                        <textarea type="text" class="col-6 form-control col-form-label" id="inputNote" value="Note">
-                    </div>
-                </div> --}}
-                <div>
-                    <div class="row">
-
-                    </div>
-                </div>
                 <div class="form-floating my-3">
                     <textarea class="form-control" id="inputNote" style="height: 100px"></textarea>
                     <label for="inputNote">Ghi chú</label>
@@ -244,6 +269,10 @@
 </div>
 
 <script>
+    const dropdownStatusSearch = document.getElementById('dropdownStatusSearch');
+    function updateDropdownStatusSearchBtn(payment) {
+        dropdownStatusSearch.textContent = payment;
+    }
     const dropdownStatusButton = document.querySelector('.btn-dropdown-status');
     function updateDropdownStatusBtn(status) {
         dropdownStatusButton.textContent = status;
@@ -255,15 +284,17 @@
 </script>
 <script>
     const inputOrderCode = document.getElementById('inputOrderCode');
-    const inputOrderCustomer = document.getElementById('inputOrderCustomer');
+    const inputOrderCustomerCode = document.getElementById('inputOrderCustomerCode');
+    const inputOrderCustomerName = document.getElementById('inputOrderCustomerName');
+    const dropdownOrderStatusSearch = document.getElementById('dropdownStatusSearch');
     const inputOrderFromDay = document.getElementById('inputOrderFromDay');
     const inputOrderToDay = document.getElementById('inputOrderToDay');
+    const btnSearch = document.querySelector('.btn-search');
 
     const orderTable = document.querySelector('.order-table');
     const orderTableBody = document.querySelector('.order-table-body');
 
     const orderDetailContainer = document.querySelector('.admin-order-detail-container');
-
     const orderDetailCode = document.querySelector('.order-detail-header__order-code');
     const orderDetailTime = document.querySelector('.order-detail-header__order-time');
     const orderDetailDropdownStatus = document.getElementById('dropdownOrderStatusButton');
@@ -272,20 +303,19 @@
     const orderDetailTotalTableDiscount = document.querySelector('.total-table__discount');
     const orderDetailTotalTableVoucher = document.querySelector('.total-table__voucher');
     const orderDetailTotalTableTotal = document.querySelector('.total-table__total');
+    const orderDetailCustomerCode = document.getElementById('customerCode');
     const orderDetailCustomerName = document.getElementById('inputCustomerName');
     const orderDetailCustomerMail = document.getElementById('inputCustomerMail');
     const orderDetailCustomerPhone = document.getElementById('inputCustomerPhone');
     const orderDetailPayment = document.getElementById('dropdownOrderPayment');
     const orderDetailNote = document.getElementById('inputNote');
 
-
-    
+    var data = [];
+    var currentIndex = 0;
 
     btnSearchOnClick();
-
-    
-
     if (orderTable.rows.length > 1) orderTable.rows[1].classList.add('table-active'); 
+
     function orderTableRowClick(rowIndex) {
         console.log('table row ', rowIndex, ' clicked');
         for (i = 1; i < orderTable.rows.length; i++) {
@@ -296,9 +326,10 @@
         orderTable.rows[rowIndex].classList.add('table-active');
         currentIndex = rowIndex - 1;
         console.log(data.orderList[currentIndex]);
-        orderDetailCode.textContent = '#' + data.orderList[currentIndex].orderCode;
+        orderDetailCode.textContent = data.orderList[currentIndex].orderCode;
         orderDetailTime.textContent = ' - ' + data.orderList[currentIndex].createdAt;
         orderDetailDropdownStatus.textContent = data.orderList[currentIndex].status;
+        orderDetailCustomerCode.textContent = data.orderList[currentIndex].userCode;
         orderDetailCustomerName.value = data.orderList[currentIndex].fullname;
         orderDetailCustomerMail.value = data.orderList[currentIndex].mail;
         orderDetailCustomerPhone.value = data.orderList[currentIndex].phone;
@@ -326,27 +357,28 @@
         orderDetailTotalTableVoucher.textContent = data.orderList[currentIndex].voucher;
         orderDetailTotalTableTotal.textContent = data.orderList[currentIndex].total;
     }
-    
-    var data = [];
-    var currentIndex = 0;
-    const btnSearch = document.querySelector('.btn-search');
+       
     btnSearch.addEventListener('click', btnSearchOnClick);
     async function btnSearchOnClick() {
         try {
             var orderCodeSearch = inputOrderCode.value;
-            var orderCustomerSearch = inputOrderCustomer.value;
+            var orderCustomerCodeSearch = inputOrderCustomerCode.value;
+            var orderCustomerNameSearch = inputOrderCustomerName.value;
+            var orderStatusSearch = dropdownOrderStatusSearch.textContent;
             var orderFromDaySearch = inputOrderFromDay.value;
             var orderToDaySearch = inputOrderToDay.value;
 
             console.log(orderCodeSearch);
-            console.log(orderCustomerSearch);
+            console.log(orderCustomerCodeSearch);
+            console.log(orderCustomerNameSearch);
+            console.log(orderStatusSearch);
             console.log(orderFromDaySearch);
             console.log(orderToDaySearch);
 
 
             const res = await fetch('/account/admin-get-order', {
                 method: 'POST',
-                body: JSON.stringify({ orderCodeSearch, orderCustomerSearch, orderFromDaySearch, orderToDaySearch }),
+                body: JSON.stringify({ orderCodeSearch, orderCustomerCodeSearch, orderCustomerNameSearch, orderStatusSearch, orderFromDaySearch, orderToDaySearch }),
                 headers: {'Content-Type': 'application/json'}
             });
             data = await res.json();
@@ -358,7 +390,8 @@
                     var date = new Date(data.orderList[i].createdAt);
                     var row = '<tr class="" onclick="orderTableRowClick(' + (i + 1) + ')">'
                                 + '<th scope="row">' + (i + 1) + '</th>'
-                                + '<td>#' + data.orderList[i].orderCode + '</td>'
+                                + '<td>' + data.orderList[i].orderCode + '</td>'
+                                + '<td>' + data.orderList[i].userCode + '</td>'
                                 + '<td>' + date.toDateString() + ' ' + date.toTimeString().substring(0, 5) + '</td>'
                                 + '<td>' + data.orderList[i].fullname + '</td>'
                                 + '<td>' + data.orderList[i].total + '</td>'
