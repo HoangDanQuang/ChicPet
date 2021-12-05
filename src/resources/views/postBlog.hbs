@@ -33,10 +33,11 @@
 
         <div class="col py-3 post-content">
             <form action="/uploadSingle" method="post" enctype="multipart/form-data" class="form-post">
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Title</span>
                     <input type="text" class="form-control title-blog" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
+                <div class="title-error error-text"></div>
 {{!--                 <div class="mb-3 row">
                     <div class="col-sm-6">
                         <input class="form-control form-control-sm img-blog" id="formFileSm" type="file" name="image-blog">
@@ -51,7 +52,7 @@
                     </div>
                 </div> --}}
 
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mt-3">
                     <span class="input-group-text">Image</span>
                     <input type="text" aria-label="First name" class="form-control img-blog">
                     <span class="input-group-text">Category</span>
@@ -62,17 +63,20 @@
                         <option value="Chăm sóc mèo">Chăm sóc mèo</option>
                     </select>
                 </div>
+                <div class="img-error error-text"></div>
 
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mt-3">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
                     <input type="text" class="form-control description-blog" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
+                <div class="description-error error-text"></div>
 
-                <div class="row justify-content-md-center">
+                <div class="row justify-content-md-center mt-3">
                     <div class="form-group">
                         <textarea id="editor"></textarea>
                     </div>
                 </div>
+                <div class="content-error error-text"></div>
             </form>
         </div>
     </div>
@@ -136,6 +140,10 @@
 
 <script>
     const btnPost = document.querySelector('.btn-post');
+    const titleError = document.querySelector('.title-error');
+    const imgError = document.querySelector('.img-error');
+    const descriptionError = document.querySelector('.description-error');
+    const contentError = document.querySelector('.content-error');
 
     btnPost.addEventListener('click', async ()=> {
         const inputTitle = document.querySelector('.title-blog').value;
@@ -160,15 +168,18 @@
             });
             const data = await res.json();
             console.log(data);
-
-            if (data) {
+            if(data.errors){
+                titleError.textContent = data.errors.title;
+                imgError.textContent = data.errors.img;
+                descriptionError.textContent = data.errors.description;
+                contentError.textContent = data.errors.contentCode;
+            }else if (data) {
                 var myModal = new bootstrap.Modal(document.getElementById('modal-inform'));
                 myModal.show();
                 console.log("Post Thanh Cong");
             }
         }
         catch (err) {
-            console.log('sign up error');
             console.log(err);
         }
     });

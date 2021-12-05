@@ -24,12 +24,13 @@
     <div class="blog-img d-flex justify-content-center mb-5">
         <img src="{{blog.img}}" alt="" height="380">
     </div>
-    <div class="blog-content"  id = "{{blog.contentCode}}">
+    <div class="blog-content">
+        <input type="text" value="{{blog.contentCode}}" class="inputCode">
         
     </div>
 </div>
 <script>
         const blogContent = document.querySelector('.blog-content');
-        var html = `` + blogContent.id;
+        var html = `` + document.querySelector('.inputCode').value;
         blogContent.innerHTML = html;
 </script>
