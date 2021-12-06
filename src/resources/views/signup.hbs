@@ -176,32 +176,38 @@
 					const phone = signupForm.phone.value;
 
 					try {
-						const res = await fetch('/signup', {
-							method: 'POST',
-							body: JSON.stringify({ username, password, confirmPassword, fullname, phone, mail }),
-							headers: {'Content-Type': 'application/json'}
-						});
-						const data = await res.json();
-						if (data.errors) {
-							usernameError.textContent = data.errors.username;
-							passwordError.textContent = data.errors.password;
-							confirmPasswordError.textContent = data.errors.confirmPassword;
-							fullnameError.textContent = data.errors.fullname;
-							mailError.textContent = data.errors.mail;
-							phoneError.textContent = data.errors.phone;
+						if (password.length < 6) {
+							passwordError.textContent = 'Minimum password length is 6 characters';
 						}
-						if (data.user) {
-							location.assign('/');
+						else if (password !== confirmPassword) {
+							confirmPasswordError.textContent = 'Password does not match';
 						}
+						else {
+							const res = await fetch('/signup', {
+								method: 'POST',
+								body: JSON.stringify({ username, password, fullname, phone, mail }),
+								headers: {'Content-Type': 'application/json'}
+							});
+							const data = await res.json();
+							if (data.errors) {
+								usernameError.textContent = data.errors.username;
+								passwordError.textContent = data.errors.password;
+								fullnameError.textContent = data.errors.fullname;
+								mailError.textContent = data.errors.mail;
+								phoneError.textContent = data.errors.phone;
+							}
+							else if (data.user) {
+								console.log('sign up successful');
+								location.assign('/');
+							}
+						}
+						
 					}
 					catch (err) {
 						console.log('sign up error');
 						console.log(err);
 					}
-
 				});
-				
-				
 			</script>
 		</div>
 	</div>

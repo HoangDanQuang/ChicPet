@@ -23,7 +23,7 @@ const handleErrors = (err) => {
     }
   
     // duplicate username error
-    if (err.code === 11000) {
+    if (err.message.includes('expected `username` to be unique')) {
         errors.username = 'Username already registered';
         return errors;
     }
@@ -76,57 +76,6 @@ module.exports.login_post = async (req, res) => {
         const errors = handleErrors(err);
         res.status(400).json({ errors });
     }
-
-
-
-    // let{tenDangNhap, matKhau} = req.body;
-    // tenDangNhap.trim();
-    // matKhau.trim();
-
-    // if(tenDangNhap == "" || matKhau == "" ){
-    //     req.session.message = {
-    //         type: 'warning-custom',
-    //         intro: 'Empty input fields!',
-    //         message: 'Please try again!'
-    //         }
-    //         res.redirect('login'); 
-    // }else{
-    //     User.findOne({Username: tenDangNhap}).then(data => {
-    //         if(data){
-    //             const hashedPassword = data.Password;
-    //             bcrypt.compare(matKhau, hashedPassword).then(result =>{
-    //                 if(result){
-    //                 res.redirect('home');
-    //                 }else{
-    //                 req.session.message = {
-    //                     type: 'danger-custom',
-    //                     intro: 'Incorrect password.',
-    //                     message: 'Please try again!'
-    //                     }
-    //                     res.redirect('login'); 
-    //                 }
-    //             })
-                
-    //         }else{
-
-    //             req.session.message = {
-    //                 type: 'danger-custom',
-    //                 intro: 'User is not exists.',
-    //                 message: 'Please try again!'
-    //                 }
-    //                 res.redirect('login'); 
-                
-    //         }
-    //     }).catch(err =>{
-    //         console.log(err);
-    //         req.session.message = {
-    //             type: 'danger-custom',
-    //             intro: 'An error occcured while checking for existing user!',
-    //             message: 'Please try again!'
-    //         }
-    //             res.redirect('login'); 
-    //     })
-    // }
 }
 
 // Sign up
@@ -136,133 +85,23 @@ module.exports.signup_get = (req, res) => {
 
 module.exports.signup_post = async (req, res) => {
 
-    const { username, password, confirmPassword, fullname, phone, mail } = req.body;
+    const { username, password, fullname, phone, mail } = req.body;
 
     try {
-        if (password != confirmPassword) throw Error('Password does not match');
         const salt = await bcrypt.genSalt();
         encryptedPassword = await bcrypt.hash(password, salt);
         const user = await User.create({ role: 'customer', userCode: generateUserCode(), username, password: encryptedPassword, fullname, phone, mail, address: '' });
         const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(201).json({ user: user._id });
+        console.log('sign up successful');
     }
     catch(err) {
+        console.log('sign up post error');
+        console.log(err);
         const errors = handleErrors(err);
         res.status(400).json({ errors });
     }
-
-
-
-
-    // let {tenDangNhap, matKhau,xacNhanMatKhau, hoTen, soDienThoai, mail } = req.body;
-    // tenDangNhap = tenDangNhap.trim();
-    // matKhau = matKhau.trim();
-    // hoTen = hoTen.trim();
-    // soDienThoai = soDienThoai.trim();
-    // mail = mail.trim();
-
-    // if(tenDangNhap == "" || mail == "" || matKhau == "" || hoTen == "" || soDienThoai == ""){
-
-    //     req.session.message = {
-    //         type: 'warning-custom',
-    //         intro: 'Empty input fields!',
-    //         message: 'Please try again!'
-    //         }
-    //         res.redirect('signup'); 
-    // }else if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(mail)){
-        
-    //     req.session.message = {
-    //         type: 'danger-custom',
-    //         intro: 'Invalid email entered!',
-    //         message: 'Please try again!'
-    //         }
-    //         res.redirect('signup'); 
-    // }else if(matKhau.lenght < 8){
-    //     req.session.message = {
-    //         type: 'warning-custom',
-    //         intro: 'Password is too short!',
-    //         message: 'Please try again!'
-    //         }
-    //         res.redirect('signup'); 
-    // }else if(matKhau != xacNhanMatKhau){
-        
-    //     req.session.message = {
-    //         type: 'danger-custom',
-    //         intro: 'Password is different with repeat password!',
-    //         message: 'Please try again!'
-    //         }
-    //         res.redirect('signup'); 
-    // }else if(!/((09|03|07|08|05)+([0-9]{8})\b)/g.test(soDienThoai)){
-
-    //     req.session.message = {
-    //         type: 'danger-custom',
-    //         intro: 'Invalid phone entered.',
-    //         message: 'Please try again!'
-    //         }
-    //         res.redirect('signup'); 
-    // }else{
-    //     User.findOne({Username: tenDangNhap}).then(result => {
-    //         if(result){
-
-    //             req.session.message = {
-    //                 type: 'warning-custom',
-    //                 intro: 'User already exists.',
-    //                 message: 'Please try again!'
-    //                 }
-    //                 res.redirect('signup'); 
-    //         }else{
-    //             //create new user
-    //             const saltRound = 10;
-    //             bcrypt.hash(matKhau, saltRound).then(hashedPassword =>{
-    //                 const newUser = new User({
-    //                     Username: tenDangNhap,
-    //                     Password: hashedPassword,
-    //                     Fullname: hoTen,
-    //                     Phone: soDienThoai,
-    //                     Mail: mail,
-    //                     Address: '',
-    //                 });
-    //                 console.log(newUser);
-    //                 newUser.save().then(result => {
-
-    //                     req.session.message = {
-    //                         type: 'success-custom',
-    //                         intro: '',
-    //                         message: 'Signup successful!'
-    //                     }
-    //                     res.redirect('signup'); 
-    //                 })
-    //                 .catch(err => {
-
-    //                     req.session.message = {
-    //                         type: 'danger-custom',
-    //                         intro: 'An error occured while saving taiKhoan!',
-    //                         message: 'Please try again!'
-    //                         }
-    //                         res.redirect('signup'); 
-    //                 })
-    //             })
-    //             .catch(err => {
-
-    //                 req.session.message = {
-    //                     type: 'danger-custom',
-    //                     intro: 'An error occured while hashing password!',
-    //                     message: 'Please try again!'
-    //                     }
-    //                     res.redirect('signup'); 
-    //             })
-    //         }
-    //     }).catch(err =>{
-    //         console.log(err);
-    //         req.session.message = {
-    //             type: 'danger-custom',
-    //             intro: 'An error occcured while checking for existing user!',
-    //             message: 'Please try again!'
-    //             }
-    //             res.redirect('signup'); 
-    //     })
-    // }
 }
 
 const generateUserCode = () => {
