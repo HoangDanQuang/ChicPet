@@ -1,6 +1,6 @@
 <title>Orders</title>
 <link rel="stylesheet" href="/css/general.css">
-<link rel="stylesheet" href="/css/adminOrder.css">
+<link rel="stylesheet" href="/css/adminVoucher.css">
 
 <div class="container-xl account-order-container">
     <div class="row">
@@ -40,8 +40,181 @@
             </div>
         </div>
         <div class="col-12 col-md-8 col-lg-9 my-3">
-            <h4 class="text-uppercase mb-4 mt-4">Danh sách Vouchers</h4>
-            
+            <div class="row justify-content-between">
+                <h4 class="text-uppercase mb-4 mt-4 w-auto">Danh sách Voucher</h4>
+                <button type="button" class="btn btn-search">Tìm kiếm</button>
+            </div>
+            <div class="admin-order-search-container">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="inputVoucherId" class="col-3 col-form-label">Voucher ID</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control col-form-label" id="inputVoucherId">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="inputVoucherCode" class="col-3 col-form-label">Voucher Code</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control" id="inputVoucherCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="dropdownTypeSearch" class="col-3 col-form-label">Loại Voucher</label>
+                            <div class="col-7">
+                                <div class="dropdown dropdown-type-search-container">
+                                    <button class="btn btn-dropdown-type-search dropdown-toggle" type="button" id="dropdownTypeSearch" data-bs-toggle="dropdown" aria-expanded="false">Tất cả</button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownOrderPayment">
+                                        <li><div class="dropdown-item dropdown-type-search-item" onclick="updateDropdownTypeSearchBtn('Tất cả')">Tất cả</div></li>
+                                        <li><div class="dropdown-item dropdown-type-search-item" onclick="updateDropdownTypeSearchBtn('Phần trăm')">Phần trăm</div></li>
+                                        <li><div class="dropdown-item dropdown-type-search-item" onclick="updateDropdownTypeSearchBtn('Mức tiền')">Mức tiền</div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <label for="inputOrderExp" class="col-3 col-form-label">Hạn sử dụng</label>
+                            <div class="col-7">
+                                <input type="date" class="form-control col-form-label" id="inputOrderExp">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-voucher-table-container">
+                <table class="table table-hover voucher-table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Voucher Id</th>
+                            <th scope="col">Loại voucher</th>
+                            <th scope="col">Giá trị</th>
+                            <th scope="col">Đã sử dụng</th>
+                            <th scope="col">HSD</th>
+                        </tr>
+                    </thead>
+                    <tbody class="customer-table-body">
+                       <tr>
+                           <th scope="row">1</th>
+                           <td>529620316</td>
+                           <td>Mức tiền</td>
+                           <td>20.000đ</td>
+                           <td>62/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">2</th>
+                           <td>529620316</td>
+                           <td>Mức tiền</td>
+                           <td>15.000đ</td>
+                           <td>78/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">3</th>
+                           <td>529620316</td>
+                           <td>Phần trăm</td>
+                           <td>10% (Tối đa 20.000đ)</td>
+                           <td>35/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">4</th>
+                           <td>529620316</td>
+                           <td>Phần trăm</td>
+                           <td>25% (Tối đa 30.000đ)</td>
+                           <td>82/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">5</th>
+                           <td>529620316</td>
+                           <td>Mức tiền</td>
+                           <td>50.000đ</td>
+                           <td>57/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">6</th>
+                           <td>529620316</td>
+                           <td>Phần trăm</td>
+                           <td>50% (Tối đa 50.000đ)</td>
+                           <td>100/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">7</th>
+                           <td>529620316</td>
+                           <td>Phần trăm</td>
+                           <td>10% (Tối đa 20.000đ)</td>
+                           <td>35/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">8</th>
+                           <td>529620316</td>
+                           <td>Phần trăm</td>
+                           <td>25% (Tối đa 30.000đ)</td>
+                           <td>82/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">9</th>
+                           <td>529620316</td>
+                           <td>Mức tiền</td>
+                           <td>50.000đ</td>
+                           <td>57/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">10</th>
+                           <td>529620316</td>
+                           <td>Phần trăm</td>
+                           <td>50% (Tối đa 50.000đ)</td>
+                           <td>100/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">11</th>
+                           <td>529620316</td>
+                           <td>Phần trăm</td>
+                           <td>25% (Tối đa 30.000đ)</td>
+                           <td>82/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                       <tr>
+                           <th scope="row">12</th>
+                           <td>529620316</td>
+                           <td>Mức tiền</td>
+                           <td>50.000đ</td>
+                           <td>57/100</td>
+                           <td>31/12/2021</td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
         </div>
     </div>
 </div>
+
+<script>
+    const dropdownTypeSearch = document.getElementById('dropdownTypeSearch');
+    function updateDropdownTypeSearchBtn(type) {
+        dropdownTypeSearch.textContent = type;
+    }
+</script>

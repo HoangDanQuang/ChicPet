@@ -62,3 +62,57 @@ a:hover {
 .sidebar-item_name {
     height: 100%;
 }
+
+.btn-search {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 100px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-search:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
+.btn-dropdown-type-search {
+    width: 100%;
+    border: 1px solid #ced4da;
+}
+
+.dropdown-type-search-item {
+    line-height: 1.5;
+    padding: 6px 24px;
+}
+
+.dropdown-type-search-item:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-voucher-table-container {
+    max-height: 450px;
+    overflow: auto;
+    margin-bottom: 48px;
+}
+
+.voucher-table thead{
+    background-color: white;
+    position: sticky;
+    top: 0;
+}
+
+.voucher-table thead tr th {
+    border-bottom: 0;
+}
+
+.voucher-table thead th:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: -1px;
+    border-bottom: 1px solid black;
+}

@@ -15,7 +15,7 @@ module.exports.profile_get = (req, res) => {
             res.render('accountProfile');
         }
     }
-    else res.render('accountProfile');
+    else res.render('404NotFound');
 }
 
 module.exports.profile_post = async (req, res) => {
