@@ -33,6 +33,7 @@ const UserSchema = new Schema({
     },
     mail: {
         type: String,
+        required: [true, 'Please enter your email'],
     },
     address: {
         type: String,
