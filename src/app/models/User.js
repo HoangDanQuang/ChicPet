@@ -1,6 +1,7 @@
 const mongoose = require ('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
+const uniqueValidator = require('mongoose-unique-validator');
 
 
 const UserSchema = new Schema({
@@ -17,12 +18,10 @@ const UserSchema = new Schema({
         type: String,
         required: [true, 'Please enter a username'],
         unique: true,
-        lowercase: true,
     },
     password: {
         type: String,
         required: [true, 'Please enter a password'],
-        minlength: [6, 'Minimum password length is 6 characters'],
     },
     fullname: {
         type: String,
@@ -34,12 +33,12 @@ const UserSchema = new Schema({
     },
     mail: {
         type: String,
-        required: [true, 'Please enter your email'],
     },
     address: {
         type: String,
     }
 });
+UserSchema.plugin(uniqueValidator);
 
 // fire a function before doc saved to db
 // UserSchema.pre('save', async function(next) {

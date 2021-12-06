@@ -24,31 +24,52 @@ module.exports.profile_post = async (req, res) => {
         try {
             if (oldPassword === '' || newPassword === '') {
                 console.log('update user without updating password');
-                var updateUser = await User.findById(res.locals.user._id);
-                updateUser.fullname = newName;
-                updateUser.phone = newPhone;
-                updateUser.mail = newEmail;
-                updateUser.address = newAddress;
-                updateUser.save().then(result => {
-                    res.locals.user = updateUser;
-                    req.session.user = updateUser;
+                // var updateUser = await User.findById(res.locals.user._id);
+                // updateUser.fullname = newName;
+                // updateUser.phone = newPhone;
+                // updateUser.mail = newEmail;
+                // updateUser.address = newAddress;
+                // updateUser.save().then(result => {
+                //     res.locals.user = updateUser;
+                //     req.session.user = updateUser;
+                //     res.json({ info: { newName, newEmail, newPhone, newAddress } });
+                // });
+                await User.findOneAndUpdate(
+                    { userCode: req.session.user.userCode },
+                    { fullname: newName, phone: newPhone, mail: newEmail, address: newAddress },
+                    { runValidators: true, context: 'query' },
+                ).then(result => {
+                    res.locals.user = result;
+                    req.session.user = result;
                     res.json({ info: { newName, newEmail, newPhone, newAddress } });
                 });
             }
             else {
                 console.log('update user with updating password');
-                var updateUser = await User.findById(res.locals.user._id);
-                const auth = await bcrypt.compare(oldPassword, updateUser.password);
+                // var updateUser = await User.findById(res.locals.user._id);
+                // const auth = await bcrypt.compare(oldPassword, updateUser.password);
+                const auth = await bcrypt.compare(oldPassword, req.session.user.password);
                 if (auth) {
-                    updateUser.fullname = newName;
-                    updateUser.phone = newPhone;
-                    updateUser.mail = newEmail;
-                    updateUser.address = newAddress;
+                    // updateUser.fullname = newName;
+                    // updateUser.phone = newPhone;
+                    // updateUser.mail = newEmail;
+                    // updateUser.address = newAddress;
+                    // const salt = await bcrypt.genSalt();
+                    // updateUser.password = await bcrypt.hash(newPassword, salt);
+                    // updateUser.save().then(result => {
+                    //     res.locals.user = updateUser;
+                    //     req.session.user = updateUser;
+                    //     res.json({ info: { newName, newEmail, newPhone, newAddress } });
+                    // });
                     const salt = await bcrypt.genSalt();
-                    updateUser.password = await bcrypt.hash(newPassword, salt);
-                    updateUser.save().then(result => {
-                        res.locals.user = updateUser;
-                        req.session.user = updateUser;
+                    const encryptedPassword = await bcrypt.hash(newPassword, salt);
+                    await User.findOneAndUpdate(
+                        { userCode: req.session.user.userCode },
+                        { fullname: newName, phone: newPhone, mail: newEmail, address: newAddress, password: encryptedPassword },
+                        { runValidators: true, context: 'query' },
+                    ).then(result => {
+                        res.locals.user = result;
+                        req.session.user = result;
                         res.json({ info: { newName, newEmail, newPhone, newAddress } });
                     });
                 }
