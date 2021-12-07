@@ -34,6 +34,9 @@ const VoucherSchema = new Schema({
             required: true,
         },
     }],
+    note: {
+        type: String,
+    },
 }, {timestamps: true});
 
 const Voucher = mongoose.model('voucher', VoucherSchema);

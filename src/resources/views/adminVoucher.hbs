@@ -1,4 +1,4 @@
-<title>Orders</title>
+<title>Voucher</title>
 <link rel="stylesheet" href="/css/general.css">
 <link rel="stylesheet" href="/css/adminVoucher.css">
 
@@ -42,7 +42,10 @@
         <div class="col-12 col-md-8 col-lg-9 my-3">
             <div class="row justify-content-between">
                 <h4 class="text-uppercase mb-4 mt-4 w-auto">Danh sách Voucher</h4>
-                <button type="button" class="btn btn-search">Tìm kiếm</button>
+                <div class="span w-auto">
+                    <a href="#create-voucher" type="button" class="btn btn-create">Tạo Voucher</a>
+                    <button type="button" class="btn btn-search">Tìm kiếm</button>
+                </div>
             </div>
             <div class="admin-order-search-container">
                 <div class="row mb-3">
@@ -73,7 +76,7 @@
                             <div class="col-7">
                                 <div class="dropdown dropdown-type-search-container">
                                     <button class="btn btn-dropdown-type-search dropdown-toggle" type="button" id="dropdownTypeSearch" data-bs-toggle="dropdown" aria-expanded="false">Tất cả</button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownOrderPayment">
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownTypePayment">
                                         <li><div class="dropdown-item dropdown-type-search-item" onclick="updateDropdownTypeSearchBtn('Tất cả')">Tất cả</div></li>
                                         <li><div class="dropdown-item dropdown-type-search-item" onclick="updateDropdownTypeSearchBtn('Phần trăm')">Phần trăm</div></li>
                                         <li><div class="dropdown-item dropdown-type-search-item" onclick="updateDropdownTypeSearchBtn('Mức tiền')">Mức tiền</div></li>
@@ -85,9 +88,9 @@
                     <div class="col-6">
                         <div class="row">
                             <div class="col-1"></div>
-                            <label for="inputOrderExp" class="col-3 col-form-label">Hạn sử dụng</label>
+                            <label for="inputVoucherExp" class="col-3 col-form-label">Hạn sử dụng</label>
                             <div class="col-7">
-                                <input type="date" class="form-control col-form-label" id="inputOrderExp">
+                                <input type="date" class="form-control col-form-label" id="inputVoucherExp">
                             </div>
                         </div>
                     </div>
@@ -102,6 +105,7 @@
                             <th scope="col">Loại voucher</th>
                             <th scope="col">Giá trị</th>
                             <th scope="col">Đã sử dụng</th>
+                            <th scope="col">Ngày tạo</th>
                             <th scope="col">HSD</th>
                         </tr>
                     </thead>
@@ -113,6 +117,7 @@
                            <td>20.000đ</td>
                            <td>62/100</td>
                            <td>31/12/2021</td>
+                           <td>31/12/2021</td>
                        </tr>
                        <tr>
                            <th scope="row">2</th>
@@ -120,6 +125,7 @@
                            <td>Mức tiền</td>
                            <td>15.000đ</td>
                            <td>78/100</td>
+                           <td>31/12/2021</td>
                            <td>31/12/2021</td>
                        </tr>
                        <tr>
@@ -129,6 +135,7 @@
                            <td>10% (Tối đa 20.000đ)</td>
                            <td>35/100</td>
                            <td>31/12/2021</td>
+                           <td>31/12/2021</td>
                        </tr>
                        <tr>
                            <th scope="row">4</th>
@@ -136,6 +143,7 @@
                            <td>Phần trăm</td>
                            <td>25% (Tối đa 30.000đ)</td>
                            <td>82/100</td>
+                           <td>31/12/2021</td>
                            <td>31/12/2021</td>
                        </tr>
                        <tr>
@@ -145,6 +153,7 @@
                            <td>50.000đ</td>
                            <td>57/100</td>
                            <td>31/12/2021</td>
+                           <td>31/12/2021</td>
                        </tr>
                        <tr>
                            <th scope="row">6</th>
@@ -152,6 +161,7 @@
                            <td>Phần trăm</td>
                            <td>50% (Tối đa 50.000đ)</td>
                            <td>100/100</td>
+                           <td>31/12/2021</td>
                            <td>31/12/2021</td>
                        </tr>
                        <tr>
@@ -161,6 +171,7 @@
                            <td>10% (Tối đa 20.000đ)</td>
                            <td>35/100</td>
                            <td>31/12/2021</td>
+                           <td>31/12/2021</td>
                        </tr>
                        <tr>
                            <th scope="row">8</th>
@@ -168,6 +179,7 @@
                            <td>Phần trăm</td>
                            <td>25% (Tối đa 30.000đ)</td>
                            <td>82/100</td>
+                           <td>31/12/2021</td>
                            <td>31/12/2021</td>
                        </tr>
                        <tr>
@@ -177,6 +189,7 @@
                            <td>50.000đ</td>
                            <td>57/100</td>
                            <td>31/12/2021</td>
+                           <td>31/12/2021</td>
                        </tr>
                        <tr>
                            <th scope="row">10</th>
@@ -184,6 +197,7 @@
                            <td>Phần trăm</td>
                            <td>50% (Tối đa 50.000đ)</td>
                            <td>100/100</td>
+                           <td>31/12/2021</td>
                            <td>31/12/2021</td>
                        </tr>
                        <tr>
@@ -193,6 +207,7 @@
                            <td>25% (Tối đa 30.000đ)</td>
                            <td>82/100</td>
                            <td>31/12/2021</td>
+                           <td>31/12/2021</td>
                        </tr>
                        <tr>
                            <th scope="row">12</th>
@@ -201,10 +216,68 @@
                            <td>50.000đ</td>
                            <td>57/100</td>
                            <td>31/12/2021</td>
+                           <td>31/12/2021</td>
                        </tr>
                     </tbody>
                 </table>
             </div>
+            <div id="create-voucher" class="admin-create-voucher-container">
+                <p class="fw-bold my-3">
+                        Tạo Voucher
+                </p>
+                <div class="row my-3">
+                    <label for="inputVoucherId" class="col-3 col-form-label">ID Voucher:</label>
+                    <div class="col-4">
+                        <input type="text" class="form-control col-form-label" id="inputVoucherId" value="234618313">
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-create-id">Tạo ID</button>
+                    </div>
+                </div>
+                <div class="row my-3">
+                        <label for="dropdownTypeCreateVoucher" class="col-3 col-form-label">Loại Voucher:</label>
+                        <div class="dropdown col-6">
+                            <button class="btn btn-dropdown-type-create dropdown-toggle" type="button" id="dropdownTypeCreateVoucher" data-bs-toggle="dropdown" aria-expanded="false">Mức tiền</button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdown">
+                                <li><div class="dropdown-item dropdown-type-create-item" onclick="updateDropdownTypeCreateVoucherBtn('Mức tiền')">Mức tiền</div></li>
+                                <li><div class="dropdown-item dropdown-type-create-item" onclick="updateDropdownTypeCreateVoucherBtn('Phần trăm')">Phần trăm</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                <div class="row my-3">
+                    <label for="inputVoucherValue" class="col-3 col-form-label">Giá trị:</label>
+                    <div class="col-6">
+                        <input type="text" class="form-control col-form-label" id="inputVoucherValue" value="20">
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <label for="inputVoucherMaxValue" class="col-3 col-form-label">Tối đa:</label>
+                    <div class="col-6">
+                        <input type="text" class="form-control col-form-label" id="inputVoucherMaxValue" value="50000">
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <label for="inputVoucherQuantity" class="col-3 col-form-label">Số lượng:</label>
+                    <div class="col-6">
+                        <input type="text" class="form-control col-form-label" id="inputVoucherQuantity" value="100">
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <label for="inputVoucherExp" class="col-3 col-form-label">HSD:</label>
+                    <div class="col-6">
+                        <input type="date" class="form-control col-form-label" id="inputVoucherExp">
+                    </div>
+                </div>
+                <div class="form-floating my-3">
+                    <textarea class="form-control" id="inputVoucherNote" style="height: 100px"></textarea>
+                    <label for="inputVoucherNote">Ghi chú</label>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-create">Tạo Voucher</button>
+                </div>
+            </div>
+
+            
 
 
 
@@ -217,4 +290,17 @@
     function updateDropdownTypeSearchBtn(type) {
         dropdownTypeSearch.textContent = type;
     }
+    const dropdownTypeCreateVoucher = document.getElementById('dropdownTypeCreateVoucher');
+    function updateDropdownTypeCreateVoucherBtn(type) {
+        dropdownTypeCreateVoucher.textContent = type;
+    }
+</script>
+
+<script>
+    const inputVoucherId = document.getElementById('inputVoucherId');
+    const inputVoucherValue = document.getElementById('inputVoucherValue');
+    const inputVoucherMaxValue = document.getElementById('inputVoucherMaxValue');
+    const inputVoucherQuantity = document.getElementById('inputVoucherQuantity');
+    const inputVoucherExp = document.getElementById('inputVoucherExp');
+    const inputVoucherNote = document.getElementById('inputVoucherNote');
 </script>

@@ -63,6 +63,21 @@ a:hover {
     height: 100%;
 }
 
+.btn-create {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 50px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-create:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
 .btn-search {
     background-color: rgb(255, 101, 80);
     color: white;
@@ -115,4 +130,46 @@ a:hover {
     width: 100%;
     bottom: -1px;
     border-bottom: 1px solid black;
+}
+
+.btn-create-id {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    border-radius: 8px;
+}
+
+.btn-create-id:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
+.btn-dropdown-type-create {
+    width: 10rem;
+    border: 1px solid #ced4da;
+}
+
+.dropdown-type-create-item {
+    line-height: 1.5;
+    padding: 6px 24px;
+}
+
+.dropdown-type-create-item:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-create {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 40px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-create:hover {
+    background-color: rgba(255, 101, 80, 75%);
 }
