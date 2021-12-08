@@ -1,3 +1,17 @@
+.chicpet-alert {
+    /* display: block; */
+    position: absolute;
+    z-index: 9999;
+    margin-top: 75px;
+    margin-right: 30px;
+}
+
+.alert--success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
 .header{
     background-color: rgb(255, 101, 80);
     border-top-left-radius: 15px;

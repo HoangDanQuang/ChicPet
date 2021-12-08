@@ -32,12 +32,14 @@ const VoucherSchema = new Schema({
         isUsed: {
             type: Boolean,
             required: true,
+            default: false,
         },
     }],
     note: {
         type: String,
     },
 }, {timestamps: true});
+// VoucherSchema.plugin(uniqueValidator);
 
 const Voucher = mongoose.model('voucher', VoucherSchema);
 module.exports = Voucher;
