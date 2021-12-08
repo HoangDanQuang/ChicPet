@@ -82,7 +82,7 @@
     </div>
         <div class="content row mx-0 mt-4">
             {{#each services }}
-                <div class="card col-md-4 mb-4">
+                <div class="card col-md-4 mb-4" data-bs-toggle="popover" data-bs-trigger="hover focus" title="{{this.title}}">
                 <img src="{{this.img}}" class="card-img-top" alt="" height="250">
                 <div class="card-body">
                     <h5 class="card-title">{{this.title}}</h5>

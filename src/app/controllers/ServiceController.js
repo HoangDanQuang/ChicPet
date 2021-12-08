@@ -144,6 +144,7 @@ module.exports.editService_get = async(req, res) => {
 module.exports.editService_post = async(req, res) => {
 
     const { id, status } = req.body;
+    //var newvalues = { $set: { title: '', img: '', category: '', description: '', priceS, priceM, priceL, contentCode: '' } }; //dùng cho update
     var objectId = mongoose.Types.ObjectId(id);
     try {
         if (status == "delete") {
@@ -157,8 +158,71 @@ module.exports.editService_post = async(req, res) => {
                 console.log("No documents matched the query. Deleted 0 documents.");
             }
         }
+
     } catch (err) {
         console.log('delete service error');
+        console.log(err);
+    }
+}
+
+//render update service
+module.exports.updateService_get = async(req, res) => {
+    console.log('service code: ', req.params.code);
+    var objectId = mongoose.Types.ObjectId(req.params.code);
+    console.log('objectID: ', objectId);
+    try {
+        const service = await Service.findOne({ _id: objectId }).lean();
+        if (service) {
+            console.log(service);
+            res.render('updateService', { service: service });
+        } else {
+            console.log('service null');
+        }
+    } catch (err) {
+        console.log('service detail error');
+        console.log(err);
+    }
+}
+
+module.exports.updateService_post = async(req, res) => {
+
+    //const { id, status } = req.body;
+    // var newvalues = { $set: { title: '', img: '', category: '', description: '', priceS, priceM, priceL, contentCode: '' } }; //dùng cho update
+
+    const { id, title, img, category, description, priceS, priceM, priceL, contentCode } = req.body;
+    var objectId = mongoose.Types.ObjectId(id);
+    const newService = new Service({
+        title: title,
+        img: img,
+        category: category,
+        description: description,
+        priceS: priceS,
+        priceM: priceM,
+        priceL: priceL,
+        contentCode: contentCode
+    });
+    try {
+        //const query = { _id: objectId };
+        const result = await Service.updateOne({ _id: objectId }, {
+            title: title,
+            img: img,
+            category: category,
+            description: description,
+            priceS: priceS,
+            priceM: priceM,
+            priceL: priceL,
+            contentCode: contentCode
+        });
+        if (result.modifiedCount === 1) {
+            console.log("Successfully deleted one document.");
+            res.status(200).json({ service: newService });
+
+        } else {
+            console.log("No documents matched the query. uploaded 0 documents.");
+        }
+
+    } catch (err) {
+        console.log('update service error');
         console.log(err);
     }
 }

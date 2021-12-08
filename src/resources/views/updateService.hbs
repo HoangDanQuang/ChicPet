@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="/css/postService.css">
-<title>Post</title>
+<link rel="stylesheet" href="/css/updateService.css">
+<title>Update</title>
 
 
 <div class="row flex-wrap content mx-0 mb-5">
@@ -19,7 +19,7 @@
                     </li>
                     <li class="nav-item">
                         <button class="nav-link align-middle px-0 btn btn-post" type="submit">
-                            <i class="far fa-paper-plane"></i> Post
+                            <i class="far fa-paper-plane"></i> Update
                         </button>
                     </li>
                     <li class="nav-item">
@@ -36,58 +36,47 @@
         </div>
 
         <div class="col py-3 post-content">
-            <form action="/uploadSingle" method="post" enctype="multipart/form-data" class="form-post">
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Service name</span>
-                    <input type="text" class="form-control title-service" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
+            <form action="/formUpdate" method="post" enctype="multipart/form-data" class="form-post">
+               <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Service name</span>
+                        <input type="text" class="form-control title-service" value="{{service.title}}" id ="{{service._id}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
 
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text">Image</span>
+                            <input type="text" aria-label="First name" value="{{service.img}}" class="form-control img-service">
+                            <span class="input-group-text">Category</span>
+                            <select class="form-select form-select-sm category-service" value="{{service.category}}" aria-label=".form-select-sm example">
+                                <option selected value="dog-service">Dog's service</option>
+                                <option value="cat-service">Cat's service</option>
+                                <option value="other-service">Other</option>
+                            </select>
+                        </div>
 
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text">Image</span>
-                    <input type="text" aria-label="First name" class="form-control img-service">
-                    <span class="input-group-text">Category</span>
-                    <select class="form-select form-select-sm category-service" aria-label=".form-select-sm example">
-                        <option selected value="dog-service">Dog's service</option>
-                        <option value="cat-service">Cat's service</option>
-                        <option value="other-service">Other</option>
-                    </select>
-                </div>
-
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
-                    <input type="text" class="form-control description-service" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Price: </span>
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Size S </span>
-                    <input type="number" class="form-control size-service-s" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Size M </span>
-                    <input type="number" class="form-control size-service-m" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Size L </span>
-                    <input type="number" class="form-control size-service-l" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-                {{!-- <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Type: </span>
-                    <input type="text" class="form-control type-service" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Price: </span>
-                    <input type="number" class="form-control size-service-m" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <button type="button" class="btn btn-primary btn-add" id = "add_type_size"  onClick="addType()">ADD</button>
-                </div>
-                <div class="add_type">
-                    <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Type: </span>
-                    <input type="text" class="form-control type-service" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Price: </span>
-                    <input type="number" class="form-control size-service-m" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <button type="button" class="btn btn-primary btn-add" id = "add_type_size"  onClick="reply_click(this.id)">ADD</button> 
-                    </div> 
-                </div> --}}
-                <div class="row justify-content-md-center">
-                    <div class="form-group">
-                        <textarea id="editor"></textarea>
-                    </div>
-                </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
+                            <input type="text" class="form-control description-service" value="{{service.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Price: </span>
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Size S </span>
+                            <input type="number" class="form-control size-service-s" value="{{service.priceS}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Size M </span>
+                            <input type="number" class="form-control size-service-m" value="{{service.priceM}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Size L </span>
+                            <input type="number" class="form-control size-service-l" value="{{service.priceL}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                        <div class="row justify-content-md-center">
+                            <div class="form-group">
+                                <textarea id="editor">    
+                                </textarea>
+                                 
+                            </div>
+                            <div class="contentCode-div">
+                                <input type="text" value="{{service.contentCode}}" id="inputContentCode">
+                            </div>
+                        </div>  
+                           
             </form>
         </div>
     </div>
@@ -106,7 +95,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-closeModal" data-bs-dismiss="modal">Close</button>
             {{!-- <button type="button" class="btn btn-viewservice" href="">View service</button> --}}
-            <a class="btn btn-viewService" type="button" href="./../service">View service</a>
+            <a class="btn btn-viewService" type="button" href="/service">View service</a>
         </div>
         </div>
     </div>
@@ -130,6 +119,7 @@
     </div>
 </div>
 
+
 {{!-- test value -------------------------------------------------------------}}
 {{!--         <div class="show-value">
             <textarea name="" id="show-value" cols="30" rows="10"></textarea>
@@ -138,13 +128,22 @@
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="https://cdn.tiny.cloud/1/2f03u9d8k3bfqttf9dac5pmhdc50rnspe3xpee2cfn8a7plx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
+
+
 <script>
   tinymce.init({
     selector: 'textarea#editor',
     skin: 'bootstrap',
     plugins: 'lists, link, image, media',
     toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
-    menubar: false
+    menubar: false,
+    setup: editor => {
+            editor.on('init', () => {
+                editor.setContent(document.getElementById('inputContentCode').value);
+                const divContent = document.querySelector('.contentCode-div');
+                divContent.innerHTML = ``;
+            });
+        }
   });
     
 </script>
@@ -153,7 +152,7 @@
     const btnPost = document.querySelector('.btn-post');
 
     btnPost.addEventListener('click', async ()=> {
-        const inputTitle = document.querySelector('.title-service').value;
+        const inputTitle = document.querySelector('.title-service');
         const inputImg = document.querySelector('.img-service').value;
         const inputCategory = document.querySelector('.category-service').value;
         const inputDescription = document.querySelector('.description-service').value;
@@ -165,7 +164,8 @@
 
         console.log('btn-post clicked');
         try {
-            const title = inputTitle;
+            const id = inputTitle.id;
+            const title = inputTitle.value;
             const img = inputImg;
             const category = inputCategory;
             const description = inputDescription;
@@ -173,10 +173,10 @@
             const priceM = inputServicePriceM;
             const priceL = inputServicePriceL;
             const contentCode = myContent;
-
-            const res = await fetch('/service/postService/uploadSingle', {
+            const url = '/service/editService/updateService/' + id;
+            const res = await fetch( url , {
                 method: 'POST',
-                body: JSON.stringify({ title, img, category, description,priceS,priceM, priceL, contentCode }),
+                body: JSON.stringify({ id, title, img, category, description,priceS,priceM, priceL, contentCode }),
                 headers: {'Content-Type': 'application/json'}
             });
             const data = await res.json();
@@ -185,7 +185,7 @@
             if (data) {
                 var myModal = new bootstrap.Modal(document.getElementById('modal-inform'));
                 myModal.show();
-                console.log("Post Thanh Cong");
+                console.log("Update Thanh Cong");
             }
         }
         catch (err) {
@@ -276,3 +276,4 @@
         addMember.innerHTML = html1;
     }
 </script>
+
