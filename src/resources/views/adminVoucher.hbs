@@ -127,6 +127,40 @@
                         </div>
                     </div>
                 </div>
+
+                <div>
+                    <button type="button" class="btn btn-link btn-show-voucher-code text-decoration-none text--primary mb-3">Hiển thị Voucher Code</button>
+                </div>
+                <div class="voucher-code-table-container d-none">
+                    <table class="table voucher-code-table text-center">
+                        <tbody class="voucher-code-table-body">
+                            <tr>
+                                <td>dTyDCt5X</td>
+                                <td class="text-decoration-line-through">dTyDCt5X</td>
+                                <td>dTyDCt5X</td>
+                                <td class="text-decoration-line-through">dTyDCt5X</td>
+                                <td>dTyDCt5X</td>
+                            </tr>
+                            <tr>
+                                <td class="text-decoration-line-through">dTyDCt5X</td>
+                                <td class="text-decoration-line-through">dTyDCt5X</td>
+                                <td>dTyDCt5X</td>
+                                <td>dTyDCt5X</td>
+                                <td class="text-decoration-line-through">dTyDCt5X</td>
+                            </tr>
+                            <tr>
+                                <td>dTyDCt5X</td>
+                                <td>dTyDCt5X</td>
+                                <td class="text-decoration-line-through">dTyDCt5X</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+
+
                 <div class="d-flex justify-content-end">
                     <button type="button" class="btn btn-delete">Xóa Voucher</button>
                 </div>
@@ -241,6 +275,8 @@
     const voucherDetailQuantity = document.getElementById('voucher-quantity');
     const voucherDetailCreatedAt = document.getElementById('voucher-created-at');
     const voucherDetailExp = document.getElementById('voucher-exp');
+    const voucherDetailCodeTableContainer = document.querySelector('.voucher-code-table-container');
+    const voucherDetailCodeTableBody = document.querySelector('.voucher-code-table-body');
 
     const inputVoucherId = document.getElementById('inputVoucherId');
     const inputAmountVoucherValue = document.getElementById('inputAmountVoucherValue');
@@ -283,14 +319,54 @@
             voucherDetailValue.textContent = data.voucherList[currentIndex].value + '% (Tối đa ' + data.voucherList[currentIndex].max + ')';
         }
         var numberUsed = 0;
-        for (i = 0; i < data.voucherList[currentIndex].codeList.length; i++) {
-            if (data.voucherList[currentIndex].codeList[i].isUsed === true) numberUsed++;
+        var tableBody = '';
+        for (i = 0; i < Math.floor(data.voucherList[currentIndex].codeList.length / 5); i++) {
+            var row = '';
+            row += '<tr>';
+            for (j = 0; j < 5; j++) {
+                console.log(i * 5 + j);
+                if (data.voucherList[currentIndex].codeList[i * 5 + j].isUsed) {
+                    numberUsed++;
+                    row += '<td class="text-decoration-line-through">' + data.voucherList[currentIndex].codeList[i * 5 + j].code + '</td>';
+                }
+                else {
+                    row += '<td>' + data.voucherList[currentIndex].codeList[i * 5 + j].code + '</td>';
+                }
+            }
+            row += '</tr>';
+            tableBody += row;
         }
+        if ((data.voucherList[currentIndex].codeList.length % 5) > 0) {
+            const numberOfRowsCreated = Math.floor(data.voucherList[currentIndex].codeList.length / 5);
+            var row = '';
+            row += '<tr>';
+            for (i = 0; i < 5; i++) {
+                var index = numberOfRowsCreated * 5 + i;
+                console.log(index);
+                console.log('length: ' + data.voucherList[currentIndex].codeList.length);
+                if (index < data.voucherList[currentIndex].codeList.length) {
+                    if (data.voucherList[currentIndex].codeList[index].isUsed) {
+                        numberUsed++;
+                        row += '<td class="text-decoration-line-through">' + data.voucherList[currentIndex].codeList[index].code + '</td>';
+                    }
+                    else {
+                        row += '<td>' + data.voucherList[currentIndex].codeList[index].code + '</td>';
+                    }
+                }
+                else {
+                    row += '<td></td>';
+                }
+            }
+            row += '</tr>';
+            tableBody += row;
+        }
+        voucherDetailCodeTableBody.innerHTML = tableBody;
         voucherDetailQuantity.textContent = numberUsed + '/' + data.voucherList[currentIndex].codeList.length;
         var createdAtDate = new Date(data.voucherList[currentIndex].createdAt);
         voucherDetailCreatedAt.textContent = createdAtDate.toDateString();
         var expDate = new Date(data.voucherList[currentIndex].exp);
         voucherDetailExp.textContent = expDate.toDateString();
+        btnOptionInfoOnClick();
     }
 
     function updateDropdownTypeSearchBtn(type) {
@@ -383,7 +459,6 @@
                     voucherTableBody.innerHTML = tableBody;
                     if (data.voucherList.length > 0) {
                         voucherTableRowClick(1);
-                        btnOptionInfoOnClick();
                     }
                     else {
                         btnOptionCreateOnClick();
@@ -410,6 +485,16 @@
         }
     };
 
+    const btnShowVoucherCode = document.querySelector('.btn-show-voucher-code');
+    btnShowVoucherCode.addEventListener('click', () => {
+        if (voucherDetailCodeTableContainer.classList.contains('d-none')) {
+            voucherDetailCodeTableContainer.classList.remove('d-none');
+        }
+        else {
+            voucherDetailCodeTableContainer.classList.add('d-none');
+        }
+    });
+
     const btnDelete = document.querySelector('.btn-delete');
     btnDelete.addEventListener('click', async () => {
         if (data.voucherList.length > 0) {
@@ -425,13 +510,11 @@
                     if (data) {
                         if (data.status === 200) {
                             console.log('delete voucher successful');
-                            // alert('Xóa Voucher thành công');
                             showAlertChicPet('alert-success', 'Xóa Voucher thành công');
                             btnSearchOnClick();
                         }
                         else if (data.error) {
                             console.log(data.error);
-                            // alert('Xóa Voucher thất bại, vui lòng thử lại');
                             showAlertChicPet('alert-danger', 'Xóa Voucher thất bại, vui lòng thử lại');
                         }
                     }
@@ -439,7 +522,7 @@
                 catch(err) {
                     console.log('btn delete error');
                     console.log(err);
-                    alert('Xóa khách hàng thất bại, vui lòng thử lại');
+                    alert('Xóa Voucher thất bại, vui lòng thử lại');
                 }
             }
         }
@@ -550,11 +633,13 @@
                 }
                 else {
                     console.log('create voucher failed');
+                    showAlertChicPet('alert-success', 'Tạo voucher thất bại');
                 }
             }
             catch(err) {
                 console.log('create voucher error');
                 console.log(err);
+                showAlertChicPet('alert-success', 'Tạo voucher thất bại');
             }
         }
     });
