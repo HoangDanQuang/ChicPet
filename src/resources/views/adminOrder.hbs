@@ -5,39 +5,7 @@
 <div class="container-xl account-order-container">
     <div class="row">
         <div class="col-12 col-md-4 col-lg-3 my-3">
-            <div class="account-sidebar list-group">
-                <div class="d-flex justify-content-center align-items-end" style="height: 48px">
-                    <p class="bg-dark text-white px-1 m-0">ChicPet Admin</p>
-                </div>
-                <div class="account-sidebar__user d-flex align-items-center">
-                    <div class="d-flex sidebar-user_name fw-bold text-wrap align-item-center">
-                        <i class="sidebar-user__icon fas fa-paw px-4"></i>
-                        <span>{{user.fullname}}</span>
-                    </div>
-                </div>
-                <div class="account-sidebar__itemlist">
-                    <a href="/account/profile" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-user-alt"></i>
-                        <span>Thông tin cá nhân</span>
-                    </a>
-                    <a href="/account/customer" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-user-alt"></i>
-                        <span>Danh sách khách hàng</span>
-                    </a>
-                    <a href="/account/order" class="account-sidebar__item account-sidebar__item--active list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-receipt"></i>
-                        <span class="sidebar-item__name">Danh sách đơn hàng</span>
-                    </a>
-                    <a href="/account/voucher" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-envelope text-wrap"></i>
-                        <span class="sidebar-item__name">Voucher</span>
-                    </a>
-                    <a href="/logout" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-sign-out-alt"></i>
-                        <span class="sidebar-item__name">Thoát</span>
-                    </a>
-                </div>
-            </div>
+            {{> adminAccountSidebar}}
         </div>
         <div class="col-12 col-md-8 col-lg-9 my-3">
             <div class="row justify-content-between">
@@ -269,6 +237,9 @@
 </div>
 
 <script>
+    const sidebarItemOrder = document.getElementById('account_sidebar__order');
+    sidebarItemOrder.classList.add('account-sidebar__item--active');
+
     const dropdownStatusSearch = document.getElementById('dropdownStatusSearch');
     function updateDropdownStatusSearchBtn(payment) {
         dropdownStatusSearch.textContent = payment;
