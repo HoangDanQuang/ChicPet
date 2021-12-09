@@ -157,6 +157,42 @@ a:hover {
     background-color: #f8f9fa;
 }
 
+.btn-dropdown-service-type {
+    width: 4rem;
+    /* border: 1px solid #ced4da; */
+}
+
+.dropdown-menu-service-type {
+    min-width: 4rem;
+}
+
+.dropdown-service-type-item {
+    width: 100%;
+    line-height: 1;
+    padding: 6px 8px;
+}
+
+.dropdown-service-type-item:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-check-voucher {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100px;
+    border-radius: 8px;
+}
+
+.text-error {
+    color: red;
+}
+
+.btn-check-voucher:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
 .customer-info__customer-code {
     padding: 7px 12px;
 }

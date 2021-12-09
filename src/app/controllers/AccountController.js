@@ -447,26 +447,69 @@ module.exports.adminOrderList_post = async (req, res) => {
     }
 }
 
-module.exports.orderDetail_get = async (req, res) => {
-    console.log('order code: ', req.params.code);
-    try {
-        const order = await Order.findOne({ orderCode: req.params.code }).lean();
-        if (order) {
-            console.log(order);
-            if (order.customerId.equals(req.session.user._id)) {
-                res.render('accountOrderDetail', { order: order });
+module.exports.orderCheckVoucher_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { voucherCode } = req.body;
+                const voucher = await Voucher.findOne({ 'codeList.code': voucherCode });
+                if (voucher) {
+                    console.log(voucher);
+                    if (voucher.codeList.find(element => (element.code === voucherCode && element.isUsed === true))) {
+                        console.log('order check voucher already used');
+                        res.status(200).json({ error: 'voucher already used' });
+                    }
+                    else {
+                        res.status(200).json({ voucher: { voucherId: voucher.voucherId, type: voucher.type, value: voucher.value, max: voucher.max } });
+                    }   
+                }
+                else {
+                    console.log('order check voucher null');
+                    res.status(200).json({ error: 'voucher null' });
+                }
             }
-            else {
-                res.render('404NotFound');
+            catch(err) {
+                console.log('order check voucher error');
+                console.log(err);
+                res.status(400).json({ error: err });
             }
         }
         else {
-            console.log('account order detail null');
+            console.log('order check voucher post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
         }
     }
-    catch(err) {
-        console.log('account order detail error');
-        console.log(err);
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
+    }
+}
+
+module.exports.orderDetail_get = async (req, res) => {
+    if (res.locals.user) {
+        try {
+            const order = await Order.findOne({ orderCode: req.params.code }).lean();
+            if (order) {
+                console.log(order);
+                if (order.customerId.equals(req.session.user._id)) {
+                    res.render('accountOrderDetail', { order: order });
+                }
+                else {
+                    res.render('404NotFound');
+                }
+            }
+            else {
+                console.log('account order detail null');
+            }
+        }
+        catch(err) {
+            console.log('account order detail error');
+            console.log(err);
+        }
+    }
+    else {
+        console.log('user not log in');
+        res.render('404NotFound');
     }
 }
 
