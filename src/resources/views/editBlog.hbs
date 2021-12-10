@@ -2,7 +2,7 @@
 <Title>Edit blog</Title>
 
 
-<div class="d-flex align-items-start content">
+<div class="d-flex align-items-start content container p-0">
     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <button class="nav-link active" id="v-pills-all-tab" data-bs-toggle="pill" data-bs-target="#v-pills-all" type="button" role="tab" aria-controls="v-pills-all" aria-selected="true">All</button>
         <button class="nav-link" id="v-pills-dog-tab" data-bs-toggle="pill" data-bs-target="#v-pills-dog" type="button" role="tab" aria-controls="v-pills-dog" aria-selected="false">Các giống chó</button>
@@ -26,9 +26,9 @@
                         <button class=" btn btn-view p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{this._id}}" aria-expanded="false" aria-controls="collapseExample">
                             <i class="far fa-eye"></i>
                         </button>
-                        <button class=" btn btn-edit p-2">
+                        <a class=" btn btn-edit p-2" href="/blog/editBlog/{{this._id}}">
                             <i class="far fa-edit"></i>
-                        </button>
+                        </a>
                         <button class=" btn btn-delete p-2" id="{{this._id}}" onClick="reply_click(this.id)">
                             <i class="far fa-trash-alt"></i>
                         </button>
@@ -82,9 +82,9 @@
                         <button class=" btn btn-view p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{this._id}}" aria-expanded="false" aria-controls="collapseExample">
                             <i class="far fa-eye"></i>
                         </button>
-                        <button class=" btn btn-edit p-2">
+                        <a class=" btn btn-edit p-2" href="/blog/editBlog/{{this._id}}">
                             <i class="far fa-edit"></i>
-                        </button>
+                        </a>
                         <button class=" btn btn-delete p-2" id="{{this._id}}" onClick="reply_click(this.id)">
                             <i class="far fa-trash-alt"></i>
                         </button>
@@ -137,9 +137,9 @@
                         <button class=" btn btn-view p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{this._id}}" aria-expanded="false" aria-controls="collapseExample">
                             <i class="far fa-eye"></i>
                         </button>
-                        <button class=" btn btn-edit p-2">
+                        <a class=" btn btn-edit p-2" href="/blog/editBlog/{{this._id}}">
                             <i class="far fa-edit"></i>
-                        </button>
+                        </a>
                         <button class=" btn btn-delete p-2" id="{{this._id}}" onClick="reply_click(this.id)">
                             <i class="far fa-trash-alt"></i>
                         </button>
@@ -192,9 +192,9 @@
                         <button class=" btn btn-view p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{this._id}}" aria-expanded="false" aria-controls="collapseExample">
                             <i class="far fa-eye"></i>
                         </button>
-                        <button class=" btn btn-edit p-2">
+                        <a class=" btn btn-edit p-2" href="/blog/editBlog/{{this._id}}">
                             <i class="far fa-edit"></i>
-                        </button>
+                        </a>
                         <button class=" btn btn-delete p-2" id="{{this._id}}" onClick="reply_click(this.id)">
                             <i class="far fa-trash-alt"></i>
                         </button>
@@ -247,9 +247,9 @@
                         <button class=" btn btn-view p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{this._id}}" aria-expanded="false" aria-controls="collapseExample">
                             <i class="far fa-eye"></i>
                         </button>
-                        <button class=" btn btn-edit p-2">
+                        <a class=" btn btn-edit p-2" href="/blog/editBlog/{{this._id}}">
                             <i class="far fa-edit"></i>
-                        </button>
+                        </a>
                         <button class=" btn btn-delete p-2" id="{{this._id}}" onClick="reply_click(this.id)">
                             <i class="far fa-trash-alt"></i>
                         </button>

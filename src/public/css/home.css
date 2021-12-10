@@ -8,12 +8,12 @@ html{
     scroll-behavior: smooth;
 }
 .container-fluid{
-    padding: 0 10%;
+    /* padding: 0; */
   }
 /*-----------------slider-------------------*/
   
 .home-slider img{
-  height: 550px;
+  height: 650px;
   margin-top: 90px;
 }
 .carousel-control-prev{
@@ -24,9 +24,10 @@ html{
 }
 
   /*----------------------about-------------*/
-  
+  .body-home{
+  }
   .about{
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(245, 245, 245);
     background-clip: padding-box;
     padding: 7% 3%;
   }
