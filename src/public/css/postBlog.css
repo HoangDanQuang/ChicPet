@@ -79,7 +79,7 @@ html{
 }
 /*------------------------------------------*/
 #modal-preview .previewModal-body{
-    padding: 30px 10%;
+    padding: 30px 0;
     background-color: white !important;
 }
 #modal-preview .modal-footer{
