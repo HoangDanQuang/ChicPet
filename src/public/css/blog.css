@@ -8,16 +8,16 @@ html{
     scroll-behavior: smooth;
 }
 .container-fluid{
-    padding: 0 10%;
+    padding: 0;
 }
 /*--------------------------*/
 
 .blog-head img{
-    height: 600px;
+    height: 650px;
     margin-top: 90px;
 }
 .blog-body{
-    /* height: 500px; */
+    padding: 0 10%;
 
 }
 .carousel-control-prev{

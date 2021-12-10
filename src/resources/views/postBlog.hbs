@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="/css/postBlog.css">
 <title>Post</title>
 
-
-<div class="row flex-nowrap content mx-0">
+<div class="container">
+    <div class="row flex-nowrap content">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 menu-bar">
             <div class="d-flex flex-column align-items-center align-items-sm-start pt-2 list-item">
                 
@@ -26,9 +26,6 @@
                 </ul>    
 
             </div>
-
-            {{!-- <button class="btn btn-submit position-absolute bottom-0 start-0" onClick="post_click()"> Post </button>
- --}}
         </div>
 
         <div class="col py-3 post-content">
@@ -38,23 +35,14 @@
                     <input type="text" class="form-control title-blog" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
                 <div class="title-error error-text"></div>
-{{!--                 <div class="mb-3 row">
-                    <div class="col-sm-6">
-                        <input class="form-control form-control-sm img-blog" id="formFileSm" type="file" name="image-blog">
-                    </div>
-                    <div class="col-sm-6">
-                        <select class="form-select form-select-sm category-blog" aria-label=".form-select-sm example">
-                        <option selected value="Các giống chó">Các giống chó</option>
-                        <option value="Các giống mèo">Các giống mèo</option>
-                        <option value="Chăm sóc chó">Chăm sóc chó</option>
-                        <option value="Chăm sóc mèo">Chăm sóc mèo</option>
-                    </select>
-                    </div>
-                </div> --}}
 
                 <div class="input-group input-group-sm mt-3">
-                    <span class="input-group-text">Image</span>
-                    <input type="text" aria-label="First name" class="form-control img-blog">
+                    {{!-- <span class="input-group-text">Image</span>
+                    <input type="text" aria-label="First name" class="form-control img-blog"> --}}
+
+                    <input type="file" class="form-control form-control-sm  blog-img" name="blog-img" accept="image/png, image/jpeg">
+                    <button class="btn btn-outline-secondary" type="button" onclick="uploadPicture()">Upload</button>
+
                     <span class="input-group-text">Category</span>
                     <select class="form-select form-select-sm category-blog" aria-label=".form-select-sm example">
                         <option selected value="Các giống chó">Các giống chó</option>
@@ -80,6 +68,8 @@
             </form>
         </div>
     </div>
+</div>
+
 
 <!-- Modal -->
     <div class="modal fade" tabindex="-1" id="modal-inform">
@@ -118,6 +108,14 @@
         </div>
     </div>
 </div>
+{{!-- -----------toast-img--------------- --}}
+
+<div class="toast align-items-center hide position-fixed top-0 end-0 me-1" role="alert" aria-live="assertive" aria-atomic="true" style="z-index: 10000; margin-top: 100px">
+    <div class="d-flex">
+        <div class="toast-body">Image uploaded!</div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
 
 {{!-- test value -------------------------------------------------------------}}
 {{!--         <div class="show-value">
@@ -138,6 +136,8 @@
     
 </script>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
     const btnPost = document.querySelector('.btn-post');
     const titleError = document.querySelector('.title-error');
@@ -145,13 +145,35 @@
     const descriptionError = document.querySelector('.description-error');
     const contentError = document.querySelector('.content-error');
 
+    async function uploadPicture() 
+    {
+        var fileName = document.querySelector('.blog-img').files[0];
+        console.log(fileName);
+        const formData = new FormData();
+        formData.append("file", fileName)
+        formData.append("upload_preset", "moriisotre");
+        try{
+            const res = await axios.post(`https://api.cloudinary.com/v1_1/tanthanh0805/image/upload`, formData)
+
+            if(res.data){
+                document.querySelector('.blog-img').name = res.data.url;
+                var myToastEl = document.querySelector('.toast');
+                var myToast = new bootstrap.Toast(myToastEl);
+                myToast.show();
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
     btnPost.addEventListener('click', async ()=> {
         const inputTitle = document.querySelector('.title-blog').value;
-        const inputImg = document.querySelector('.img-blog').value;
         const inputCategory = document.querySelector('.category-blog').value;
         const inputDescription = document.querySelector('.description-blog').value
         var myContent = tinymce.get("editor").getContent();
-        console.log(inputImg);
+        var inputImg = document.querySelector('.blog-img').name;
+        if(inputImg ==  "blog-img") inputImg = "";
 
         console.log('btn-post clicked');
         try {
@@ -177,6 +199,7 @@
                 var myModal = new bootstrap.Modal(document.getElementById('modal-inform'));
                 myModal.show();
                 console.log("Post Thanh Cong");
+                document.querySelector('.blog-img').name = "blog-img";
             }
         }
         catch (err) {
@@ -197,7 +220,7 @@
 
     btnPreview.addEventListener('click', ()=>{
         const inputTitle = document.querySelector('.title-blog').value;
-        const inputImg = document.querySelector('.img-blog').value;
+        const inputImg = document.querySelector('.blog-img').name;
         const inputCategory = document.querySelector('.category-blog').value;
         const inputDescription = document.querySelector('.description-blog').value
         var myContent = tinymce.get("editor").getContent();
