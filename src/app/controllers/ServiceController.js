@@ -8,7 +8,7 @@ const { render } = require("express/lib/response");
 
 
 const handleErrors = (err) => {
-    let errors = { title: '', img: '', category: '', description: '', priceS, priceM, priceL, contentCode: '' };
+    let errors = { title: '', img: '', category: '', description: '', prices: '', contentCode: '' };
 
     if (err.message === 'Title is required') {
         errors.title = '*Title is required';
@@ -30,18 +30,6 @@ const handleErrors = (err) => {
     }
     if (err.message === "Content is required") {
         errors.contentCode = "*Content is required";
-        return errors;
-    }
-    if (err.message === "PriceS is required") {
-        errors.priceS = "*PriceS is required";
-        return errors;
-    }
-    if (err.message === "PriceM is required") {
-        errors.priceM = "*PriceM is required";
-        return errors;
-    }
-    if (err.message === "PriceL is required") {
-        errors.priceL = "*PriceL is required";
         return errors;
     }
     return errors;
@@ -69,29 +57,15 @@ module.exports.postService_get = (req, res) => {
 module.exports.postService_post = async(req, res) => {
     console.log('req.body: ' + req.body);
 
-    /*     if (req.files == undefined) {
-            return res.send({
-              message: "You must select a file.",
-            });
-        }
-        else{
-            console.log(req.file)
-        } */
+    const { name, img, category, description, prices, contentCode } = req.body;
 
-    const { title, img, category, description, priceS, priceM, priceL, contentCode } = req.body;
-    /*     var image = fs.readFileSync(req.file.path);
-        var encode_image = image.toString('base64'); */
     try {
         const newService = new Service({
-            /*  serviceCode: Date.now(), */
-            title: title,
+            name: name,
             img: img,
             category: category,
             description: description,
-            priceS: priceS,
-            priceM: priceM,
-            priceL: priceL,
-            /*  postingTime: Date.now(), */
+            prices: prices,
             contentCode: contentCode
         });
         newService.save().then(result => {
@@ -126,7 +100,7 @@ module.exports.detailService_get = async(req, res) => {
     }
 }
 
-//-------------------------------------------------------------------------//
+//----------------------------------edit---------------------------------------//
 module.exports.editService_get = async(req, res) => {
     try {
         const serviceList = await Service.find({}).sort({ createdAt: -1 }).lean();
@@ -144,7 +118,6 @@ module.exports.editService_get = async(req, res) => {
 module.exports.editService_post = async(req, res) => {
 
     const { id, status } = req.body;
-    //var newvalues = { $set: { title: '', img: '', category: '', description: '', priceS, priceM, priceL, contentCode: '' } }; //dùng cho update
     var objectId = mongoose.Types.ObjectId(id);
     try {
         if (status == "delete") {
@@ -165,7 +138,7 @@ module.exports.editService_post = async(req, res) => {
     }
 }
 
-//render update service
+//--------------------------------------------render update service------------------------------//
 module.exports.updateService_get = async(req, res) => {
     console.log('service code: ', req.params.code);
     var objectId = mongoose.Types.ObjectId(req.params.code);
@@ -173,7 +146,7 @@ module.exports.updateService_get = async(req, res) => {
     try {
         const service = await Service.findOne({ _id: objectId }).lean();
         if (service) {
-            console.log(service);
+            //console.log(service);
             res.render('updateService', { service: service });
         } else {
             console.log('service null');
@@ -186,31 +159,23 @@ module.exports.updateService_get = async(req, res) => {
 
 module.exports.updateService_post = async(req, res) => {
 
-    //const { id, status } = req.body;
-    // var newvalues = { $set: { title: '', img: '', category: '', description: '', priceS, priceM, priceL, contentCode: '' } }; //dùng cho update
-
-    const { id, title, img, category, description, priceS, priceM, priceL, contentCode } = req.body;
+    const { id, name, img, category, description, prices, contentCode } = req.body;
     var objectId = mongoose.Types.ObjectId(id);
     const newService = new Service({
-        title: title,
+        name: name,
         img: img,
         category: category,
         description: description,
-        priceS: priceS,
-        priceM: priceM,
-        priceL: priceL,
+        prices: prices,
         contentCode: contentCode
     });
     try {
-        //const query = { _id: objectId };
         const result = await Service.updateOne({ _id: objectId }, {
-            title: title,
+            name: name,
             img: img,
             category: category,
             description: description,
-            priceS: priceS,
-            priceM: priceM,
-            priceL: priceL,
+            prices: prices,
             contentCode: contentCode
         });
         if (result.modifiedCount === 1) {

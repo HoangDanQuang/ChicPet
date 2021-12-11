@@ -1,17 +1,12 @@
 <link rel="stylesheet" href="/css/updateService.css">
 <title>Update</title>
 
-
-<div class="row flex-wrap content mx-0 mb-5">
+<div class="container px-5">
+    <div class="row flex-wrap content mx-0 mb-5">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 menu-bar">
             <div class="d-flex flex-column align-items-center align-items-sm-start pt-2 list-item">
                 
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <li class="nav-item">
-                        <button class="nav-link align-middle px-0 btn btn-new">
-                            <i class="far fa-calendar-plus"></i> New 
-                        </button>
-                    </li>
                     <li class="nav-item">
                         <button class="nav-link align-middle px-0 btn btn-preview"> 
                             <i class="fas fa-chalkboard-teacher"></i> Preview
@@ -28,73 +23,88 @@
                         </button>
                     </li>
                 </ul>    
-
             </div>
-
-            {{!-- <button class="btn btn-submit position-absolute bottom-0 start-0" onClick="post_click()"> Post </button>
- --}}
         </div>
 
         <div class="col py-3 post-content">
             <form action="/formUpdate" method="post" enctype="multipart/form-data" class="form-post">
                <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">Service name</span>
-                        <input type="text" class="form-control title-service" value="{{service.title}}" id ="{{service._id}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                        </div>
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Service name</span>
+                    <input type="text" class="form-control name-service" value="{{service.name}}" id ="{{service._id}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
 
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text">Image</span>
-                            <input type="text" aria-label="First name" value="{{service.img}}" class="form-control img-service">
-                            <span class="input-group-text">Category</span>
-                            <select class="form-select form-select-sm category-service" value="{{service.category}}" aria-label=".form-select-sm example">
-                                <option selected value="dog-service">Dog's service</option>
-                                <option value="cat-service">Cat's service</option>
-                                <option value="other-service">Other</option>
-                            </select>
-                        </div>
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text">Image</span>
+                    <input type="text" aria-label="First name" value="{{service.img}}" class="form-control img-service">
+                    <span class="input-group-text">Category</span>
+                    <select class="form-select form-select-sm category-service" aria-label=".form-select-sm example">
+                        <option {{#ifCond service.category '==' 'dog-service'}} selected {{/ifCond}} value="dog-service">Dog's service</option>
+                        <option {{#ifCond service.category '==' 'cat-service'}} selected {{/ifCond}} value="cat-service">Cat's service</option>
+                        <option {{#ifCond service.category '==' 'other-service'}} selected {{/ifCond}} value="other-service">Other</option>
+                    </select>
+                </div>
 
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
-                            <input type="text" class="form-control description-service" value="{{service.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-sm">Price: </span>
-                            <span class="input-group-text" id="inputGroup-sizing-sm">Size S </span>
-                            <input type="number" class="form-control size-service-s" value="{{service.priceS}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                            <span class="input-group-text" id="inputGroup-sizing-sm">Size M </span>
-                            <input type="number" class="form-control size-service-m" value="{{service.priceM}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                            <span class="input-group-text" id="inputGroup-sizing-sm">Size L </span>
-                            <input type="number" class="form-control size-service-l" value="{{service.priceL}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                        </div>
-                        <div class="row justify-content-md-center">
-                            <div class="form-group">
-                                <textarea id="editor">    
-                                </textarea>
-                                 
-                            </div>
-                            <div class="contentCode-div">
-                                <input type="text" value="{{service.contentCode}}" id="inputContentCode">
-                            </div>
-                        </div>  
-                           
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
+                    <input type="text" class="form-control description-service" value="{{service.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+
+                <table class="table mt-3 service-table" id = "serviceTable">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" style="width: 40%">Type</th>
+                        <th scope="col" style="width: 40%">Price</th>
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each service.prices}}
+                        <tr>
+                            <th scope="row"></th>
+                            <td>{{this.type}}</td>
+                            <td>{{this.price}}</td>
+                            <td><button type="button" class="btn btn-delete p-0" onClick="deleteType()"><i class="fas fa-minus"></i></button></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Type: </span>
+                    <input type="text" class="form-control type-price" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Price: </span>
+                    <input type="number" class="form-control size-service-m input-price" min="0" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" onchange="myFunction(this.value)">
+                    <button type="button" class="btn btn-secondary btn-add" id = "add_type_size"  onClick="addType()"><i class="fas fa-plus fa-lg"></i></button>
+                </div>
+
+                <div class="row justify-content-md-center">
+                    <div class="form-group">
+                        <textarea id="editor">    
+                        </textarea>
+                            
+                    </div>
+                    <div class="contentCode-div">
+                        <input type="text" value="{{service.contentCode}}" id="inputContentCode">
+                    </div>
+                </div>  
             </form>
         </div>
     </div>
+</div>
 
 <!-- Modal -->
     <div class="modal fade" tabindex="-1" id="modal-inform">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Post service</h5>
+            <h5 class="modal-title">Update service</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p>Post successful!</p>
+            <p>Update successful!</p>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-closeModal" data-bs-dismiss="modal">Close</button>
-            {{!-- <button type="button" class="btn btn-viewservice" href="">View service</button> --}}
             <a class="btn btn-viewService" type="button" href="/service">View service</a>
         </div>
         </div>
@@ -102,8 +112,6 @@
     </div>
 
 {{!-- modal-preview --}}
-
-<!-- Full screen modal -->
 <div class="modal fade" tabindex="-1" id="modal-preview">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
@@ -119,12 +127,6 @@
     </div>
 </div>
 
-
-{{!-- test value -------------------------------------------------------------}}
-{{!--         <div class="show-value">
-            <textarea name="" id="show-value" cols="30" rows="10"></textarea>
-        </div> --}}
-{{!--  ------ ----------------------------------------------------------------}}
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="https://cdn.tiny.cloud/1/2f03u9d8k3bfqttf9dac5pmhdc50rnspe3xpee2cfn8a7plx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
@@ -148,35 +150,86 @@
     
 </script>
 
+
+
+
+
 <script>
+
+     /*-------------------------inner html------------------------------------*/
+    const elementTbody = document.querySelector('tbody');
+    var listPrice = [];
+
+    var myTab = document.getElementById('serviceTable');
+
+    for (i = 1; i < myTab.rows.length; i++) {
+        const Data = {
+            type: myTab.rows.item(i).cells[1].textContent,
+            price: myTab.rows.item(i).cells[2].textContent,
+        }
+        listPrice.push(Data);
+    }
+
+    const render = () => {
+        const html = listPrice.map((element, index) => (
+            `<tr>
+            <th scope="row">${index + 1}</th>
+            <td>${element.type}</td>
+            <td>${element.price}</td>
+            <td><button type="button" class="btn btn-delete p-0" onClick="deleteType(${index})"><i class="fas fa-minus"></i></button></td>
+        </tr>`
+        ));
+        elementTbody.innerHTML = html.join('');
+    }
+    render();
+
+    function addType()
+    {  
+        const Data = {
+            type: document.querySelector('.type-price').value,
+            price: document.querySelector('.input-price').value,
+        }
+        if(Data.type != '' && Data.price != ''){
+            listPrice.push(Data);
+            render();
+            document.querySelector('.type-price').value = '';
+            document.querySelector('.input-price').value = '';
+        }
+    }
+    function deleteType(index){
+        listPrice.splice(index, 1);
+        render();
+    }
+    function myFunction(value){
+        if(value < 0){
+            document.querySelector('.input-price').value = 0;
+        }
+    }
+
+    /*---------------------------------update-------------------------*/
     const btnPost = document.querySelector('.btn-post');
 
     btnPost.addEventListener('click', async ()=> {
-        const inputTitle = document.querySelector('.title-service');
+        const inputName = document.querySelector('.name-service');
         const inputImg = document.querySelector('.img-service').value;
         const inputCategory = document.querySelector('.category-service').value;
         const inputDescription = document.querySelector('.description-service').value;
-        const inputServicePriceS = document.querySelector('.size-service-s').value;
-        const inputServicePriceM = document.querySelector('.size-service-m').value;
-        const inputServicePriceL = document.querySelector('.size-service-l').value;
         var myContent = tinymce.get("editor").getContent();
         console.log(inputImg);
 
         console.log('btn-post clicked');
         try {
-            const id = inputTitle.id;
-            const title = inputTitle.value;
+            const id = inputName.id;
+            const name = inputName.value;
             const img = inputImg;
             const category = inputCategory;
             const description = inputDescription;
-            const priceS = inputServicePriceS;
-            const priceM = inputServicePriceM;
-            const priceL = inputServicePriceL;
+            const prices = listPrice;
             const contentCode = myContent;
             const url = '/service/editService/updateService/' + id;
             const res = await fetch( url , {
                 method: 'POST',
-                body: JSON.stringify({ id, title, img, category, description,priceS,priceM, priceL, contentCode }),
+                body: JSON.stringify({ id, name, img, category, description,prices, contentCode }),
                 headers: {'Content-Type': 'application/json'}
             });
             const data = await res.json();
@@ -194,86 +247,49 @@
         }
     });
 
-
-    const btnNew = document.querySelector('.btn-new');
-    const formPost = document.querySelector('.form-post')
-    btnNew.addEventListener('click', ()=>{
-        formPost.reset();
-    })
-
-
+    /*----------------------preview------------------------------------------*/
     const btnPreview = document.querySelector('.btn-preview');
     const bodyPreview = document.querySelector('.previewModal-body');
 
     btnPreview.addEventListener('click', ()=>{
-        const inputTitle = document.querySelector('.title-service').value;
+        const inputName = document.querySelector('.name-service').value;
         const inputImg = document.querySelector('.img-service').value;
         const inputCategory = document.querySelector('.category-service').value;
         const inputDescription = document.querySelector('.description-service').value;
-        const inputServicePriceS = document.querySelector('.size-service-s').value;
-        const inputServicePriceM = document.querySelector('.size-service-m').value;
-        const inputServicePriceL = document.querySelector('.size-service-l').value;
-        const priceS = inputServicePriceS;
-        const priceM = inputServicePriceM;
-        const priceL = inputServicePriceL;
         var myContent = tinymce.get("editor").getContent();
-        var today = new Date();
-        today.toISOString().substring(0, 10);
+        var inputPrices = ``;
+        for(var i = 0; i< listPrice.length; i++){
+            inputPrices += `<h5>${listPrice[i].type}: ${listPrice[i].price}</h5>`
+        }
         
-        var html = `    <div class="service-header mb-5">
+        var html = `    <div class="container px-5">
+                        <div class="service-header mb-5">
                             <div class="service-category">
                                 <p>${inputCategory}</p>
                             </div>
                             <div>
-                                <h2>${inputTitle}</h2>
-                            </div>
-                            <div class="service-timeCreate">
-                                <p>${today}</p>
+                                <h2>${inputName}</h2>
                             </div>
                             <hr>
                         </div>
 
-
                         <div class="service-body mb-5">
                             <div class="service-description ">
-                                <p>${inputDescription}</p>
+                                <h5>${inputDescription}</h5>
                             </div>
-                            <div class="service-description ">
-                                <p>Price for size S: ${priceS}, size M: ${priceM}, size L: ${priceL} </p>
-                            </div>
+
                             <div class="service-img d-flex justify-content-center mb-5">
                                 <img src="${inputImg}" alt="" height="380">
                             </div>
-                        </div>` + `${myContent}`
+                        </div>` + `<div class="service-price mb-4">
+                                    <h4>Service Price</h4>
+                                    ${inputPrices} </div>` + `${myContent}` + `</div>`
         bodyPreview.innerHTML = html;
-        
 
         const modalPreview = new bootstrap.Modal(document.getElementById('modal-preview'));
         modalPreview.show();
     })
-
     
 </script>
 
-{{!-- add type and price --}}
-<script>
-        
-    const addMember = document.querySelector('.add_type')
-    var memberCount = 0;
-
-    function addType(){
-        memberCount ++;
-        var html1 = ``;
-        for(i= 0; i< memberCount; i++){
-            html1 += ` <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">Type: </span>
-                        <input type="text" class="form-control type-service" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">Price: </span>
-                        <input type="number" min="10000" class="form-control size-service-m" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                        <button type="button" class="btn btn-primary btn-add" id = "add_type_size"  onClick="addType()">ADD</button>
-                    </div>`
-        }
-        addMember.innerHTML = html1;
-    }
-</script>
 
