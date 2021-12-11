@@ -1,8 +1,13 @@
 <link rel="stylesheet" href="/css/header.css">
+
 <div class="header col shadow fixed-top">
     <div class="hd1 d-flex justify-content-around">
         <div class="d-flex align-items-center"><span class="px-3"><i class="fas fa-phone"></i></span>(949) 387-0441</div>
         <div class="d-flex align-items-center"><span class="px-3"><i class="fas fa-envelope"></i></span>chicpet010246@gmail.com</div>
+    </div>
+    {{!-- Alert --}}
+    <div style="cursor: pointer;" id="display-alert-css" class="alert top-0 end-0 chicpet-alert d-none" role="alert">
+        A simple secondary alert—check it out!
     </div>
     <div class="hd2">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -101,3 +106,17 @@
         </nav>
     </div>
 </div>
+
+<script>
+    const AlertChicPet = document.getElementById('display-alert-css');
+    //ALERT CHICPET
+    AlertChicPet.onclick = () => {
+        AlertChicPet.classList.add('d-none');
+    }
+    const showAlertChicPet = (typeAlert, message) => {
+        AlertChicPet.classList.remove('d-none');
+        AlertChicPet.classList.add(typeAlert);
+        AlertChicPet.innerText = message;
+        setTimeout(() => { AlertChicPet.classList.add('d-none'); }, 2000)
+    }
+</script>

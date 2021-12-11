@@ -1,6 +1,7 @@
 const res = require("express/lib/response");
 const User = require('../models/User');
 const Order = require('../models/Order');
+const Voucher = require('../models/Voucher');
 const { json } = require("express/lib/response");
 const mongoose = require ('mongoose');
 const bcrypt = require('bcrypt');
@@ -15,7 +16,7 @@ module.exports.profile_get = (req, res) => {
             res.render('accountProfile');
         }
     }
-    else res.render('accountProfile');
+    else res.render('404NotFound');
 }
 
 module.exports.profile_post = async (req, res) => {
@@ -165,21 +166,23 @@ module.exports.adminDeleteCustomer_post = async (req, res) => {
                 }
                 else {
                     console.log('delete fail');
-                    res.json({ error: 'delete return null' });
+                    res.json({ status: 400, error: 'delete return null' });
                 }
             }
             catch(err) {
                 console.log('admin customer delete post error');
                 console.log(err);
-                res.json({ error: 'delete customer error' });
+                res.json({ status: 400, error: 'delete customer error' });
             }
         }
         else {
             console.log('customer delete post not authorized');
+            res.json({ status: 400, error: 'user not authorized' });
         }
     }
     else {
         console.log('user not log in');
+        res.json({ status: 400, error: 'user not log in' });
     }
 }
 
@@ -420,46 +423,93 @@ module.exports.adminOrderList_post = async (req, res) => {
 
                 if (orderList) {
                     console.log(orderList);
-                    res.json({ orderList: orderList });
+                    res.status(200).json({ orderList: orderList });
                 }
                 else {
                     console.log('admin orderList null');
+                    res.status(400).json({ error: 'orderList null' });
                 }
             }
             catch(err) {
                 console.log('admin post orderList error');
                 console.log(err);
+                res.status(400).json({ error: err });
             }
         }
         else {
             console.log('orderList post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
         }
     }
     else {
         console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
+    }
+}
+
+module.exports.orderCheckVoucher_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { voucherCode } = req.body;
+                const voucher = await Voucher.findOne({ 'codeList.code': voucherCode });
+                if (voucher) {
+                    console.log(voucher);
+                    if (voucher.codeList.find(element => (element.code === voucherCode && element.isUsed === true))) {
+                        console.log('order check voucher already used');
+                        res.status(200).json({ error: 'voucher already used' });
+                    }
+                    else {
+                        res.status(200).json({ voucher: { voucherId: voucher.voucherId, type: voucher.type, value: voucher.value, max: voucher.max } });
+                    }
+                }
+                else {
+                    console.log('order check voucher null');
+                    res.status(200).json({ error: 'voucher null' });
+                }
+            }
+            catch(err) {
+                console.log('order check voucher error');
+                console.log(err);
+                res.status(400).json({ error: err });
+            }
+        }
+        else {
+            console.log('order check voucher post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
+        }
+    }
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
     }
 }
 
 module.exports.orderDetail_get = async (req, res) => {
-    console.log('order code: ', req.params.code);
-    try {
-        const order = await Order.findOne({ orderCode: req.params.code }).lean();
-        if (order) {
-            console.log(order);
-            if (order.customerId.equals(req.session.user._id)) {
-                res.render('accountOrderDetail', { order: order });
+    if (res.locals.user) {
+        try {
+            const order = await Order.findOne({ orderCode: req.params.code }).lean();
+            if (order) {
+                console.log(order);
+                if (order.customerId.equals(req.session.user._id)) {
+                    res.render('accountOrderDetail', { order: order });
+                }
+                else {
+                    res.render('404NotFound');
+                }
             }
             else {
-                res.render('404NotFound');
+                console.log('account order detail null');
             }
         }
-        else {
-            console.log('account order detail null');
+        catch(err) {
+            console.log('account order detail error');
+            console.log(err);
         }
     }
-    catch(err) {
-        console.log('account order detail error');
-        console.log(err);
+    else {
+        console.log('user not log in');
+        res.render('404NotFound');
     }
 }
 
@@ -475,50 +525,183 @@ module.exports.voucher_get = (req, res) => {
     else res.render('404NotFound');
 }
 
+module.exports.adminVoucherList_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { voucherIdSearch, voucherCodeSearch, voucherTypeSearch, voucherExpSearch } = req.body;
+                var voucherList = [];
+                if (voucherIdSearch === '' && voucherCodeSearch === '' && voucherTypeSearch === 'Tất cả' && voucherExpSearch === '') {
+                    console.log('get all vouchers');
+                    voucherList = await Voucher.find({ }).sort({ createdAt: -1 });
+                }
+                else if (voucherIdSearch !== '') {
+                    console.log('search by voucher ID');
+                    voucherList = await Voucher.find({ voucherId: voucherIdSearch }).sort({ createdAt: -1 });
+                }
+                else if (voucherCodeSearch !== '') {
+                    console.log('search by voucher code');
+                    voucherList = await Voucher.find({ 'codeList.code': voucherCodeSearch }).sort({ createdAt: -1 });
+                }
+                else if (voucherTypeSearch !== 'Tất cả') {
+                    if (voucherExpSearch !== '') {
+                        console.log('search by voucher type, voucher exp');
+                        var expDate = new Date(voucherExpSearch);
+                        expDate.setHours(0, 0, 0);
+                        voucherList = await Voucher.find({ type: voucherTypeSearch, exp: { $gte: expDate } }).sort({ createdAt: -1 });
+                        var i = 0;
+                        expDate.setHours(23, 59, 59);
+                        while (i < voucherList.length) {
+                            var createdAt = new Date(voucherList[i].createdAt).getTime();
+                            if (createdAt > expDate.getTime()) {
+                                voucherList.splice(i, 1);
+                                console.log(voucherList);
+                            }
+                            else i++;
+                        }
+                    }
+                    else {
+                        console.log('search by voucher type');
+                        voucherList = await Voucher.find({ type: voucherTypeSearch }).sort({ createdAt: -1 });
+                    }
+                }
+                else if (voucherExpSearch !== '') {
+                    console.log('search by voucher exp')
+                    var expDate = new Date(voucherExpSearch);
+                    expDate.setHours(0, 0, 0);
+                    voucherList = await Voucher.find({ exp: { $gte: expDate } }).sort({ createdAt: -1 });
+                    var i = 0;
+                    expDate.setHours(23, 59, 59);
+                    while (i < voucherList.length) {
+                        var createdAt = new Date(voucherList[i].createdAt).getTime();
+                        if (createdAt > expDate.getTime()) {
+                            voucherList.splice(i, 1);
+                            console.log(voucherList);
+                        }
+                        else i++;
+                    }
+                }
 
-
-
-
-module.exports.makeOrder_get = (req, res) => {
-    try {
-        var newOrder = new Order({
-            orderCode: '#123456789',
-            customerId: res.locals.user._id,
-            fullname: res.locals.user.fullname,
-            phone: res.locals.user.phone,
-            mail: res.locals.user.mail,
-            meetingTime: Date.now(),
-            status: 'Đã hoàn thành',
-            services: [
-                {
-                    serviceName: 'Cắt tỉa lông chó',
-                    type: 'M',
-                    quantity: 2,
-                    price: 150000,
-                    total: 300000,
-                },
-                {
-                    serviceName: 'Spa cho chó',
-                    type: 'M',
-                    quantity: 2,
-                    price: 150000,
-                    total: 300000,
-                },
-            ],
-            discount: -50000,
-            voucher: -50000,
-            total: 500000,
-            note: '',
-        });
-        newOrder.save().then(result => {
-            console.log('make order successful');
-            console.log(newOrder);
-            res.status(400).json({ order: newOrder });
-        });
+                if (voucherList) {
+                    console.log(voucherList);
+                    res.status(200).json({ voucherList: voucherList });
+                }
+                else {
+                    console.log('admin voucherList null');
+                    res.status(400).json({ error: 'voucherList null' });
+                }
+            }
+            catch(err) {
+                console.log('admin post voucherList error');
+                console.log(err);
+                res.status(400).json({ error: err });
+            }
+        }
+        else {
+            console.log('get voucher list post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
+        }
     }
-    catch (err) {
-        console.log('make order post error');
-        console.log(err);
-        res(err);
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
     }
 }
+
+module.exports.adminCreateVoucher_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { newVoucherId, newVoucherType, newVoucherValue, newVoucherMaxValue, newVoucherQuantity, newVoucherExp,   newVoucherNote } = req.body;
+                if (newVoucherId === '' || newVoucherType === '' || newVoucherValue === '' || (newVoucherValue === 'Phần trăm' && (newVoucherMaxValue || newVoucherMaxValue === '')) || newVoucherQuantity === '' || newVoucherExp === '') {
+                    throw Error('Invalid Voucher Info');
+                }
+                var newCodeList = [];
+                for (i = 0; i < newVoucherQuantity; i++) {
+                    var newCode = {
+                        code: generateID(8),
+                        isUsed: false,
+                    };
+                    newCodeList.push(newCode);
+                }
+                var newVoucherExpDate = new Date(newVoucherExp);
+                newVoucherExpDate.setHours(23, 59, 59);
+                var newVoucher = new Voucher({
+                    voucherId: newVoucherId,
+                    type: newVoucherType,
+                    value: newVoucherValue,
+                    max: newVoucherMaxValue,
+                    exp: newVoucherExpDate,
+                    codeList: newCodeList,
+                    note: newVoucherNote,
+                });
+                newVoucher.save().then(result => {
+                    console.log('create voucher successful');
+                    console.log(result);
+                    res.status(200).json({ newVoucher });
+                })
+                .catch((err) => {
+                    console.log('create voucher failed');
+                    console.log(err);
+                    res.status(400).json({ error: err });
+                });
+            }
+            catch(err) {
+                console.log('admin post create voucher error');
+                console.log(err);
+                res.status(400).json({ error: err });
+            }
+        }
+        else {
+            console.log('create voucher post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
+        }
+    }
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
+    }
+}
+
+function generateID(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+};
+
+module.exports.adminDeleteVoucher_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { voucherIdToDelete } = req.body;
+                const result = await Voucher.deleteOne({ voucherId: voucherIdToDelete });
+                if (result) {
+                    console.log('delete successful');
+                    console.log(result);
+                    res.json({ status: 200 });
+                }
+                else {
+                    console.log('delete fail');
+                    res.json({ status: 400, error: 'delete return null' });
+                }
+            }
+            catch(err) {
+                console.log('admin voucher delete post error');
+                console.log(err);
+                res.json({ status: 400, error: 'delete voucher error' });
+            }
+        }
+        else {
+            console.log('voucher delete post not authorized');
+            res.json({ status: 400, error: 'user not authorized' });
+        }
+    }
+    else {
+        console.log('user not log in');
+        res.json({ status: 400, error: 'user not log in' });
+    }
+};

@@ -10,7 +10,7 @@ a:hover {
     padding: 100px 0 50px 0;
 }
 
-.account-sidebar {
+/* .account-sidebar {
     border-radius: 12px;
     background-color: #f5f5f5;
 }
@@ -61,4 +61,183 @@ a:hover {
 
 .sidebar-item_name {
     height: 100%;
+} */
+
+.btn-create {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 50px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-create:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
+.btn-search {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 100px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-search:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
+.btn-dropdown-type-search {
+    width: 100%;
+    border: 1px solid #ced4da;
+}
+
+.dropdown-type-search-item {
+    line-height: 1.5;
+    padding: 6px 24px;
+}
+
+.dropdown-type-search-item:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-voucher-table-container {
+    max-height: 450px;
+    overflow: auto;
+    margin-bottom: 48px;
+}
+
+.voucher-table thead{
+    background-color: white;
+    position: sticky;
+    top: 0;
+}
+
+.voucher-table thead tr th {
+    border-bottom: 0;
+}
+
+.voucher-table thead th:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: -1px;
+    border-bottom: 1px solid black;
+}
+
+.voucher-option-container {
+    padding-bottom: 28px;
+}
+
+.btn-voucher-option {
+    /* background-color: rgb(255, 101, 80);
+    color: white; */
+    font-size: 14px;
+    font-weight: 700;
+    width: 150px;
+    padding: 8px 0px;
+    margin: 0px 24px 0px 24px;
+    border-bottom: 1px solid gray;
+    /* border-radius: 8px; */
+    /* text-decoration: underline; */
+}
+
+.btn-voucher-option:hover {
+    color: gray;
+    background-color: rgba(255, 101, 80, 15%);
+}
+
+.btn-voucher-option--active {
+    font-weight: 600;
+    border-bottom: 0;
+    background-color: rgb(255, 101, 80);
+    border-radius: 8px;
+    color: white;
+}
+
+.btn-voucher-option--active:hover {
+    background-color: rgb(255, 101, 80);
+    color: white;
+}
+
+.voucher-detail-header__title {
+    font-size: 2.25rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.voucher-detail-header__voucher-id {
+    font-weight: 700;
+}
+
+.btn-delete {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 40px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-delete:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
+.btn-create-id {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    border-radius: 8px;
+}
+
+.btn-create-id:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
+.btn-dropdown-type-create {
+    width: 10rem;
+    border: 1px solid #ced4da;
+}
+
+.dropdown-type-create-item {
+    line-height: 1.5;
+    padding: 6px 24px;
+}
+
+.dropdown-type-create-item:hover {
+    background-color: #f8f9fa;
+}
+
+.input-group-text-unit {
+    width: 40px;
+}
+
+.btn-create {
+    background-color: rgb(255, 101, 80);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 40px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-create:hover {
+    background-color: rgba(255, 101, 80, 75%);
+}
+
+.text-error {
+    color: red;
 }

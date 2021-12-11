@@ -12,8 +12,11 @@ router.post('/admin-delete-customer', requireAuth, accountController.adminDelete
 router.get('/order', requireAuth, accountController.order_get);
 router.get('/get-order/:code', requireAuth, accountController.orderDetail_get);
 router.post('/admin-get-order', requireAuth, accountController.adminOrderList_post);
-router.get('/make-order', requireAuth, accountController.makeOrder_get);
+router.post('/order-check-voucher', requireAuth, accountController.orderCheckVoucher_post);
 router.get('/voucher', requireAuth, accountController.voucher_get);
+router.post('/admin-get-voucher', requireAuth, accountController.adminVoucherList_post);
+router.post('/admin-create-voucher', requireAuth, accountController.adminCreateVoucher_post);
+router.post('/admin-delete-voucher', requireAuth, accountController.adminDeleteVoucher_post);
 router.get('/', requireAuth, accountController.profile_get);
 
 module.exports = router;

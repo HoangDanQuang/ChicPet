@@ -5,39 +5,7 @@
 <div class="container-xl account-order-container">
     <div class="row">
         <div class="col-12 col-md-4 col-lg-3 my-3">
-            <div class="account-sidebar list-group">
-                <div class="d-flex justify-content-center align-items-end" style="height: 48px">
-                    <p class="bg-dark text-white px-1 m-0">ChicPet Admin</p>
-                </div>
-                <div class="account-sidebar__user d-flex align-items-center">
-                    <div class="d-flex sidebar-user_name fw-bold text-wrap align-item-center">
-                        <i class="sidebar-user__icon fas fa-paw px-4"></i>
-                        <span>{{user.fullname}}</span>
-                    </div>
-                </div>
-                <div class="account-sidebar__itemlist">
-                    <a href="/account/profile" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-user-alt"></i>
-                        <span>Thông tin cá nhân</span>
-                    </a>
-                    <a href="/account/customer" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-user-alt"></i>
-                        <span>Danh sách khách hàng</span>
-                    </a>
-                    <a href="/account/order" class="account-sidebar__item account-sidebar__item--active list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-receipt"></i>
-                        <span class="sidebar-item__name">Danh sách đơn hàng</span>
-                    </a>
-                    <a href="/account/voucher" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-envelope text-wrap"></i>
-                        <span class="sidebar-item__name">Voucher</span>
-                    </a>
-                    <a href="/logout" class="account-sidebar__item list-group-item list-group-item-action text-wrap">
-                        <i class="sidebar-item__icon fas fa-sign-out-alt"></i>
-                        <span class="sidebar-item__name">Thoát</span>
-                    </a>
-                </div>
-            </div>
+            {{> adminAccountSidebar}}
         </div>
         <div class="col-12 col-md-8 col-lg-9 my-3">
             <div class="row justify-content-between">
@@ -192,6 +160,16 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="order-detail-check-voucher" style="padding-bottom: 8px">
+                    <div class="row d-flex justify-content-between">
+                        <label for="inputVoucher" style="width: 140px; margin-left: 12px;" class="col-form-label">Mã Voucher</label>
+                        <span class="row w-auto">
+                            <input type="text" class="form-control col-form-label" style="width: 190px;" id="inputVoucher">
+                            <button type="button" class="btn btn-check-voucher" style="margin: 0 12px 0 20px;">Kiểm tra</button>
+                        </span>
+                    </div>
+                    <div class="text-end check-voucher-result" style="padding-right: 120px;"></div>
+                </div>
                 <div class="order-detail-total-table">
                     <table class="table total-table table-bordered border-white">
                         <tbody>
@@ -269,6 +247,9 @@
 </div>
 
 <script>
+    const sidebarItemOrder = document.getElementById('account_sidebar__order');
+    sidebarItemOrder.classList.add('account-sidebar__item--active');
+
     const dropdownStatusSearch = document.getElementById('dropdownStatusSearch');
     function updateDropdownStatusSearchBtn(payment) {
         dropdownStatusSearch.textContent = payment;
@@ -299,6 +280,8 @@
     const orderDetailTime = document.querySelector('.order-detail-header__order-time');
     const orderDetailDropdownStatus = document.getElementById('dropdownOrderStatusButton');
     const orderDetailServiceTableBody = document.querySelector('.service-table-body');
+    const orderDetailInputVoucher = document.getElementById('inputVoucher');
+    const orderDetailVoucherResult = document.querySelector('.check-voucher-result');
     const orderDetailTotalTableSum = document.querySelector('.total-table__sum');
     const orderDetailTotalTableDiscount = document.querySelector('.total-table__discount');
     const orderDetailTotalTableVoucher = document.querySelector('.total-table__voucher');
@@ -336,7 +319,7 @@
         orderDetailPayment.textContent = data.orderList[currentIndex].payment;
         orderDetailNote.value = data.orderList[currentIndex].note;
         var serviceTableBody = '';
-        for (i = 0; i < data.orderList[currentIndex].services.length; i++) {
+        {{!-- for (i = 0; i < data.orderList[currentIndex].services.length; i++) {
             var row = '<tr>'
                         + '<td class="text-start" style="width: 40%;">' + data.orderList[currentIndex].services[i].serviceName + '</td>'
                         //+ '<td style="width: 15%;"">' + data.orderList[currentIndex].services[i].quantity + '</td>'
@@ -350,13 +333,73 @@
                         + '<td style="width: 15%;">' + data.orderList[currentIndex].services[i].total + 'đ</td>'
                         + '</tr>';
             serviceTableBody += row;
+        } --}}
+
+
+        for (i = 0; i < data.orderList[currentIndex].services.length; i++) {
+            var row = '<tr>'
+                        + '<td class="text-start" style="width: 40%;">' + data.orderList[currentIndex].services[i].serviceName + '</td>'
+                        //+ '<td style="width: 15%;"">' + data.orderList[currentIndex].services[i].quantity + '</td>'
+                        + '<td>'
+                            + '<div>'
+                                + '<input type="number" class="service-table__service-quantity-' + i + ' text-center border-0" max="10" min="1" value="' + data.orderList[currentIndex].services[i].quantity + '">'
+                            + '</div>'
+                        + '</td>'
+                        + '<td class="service-table__service-price-' + i + '" style="width: 15%;">' + '</td>'
+                        + '<td style="width: 15%;">'
+                            + '<div class="dropdown">'
+                                + '<button class="btn btn-dropdown-service-type dropdown-toggle pt-0" type="button" id="dropdown-service-type-' + i +'" data-bs-toggle="dropdown" aria-expanded="false">' + '</button>'
+                                + '<ul class="dropdown-menu dropdown-menu-service-type text-center" aria-labelledby="dropdown-service-type-' + i +'">'
+                                    + '<li><div class="dropdown-item dropdown-service-type-item" onclick="updateDropdownServiceType(' + i + ', ' + 0 + ')">S</div></li>'
+                                    + '<li><div class="dropdown-item dropdown-service-type-item" onclick="updateDropdownServiceType(' + i + ', ' + 1 + ')">M</div></li>'
+                                    + '<li><div class="dropdown-item dropdown-service-type-item" onclick="updateDropdownServiceType(' + i + ', ' + 2 + ')">L</div></li>'
+                                + '</ul>'
+                            + '</div>'
+                        + '</td>'
+                        + '<td class="service-table__service-total-' + i +'" style="width: 15%;">' + '</td>'
+                        + '</tr>';
+            serviceTableBody += row;
         }
+
+
+        
+
+
+
         orderDetailServiceTableBody.innerHTML = serviceTableBody;
         orderDetailTotalTableSum.textContent = '0';
         orderDetailTotalTableDiscount.textContent = data.orderList[currentIndex].discount;
         orderDetailTotalTableVoucher.textContent = data.orderList[currentIndex].voucher;
         orderDetailTotalTableTotal.textContent = data.orderList[currentIndex].total;
     }
+
+
+
+    function updateDropdownServiceType(indexService, indexType) {
+        const serviceQuantity = document.querySelector('.service-table__service-quantity-' + indexService);
+        const servicePrice = document.querySelector('.service-table__service-price-' + indexService);
+        const serviceType = document.getElementById('dropdown-service-type-' + indexService);
+        const serviceTotal = document.querySelector('.service-table__service-total-' + indexService);
+        if (indexType === 0) {
+            servicePrice.textContent = '100.000đ';
+            serviceType.textContent = 'S';
+            serviceTotal.textContent = (100000 * serviceQuantity.value).toString() + 'đ';
+        }
+        else if (indexType === 1) {
+            servicePrice.textContent = '200.000đ';
+            serviceType.textContent = 'M';
+            serviceTotal.textContent = (200000 * serviceQuantity.value).toString() + 'đ';
+        }
+        else if (indexType === 2) {
+            servicePrice.textContent = '300.000đ';
+            serviceType.textContent = 'L';
+            serviceTotal.textContent = (300000 * serviceQuantity.value).toString() + 'đ';
+        }
+    };
+
+
+
+
        
     btnSearch.addEventListener('click', btnSearchOnClick);
     async function btnSearchOnClick() {
@@ -418,4 +461,65 @@
             console.log(err);
         }
     }
+
+    const btnCheckVoucher = document.querySelector('.btn-check-voucher');
+    btnCheckVoucher.addEventListener('click', async () => {
+        orderDetailVoucherResult.textContent = '';
+        orderDetailVoucherResult.classList.remove('text-error');
+        if (orderDetailInputVoucher.value === '') {
+            orderDetailVoucherResult.textContent = 'Vui lòng nhập mã Voucher';
+            orderDetailVoucherResult.classList.add('text-error');
+        }
+        else {
+            try {
+                const voucherCode = orderDetailInputVoucher.value;
+                const res = await fetch('/account/order-check-voucher', {
+                    method: 'POST',
+                    body: JSON.stringify({ voucherCode }),
+                    headers: {'Content-Type': 'application/json'}
+                });
+                data = await res.json();
+                if (data) {
+                    if (data.voucher) {
+                        console.log('check voucher successful');
+                        if (data.voucher.type === 'Mức tiền') {
+                            orderDetailVoucherResult.textContent = 'Voucher ' + data.voucher.value;
+                        }
+                        else if (data.voucher.type === 'Phần trăm') {
+                            orderDetailVoucherResult.textContent = 'Voucher ' + data.voucher.value + '% (Tối đa ' + data.voucher.max + ')';
+                        }
+                    }
+                    else if (data.error) {
+                        if (data.error === 'voucher already used') {
+                            console.log('check voucher successful');
+                            orderDetailVoucherResult.textContent = 'Voucher đã được sử dụng';
+                            orderDetailVoucherResult.classList.add('text-error');
+                        }
+                        else if (data.error === 'voucher null') {
+                            console.log('check voucher successful');
+                            orderDetailVoucherResult.textContent = 'Voucher không hợp lệ';
+                            orderDetailVoucherResult.classList.add('text-error');
+                        }
+                        else {
+                            console.log('check voucher failed');
+                            console.log(data.error);
+                            orderDetailVoucherResult.textContent = 'Có lỗi xảy ra, vui lòng thử lại';
+                            orderDetailVoucherResult.classList.add('text-error');
+                        }
+                    }
+                }
+                else {
+                    console.log('check voucher failed');
+                    orderDetailVoucherResult.textContent = 'Có lỗi xảy ra, vui lòng thử lại';
+                    orderDetailVoucherResult.classList.add('text-error');
+                }
+            }
+            catch(err) {
+                console.log('check voucher error');
+                console.log(err);
+                orderDetailVoucherResult.textContent = 'Có lỗi xảy ra, vui lòng thử lại';
+                orderDetailVoucherResult.classList.add('text-error');
+            }
+        }
+    });
 </script>
