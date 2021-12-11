@@ -1,39 +1,45 @@
 <link rel="stylesheet" href="/css/detailService.css">
 
-<title>{{service.title}}</title>
+<title>{{service.name}}</title>
+
+<div class="container px-5">
+    <div class="service-header mb-5">
+        <div class="service-category">
+            <p>{{service.category}}</p>
+        </div>
+        <div>
+            <h2>{{service.name}}</h2>
+        </div>
+        <hr>
+    </div>
 
 
-<div class="service-header mb-5">
-    <div class="service-category">
-        <p>{{service.category}}</p>
+    <div class="service-body mb-5">
+        <div class="service-description ">
+            <h5>{{service.description}}</h5>
+        </div>
+        <div class="service-img d-flex justify-content-center mb-5">
+            <img src="{{service.img}}" alt="" height="380">
+        </div>
+        <div class="mb-4">
+            <h4>Service Price</h4>
+            {{#each service.prices}}
+            <div class="row">
+                <div class="col-3">
+                    <h5>{{this.type}}:</h5>
+                </div>
+                <div class="col-3">
+                    <h5>{{this.price}} VND</h5>
+                </div>
+                <hr>
+            </div>
+            {{/each}}
+        </div>
+        <div class="service-content"  id = "{{service.contentCode}}">
+        </div>
     </div>
-    <div>
-        <h2>{{service.title}}</h2>
-    </div>
-    <div class="service-timeCreate">
-        <p>{{service.createdAt}}</p>
-    </div>
-    <hr>
 </div>
 
-
-<div class="service-body mb-5">
-    <div class="service-description ">
-        <h3>{{service.description}}</h3>
-        <h4>Price from: {{service.priceS}}VND to {{service.priceL}}VND </h4>
-    </div>
-    <div class="service-img d-flex justify-content-center mb-5">
-        <img src="{{service.img}}" alt="" height="380">
-    </div>
-    <div class="service-content"  id = "{{service.contentCode}}">
-    </div>
-    <div>
-        <h4>Price</h4>
-        <h5>Size S (less than 5kg): {{service.priceS}} VND</h5>
-        <h5>Size M (less than 10kg): {{service.priceM}} VND</h5>
-        <h5>Size L (>10kg): {{service.priceL}} VND</h5>
-    </div>
-</div>
 <script>
         const serviceContent = document.querySelector('.service-content');
         var html = `` + serviceContent.id;
