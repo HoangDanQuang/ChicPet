@@ -461,7 +461,7 @@ module.exports.orderCheckVoucher_post = async (req, res) => {
                     }
                     else {
                         res.status(200).json({ voucher: { voucherId: voucher.voucherId, type: voucher.type, value: voucher.value, max: voucher.max } });
-                    }   
+                    }
                 }
                 else {
                     console.log('order check voucher null');

@@ -222,17 +222,17 @@
                 if (data) {
                     if (data.status === 200) {
                         console.log('delete customer successful');
-                        alert('Xóa khách hàng thành công');
+                        showAlertChicPet('alert-success', 'Xóa khách hàng thành công');
                         btnSearchOnClick();
                     }
                     else if (data.error) {
                         console.log(data.error);
-                        alert('Xóa khách hàng thất bại, vui lòng thử lại');
+                        showAlertChicPet('alert-danger', 'Xóa khách hàng thất bại, vui lòng thử lại');
                     }
                 }
             }
             catch(err) {
-                alert('Xóa khách hàng thất bại, vui lòng thử lại');
+                showAlertChicPet('alert-danger', 'Xóa khách hàng thất bại, vui lòng thử lại');
             }
         }
     });

@@ -92,38 +92,44 @@
                     <h2 class="text-uppercase voucher-detail-header__title">Thông tin Voucher</h2>
                     <div class="my-3">
                         Dưới đây là thông tin Voucher 
-                        <span class="voucher-detail-header__voucher-id">ctCPbJm3</span>
+                        <span class="voucher-detail-header__voucher-id"></span>
                     </div>
                 </div>
                 <div class="voucher-detail-info mt-4">
                     <div class="row my-3">
                         <label for="voucher-type" class="col-3">Loại Voucher:</label>
                         <div class="col-9">
-                            <p id="voucher-type">Phần trăm</p>
+                            <p id="voucher-type"></p>
                         </div>
                     </div>
                     <div class="row my-3">
                         <label for="voucher-value" class="col-3">Giá trị:</label>
                         <div class="col-9">
-                            <p id="voucher-value">50% (Tối đa 100000)</p>
+                            <p id="voucher-value"></p>
                         </div>
                     </div>
                     <div class="row my-3">
                         <label for="voucher-quantity" class="col-3">Đã sử dụng:</label>
                         <div class="col-9">
-                            <p id="voucher-quantity">0/30</p>
+                            <p id="voucher-quantity"></p>
                         </div>
                     </div>
                     <div class="row my-3">
                         <label for="voucher-created-at" class="col-3">Ngày tạo:</label>
                         <div class="col-9">
-                            <p id="voucher-created-at">Wed Dec 08 2021</p>
+                            <p id="voucher-created-at"></p>
                         </div>
                     </div>
                     <div class="row my-3">
                         <label for="voucher-exp" class="col-3">HSD:</label>
                         <div class="col-9">
-                            <p id="voucher-exp">Sat Jan 15 2022</p>
+                            <p id="voucher-exp"></p>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <label for="voucher-note" class="col-3">Ghi chú:</label>
+                        <div class="col-9">
+                            <p id="voucher-note"></p>
                         </div>
                     </div>
                 </div>
@@ -134,27 +140,7 @@
                 <div class="voucher-code-table-container d-none">
                     <table class="table voucher-code-table text-center">
                         <tbody class="voucher-code-table-body">
-                            <tr>
-                                <td>dTyDCt5X</td>
-                                <td class="text-decoration-line-through">dTyDCt5X</td>
-                                <td>dTyDCt5X</td>
-                                <td class="text-decoration-line-through">dTyDCt5X</td>
-                                <td>dTyDCt5X</td>
-                            </tr>
-                            <tr>
-                                <td class="text-decoration-line-through">dTyDCt5X</td>
-                                <td class="text-decoration-line-through">dTyDCt5X</td>
-                                <td>dTyDCt5X</td>
-                                <td>dTyDCt5X</td>
-                                <td class="text-decoration-line-through">dTyDCt5X</td>
-                            </tr>
-                            <tr>
-                                <td>dTyDCt5X</td>
-                                <td>dTyDCt5X</td>
-                                <td class="text-decoration-line-through">dTyDCt5X</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -228,7 +214,7 @@
                 <div class="row my-3">
                     <label for="inputVoucherQuantity" class="col-3 col-form-label">Số lượng:</label>
                     <div class="col-6">
-                        <input type="text" class="form-control col-form-label" id="inputVoucherQuantity" value="" onkeypress="return isNumber(event)" onpaste="return false;">
+                        <input type="text" class="form-control col-form-label" id="inputVoucherQuantity" value="" min="1" onkeypress="return isNumber(event)" onpaste="return false;">
                         <div class="inputVoucherQuantityError text-error"></div>
                     </div>
                 </div>
@@ -275,6 +261,7 @@
     const voucherDetailQuantity = document.getElementById('voucher-quantity');
     const voucherDetailCreatedAt = document.getElementById('voucher-created-at');
     const voucherDetailExp = document.getElementById('voucher-exp');
+    const voucherDetailNote = document.getElementById('voucher-note');
     const voucherDetailCodeTableContainer = document.querySelector('.voucher-code-table-container');
     const voucherDetailCodeTableBody = document.querySelector('.voucher-code-table-body');
 
@@ -366,6 +353,7 @@
         voucherDetailCreatedAt.textContent = createdAtDate.toDateString();
         var expDate = new Date(data.voucherList[currentIndex].exp);
         voucherDetailExp.textContent = expDate.toDateString();
+        voucherDetailNote.textContent = data.voucherList[currentIndex].note;
         btnOptionInfoOnClick();
     }
 
@@ -577,6 +565,10 @@
             }
         }
         if (inputVoucherQuantity.value === '') {
+            inputVoucherQuantityError.textContent = 'Vui lòng nhập số lượng Voucher';
+            inputValidated = false;
+        }
+        if (inputVoucherQuantity.value < 1) {
             inputVoucherQuantityError.textContent = 'Vui lòng nhập số lượng Voucher';
             inputValidated = false;
         }
