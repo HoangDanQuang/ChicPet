@@ -24,7 +24,15 @@
         <div class="mb-4">
             <h4>Service Price</h4>
             {{#each service.prices}}
-                <h5>{{this.type}}: {{this.price}} VND</h5>
+            <div class="row">
+                <div class="col-3">
+                    <h5>{{this.type}}:</h5>
+                </div>
+                <div class="col-3">
+                    <h5>{{this.price}} VND</h5>
+                </div>
+                <hr>
+            </div>
             {{/each}}
         </div>
         <div class="service-content"  id = "{{service.contentCode}}">

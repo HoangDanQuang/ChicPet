@@ -242,7 +242,13 @@
         var myContent = tinymce.get("editor").getContent();
         var inputPrices = ``;
         for(var i = 0; i< listPrice.length; i++){
-            inputPrices += `<h5>${listPrice[i].type}: ${listPrice[i].price}</h5>`
+            inputPrices += `<div class="col-3">
+                                <h5>${listPrice[i].type}:</h5>
+                            </div>
+                            <div class="col-3">
+                                <h5>${listPrice[i].price} VND</h5>
+                            </div>
+                            <hr>`
         }
         
         var html = `    <div class="container px-5">
@@ -265,7 +271,7 @@
                             </div>
                         </div>` + `<div class="service-price mb-4">
                                     <h4>Service Price</h4>
-                                    ${inputPrices} </div>` + `${myContent}` + `</div>`
+                                    <div class="row"> ${inputPrices} </div> </div>` + `${myContent}` + `</div>`
         bodyPreview.innerHTML = html;
 
         const modalPreview = new bootstrap.Modal(document.getElementById('modal-preview'));
