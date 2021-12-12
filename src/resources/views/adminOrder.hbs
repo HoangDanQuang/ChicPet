@@ -138,24 +138,6 @@
                             </tr>
                         </thead>
                         <tbody class="service-table-body">
-                            <tr>
-                                <td class="text-start" style="width: 40%;">Cắt tỉa lông chó</td>
-                                <td style="width: 15%;">2</td>
-                                <td style="width: 15%;">150.000đ</td>
-                                <td style="width: 15%;">M</td>
-                                <td style="width: 15%;">300.000đ</td>
-                            </tr>
-                            <tr>
-                                <td class="text-start">Spa cho chó</td>
-                                <td>
-                                    <div>
-                                        <input type="number" class="text-center" max="10" min="1" value="1">
-                                    </div>
-                                </td>
-                                <td>150.000đ</td>
-                                <td>M</td>
-                                <td>300.000đ</td>
-                            </tr>
                             
                         </tbody>
                     </table>
@@ -175,49 +157,45 @@
                         <tbody>
                             <tr>
                                 <td class="text-start table-light">Tổng giá trị sản phẩm</td>
-                                <td class="text-end table-light total-table__sum">600.000đ</td>
+                                <td class="text-end table-light total-table__sum"></td>
                             </tr>
                             <tr>
                                 <td class="text-start table-light">Số tiền giảm giá</td>
-                                <td class="text-end table-light total-table__discount">-50.000đ</td>
-                            </tr>
-                            <tr>
-                                <td class="text-start table-light">Voucher khuyến mãi</td>
-                                <td class="text-end table-light total-table__voucher">-50.000đ</td>
+                                <td class="text-end table-light total-table__discount"></td>
                             </tr>
                             <tr>
                                 <td class="text-start fw-bold">Tổng thanh toán</td>
-                                <td class="text-end fw-bold total-table__total">500.000đ</td>
+                                <td class="text-end fw-bold total-table__total"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="order-detail-customer-info mt-4">
                     <p class="fw-bold my-3">
-                        Thông tin nhận hàng
+                        Thông tin khách hàng
                     </p>
                     <div class="row my-3">
                         <label for="customerCode" class="col-3 col-form-label">Mã khách hàng:</label>
                         <div class="col-9">
-                            <div id="customerCode" class="customer-info__customer-code">123456789</div>
+                            <div id="customerCode" class="customer-info__customer-code"></div>
                         </div>
                     </div>
                     <div class="row my-3">
-                        <label for="inputCustomerName" class="col-3 col-form-label">Tên người nhận:</label>
+                        <label for="inputCustomerName" class="col-3 col-form-label">Tên khách hàng:</label>
                         <div class="col-6">
-                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerName" value="Hoang Dan Quang">
+                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerName" value="">
                         </div>
                     </div>
                     <div class="row my-3">
                         <label for="inputCustomerMail" class="col-3 col-form-label">Địa chỉ Email:</label>
                         <div class="col-6">
-                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerMail" value="hoangdanquang@gmail.com">
+                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerMail" value="">
                         </div>
                     </div>
                     <div class="row my-3">
                         <label for="inputCustomerPhone" class="col-3 col-form-label">Số điện thoại:</label>
                         <div class="col-6">
-                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerPhone" value="0912345678">
+                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerPhone" value="">
                         </div>
                     </div>
                     <div class="row my-3">
@@ -284,7 +262,6 @@
     const orderDetailVoucherResult = document.querySelector('.check-voucher-result');
     const orderDetailTotalTableSum = document.querySelector('.total-table__sum');
     const orderDetailTotalTableDiscount = document.querySelector('.total-table__discount');
-    const orderDetailTotalTableVoucher = document.querySelector('.total-table__voucher');
     const orderDetailTotalTableTotal = document.querySelector('.total-table__total');
     const orderDetailCustomerCode = document.getElementById('customerCode');
     const orderDetailCustomerName = document.getElementById('inputCustomerName');
@@ -309,8 +286,9 @@
         orderTable.rows[rowIndex].classList.add('table-active');
         currentIndex = rowIndex - 1;
         console.log(data.orderList[currentIndex]);
+        var orderDate = new Date(data.orderList[currentIndex].createdAt);
         orderDetailCode.textContent = data.orderList[currentIndex].orderCode;
-        orderDetailTime.textContent = ' - ' + data.orderList[currentIndex].createdAt;
+        orderDetailTime.textContent = ' - ' + orderDate.toDateString() + ' ' + orderDate.toTimeString().substring(0, 5);
         orderDetailDropdownStatus.textContent = data.orderList[currentIndex].status;
         orderDetailCustomerCode.textContent = data.orderList[currentIndex].userCode;
         orderDetailCustomerName.value = data.orderList[currentIndex].fullname;
@@ -319,45 +297,46 @@
         orderDetailPayment.textContent = data.orderList[currentIndex].payment;
         orderDetailNote.value = data.orderList[currentIndex].note;
         var serviceTableBody = '';
-        {{!-- for (i = 0; i < data.orderList[currentIndex].services.length; i++) {
+        {{!-- for (i = 0; i < data.orderList[currentIndex].serviceList[i].length; i++) {
             var row = '<tr>'
-                        + '<td class="text-start" style="width: 40%;">' + data.orderList[currentIndex].services[i].serviceName + '</td>'
-                        //+ '<td style="width: 15%;"">' + data.orderList[currentIndex].services[i].quantity + '</td>'
+                        + '<td class="text-start" style="width: 40%;">' + data.orderList[currentIndex].serviceList[i].service.name + '</td>'
+                        //+ '<td style="width: 15%;"">' + data.orderList[currentIndex].serviceList[i].quantity + '</td>'
                         + '<td>'
                             + '<div>'
-                                + '<input type="number" class="text-center border-0" max="10" min="1" value="' + data.orderList[currentIndex].services[i].quantity + '">'
+                                + '<input type="number" class="text-center border-0" max="10" min="1" value="' + data.orderList[currentIndex].serviceList[i].quantity + '">'
                             + '</div>'
                         + '</td>'
-                        + '<td style="width: 15%;">' + data.orderList[currentIndex].services[i].price + 'đ</td>'
-                        + '<td style="width: 15%;">' + data.orderList[currentIndex].services[i].type + '</td>'
-                        + '<td style="width: 15%;">' + data.orderList[currentIndex].services[i].total + 'đ</td>'
+                        + '<td style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].price + 'đ</td>'
+                        + '<td style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].type + '</td>'
+                        + '<td style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].total + 'đ</td>'
                         + '</tr>';
             serviceTableBody += row;
         } --}}
 
 
-        for (i = 0; i < data.orderList[currentIndex].services.length; i++) {
+        for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
             var row = '<tr>'
-                        + '<td class="text-start" style="width: 40%;">' + data.orderList[currentIndex].services[i].serviceName + '</td>'
-                        //+ '<td style="width: 15%;"">' + data.orderList[currentIndex].services[i].quantity + '</td>'
+                        + '<td class="text-start" style="width: 40%;">' + data.orderList[currentIndex].serviceList[i].service.name + '</td>'
+                        //+ '<td style="width: 15%;"">' + data.orderList[currentIndex].serviceList[i].quantity + '</td>'
                         + '<td>'
                             + '<div>'
-                                + '<input type="number" class="service-table__service-quantity-' + i + ' text-center border-0" max="10" min="1" value="' + data.orderList[currentIndex].services[i].quantity + '">'
+                                + '<input type="number" class="service-table__service-quantity-' + i + ' text-center border-0" max="10" min="1" value="' + data.orderList[currentIndex].serviceList[i].quantity + '">'
                             + '</div>'
                         + '</td>'
-                        + '<td class="service-table__service-price-' + i + '" style="width: 15%;">' + '</td>'
+                        + '<td class="service-table__service-price-' + i + '" style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].price + '</td>'
                         + '<td style="width: 15%;">'
                             + '<div class="dropdown">'
-                                + '<button class="btn btn-dropdown-service-type dropdown-toggle pt-0" type="button" id="dropdown-service-type-' + i +'" data-bs-toggle="dropdown" aria-expanded="false">' + '</button>'
-                                + '<ul class="dropdown-menu dropdown-menu-service-type text-center" aria-labelledby="dropdown-service-type-' + i +'">'
-                                    + '<li><div class="dropdown-item dropdown-service-type-item" onclick="updateDropdownServiceType(' + i + ', ' + 0 + ')">S</div></li>'
-                                    + '<li><div class="dropdown-item dropdown-service-type-item" onclick="updateDropdownServiceType(' + i + ', ' + 1 + ')">M</div></li>'
-                                    + '<li><div class="dropdown-item dropdown-service-type-item" onclick="updateDropdownServiceType(' + i + ', ' + 2 + ')">L</div></li>'
-                                + '</ul>'
-                            + '</div>'
-                        + '</td>'
-                        + '<td class="service-table__service-total-' + i +'" style="width: 15%;">' + '</td>'
-                        + '</tr>';
+                                + '<button class="btn btn-dropdown-service-type dropdown-toggle pt-0" type="button" id="dropdown-service-type-' + i +'" data-bs-toggle="dropdown" aria-expanded="false">' + data.orderList[currentIndex].serviceList[i].type + '</button>'
+                                + '<ul class="dropdown-menu dropdown-menu-service-type text-center" aria-labelledby="dropdown-service-type-' + i +'">';
+
+            for (j = 0; j < data.orderList[currentIndex].serviceList[i].service.prices.length; j++) {
+                row += '<li><div class="dropdown-item dropdown-service-type-item" onclick="updateDropdownServiceType(' + i + ', ' + j + ')">' + data.orderList[currentIndex].serviceList[i].service.prices[j].type + '</div></li>'
+            }
+            row += '</ul>'
+                        + '</div>'
+                    + '</td>'
+                    + '<td class="service-table__service-total-' + i +'" style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].total + '</td>'
+                    + '</tr>';
             serviceTableBody += row;
         }
 
@@ -367,9 +346,9 @@
 
 
         orderDetailServiceTableBody.innerHTML = serviceTableBody;
-        orderDetailTotalTableSum.textContent = '0';
+        orderDetailInputVoucher.value = data.orderList[currentIndex].voucher;
+        orderDetailTotalTableSum.textContent = data.orderList[currentIndex].sum;
         orderDetailTotalTableDiscount.textContent = data.orderList[currentIndex].discount;
-        orderDetailTotalTableVoucher.textContent = data.orderList[currentIndex].voucher;
         orderDetailTotalTableTotal.textContent = data.orderList[currentIndex].total;
     }
 
@@ -380,21 +359,19 @@
         const servicePrice = document.querySelector('.service-table__service-price-' + indexService);
         const serviceType = document.getElementById('dropdown-service-type-' + indexService);
         const serviceTotal = document.querySelector('.service-table__service-total-' + indexService);
-        if (indexType === 0) {
-            servicePrice.textContent = '100.000đ';
-            serviceType.textContent = 'S';
-            serviceTotal.textContent = (100000 * serviceQuantity.value).toString() + 'đ';
+
+        servicePrice.textContent = data.orderList[currentIndex].serviceList[indexService].service.prices[indexType].price;
+        serviceType.textContent = data.orderList[currentIndex].serviceList[indexService].service.prices[indexType].type;
+        serviceTotal.textContent = servicePrice.textContent * serviceQuantity.value;
+
+        var sum = 0;
+        for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+            const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+            sum += Number(serviceTotalTemp.textContent);
         }
-        else if (indexType === 1) {
-            servicePrice.textContent = '200.000đ';
-            serviceType.textContent = 'M';
-            serviceTotal.textContent = (200000 * serviceQuantity.value).toString() + 'đ';
-        }
-        else if (indexType === 2) {
-            servicePrice.textContent = '300.000đ';
-            serviceType.textContent = 'L';
-            serviceTotal.textContent = (300000 * serviceQuantity.value).toString() + 'đ';
-        }
+        orderDetailTotalTableSum.textContent = sum;
+        orderDetailTotalTableDiscount.textContent = 0;
+        orderDetailTotalTableTotal.textContent = sum;
     };
 
 
@@ -436,9 +413,9 @@
                                 + '<td>' + data.orderList[i].orderCode + '</td>'
                                 + '<td>' + data.orderList[i].userCode + '</td>'
                                 + '<td>' + date.toDateString() + ' ' + date.toTimeString().substring(0, 5) + '</td>'
-                                + '<td>' + data.orderList[i].fullname + '</td>'
-                                + '<td>' + data.orderList[i].total + '</td>'
-                                + '<td>' + data.orderList[i].status + '</td>'
+                                + '<td id="order-table__customer-name-' + i + '">' + data.orderList[i].fullname + '</td>'
+                                + '<td id="order-table__order-total-' + i + '">' + data.orderList[i].total + '</td>'
+                                + '<td id="order-table__order-status-' + i + '">' + data.orderList[i].status + '</td>'
                             + '</tr>';
                     tableBody += row;
                 }
@@ -478,33 +455,74 @@
                     body: JSON.stringify({ voucherCode }),
                     headers: {'Content-Type': 'application/json'}
                 });
-                data = await res.json();
-                if (data) {
-                    if (data.voucher) {
+                voucherData = await res.json();
+                if (voucherData) {
+                    if (voucherData.voucher) {
                         console.log('check voucher successful');
-                        if (data.voucher.type === 'Mức tiền') {
-                            orderDetailVoucherResult.textContent = 'Voucher ' + data.voucher.value;
+                        if (voucherData.voucher.type === 'Mức tiền') {
+                            orderDetailVoucherResult.textContent = 'Voucher ' + voucherData.voucher.value;
+
+                            var total = Number(orderDetailTotalTableSum.textContent);
+                            total -= voucherData.voucher.value;
+                            if (total < 0) total = 0;
+                            orderDetailTotalTableDiscount.textContent = (-1) * voucherData.voucher.value;
+                            orderDetailTotalTableTotal.textContent = total;
                         }
-                        else if (data.voucher.type === 'Phần trăm') {
-                            orderDetailVoucherResult.textContent = 'Voucher ' + data.voucher.value + '% (Tối đa ' + data.voucher.max + ')';
+                        else if (voucherData.voucher.type === 'Phần trăm') {
+                            orderDetailVoucherResult.textContent = 'Voucher ' + voucherData.voucher.value + '% (Tối đa ' + voucherData.voucher.max + ')';
+
+                            var total = Number(orderDetailTotalTableSum.textContent);
+                            var discount = total * voucherData.voucher.value / 100;
+                            if (discount > voucherData.voucher.max) discount = voucherData.voucher.max;
+                            total -= discount;
+                            if (total < 0) total = 0;
+                            orderDetailTotalTableDiscount.textContent = (-1) * discount;
+                            orderDetailTotalTableTotal.textContent = total;
                         }
                     }
-                    else if (data.error) {
-                        if (data.error === 'voucher already used') {
+                    else if (voucherData.error) {
+                        if (voucherData.error === 'voucher already used') {
                             console.log('check voucher successful');
                             orderDetailVoucherResult.textContent = 'Voucher đã được sử dụng';
                             orderDetailVoucherResult.classList.add('text-error');
+                            
+                            var sum = 0;
+                            for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                                const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                                sum += Number(serviceTotalTemp.textContent);
+                            }
+                            orderDetailTotalTableSum.textContent = sum;
+                            orderDetailTotalTableDiscount.textContent = 0;
+                            orderDetailTotalTableTotal.textContent = sum;
                         }
-                        else if (data.error === 'voucher null') {
+                        else if (voucherData.error === 'voucher null') {
                             console.log('check voucher successful');
                             orderDetailVoucherResult.textContent = 'Voucher không hợp lệ';
                             orderDetailVoucherResult.classList.add('text-error');
+
+                            var sum = 0;
+                            for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                                const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                                sum += Number(serviceTotalTemp.textContent);
+                            }
+                            orderDetailTotalTableSum.textContent = sum;
+                            orderDetailTotalTableDiscount.textContent = 0;
+                            orderDetailTotalTableTotal.textContent = sum;
                         }
                         else {
                             console.log('check voucher failed');
-                            console.log(data.error);
+                            console.log(voucherData.error);
                             orderDetailVoucherResult.textContent = 'Có lỗi xảy ra, vui lòng thử lại';
                             orderDetailVoucherResult.classList.add('text-error');
+
+                            var sum = 0;
+                            for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                                const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                                sum += Number(serviceTotalTemp.textContent);
+                            }
+                            orderDetailTotalTableSum.textContent = sum;
+                            orderDetailTotalTableDiscount.textContent = 0;
+                            orderDetailTotalTableTotal.textContent = sum;
                         }
                     }
                 }
@@ -512,6 +530,15 @@
                     console.log('check voucher failed');
                     orderDetailVoucherResult.textContent = 'Có lỗi xảy ra, vui lòng thử lại';
                     orderDetailVoucherResult.classList.add('text-error');
+
+                    var sum = 0;
+                    for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                        const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                        sum += Number(serviceTotalTemp.textContent);
+                    }
+                    orderDetailTotalTableSum.textContent = sum;
+                    orderDetailTotalTableDiscount.textContent = 0;
+                    orderDetailTotalTableTotal.textContent = sum;
                 }
             }
             catch(err) {
@@ -519,7 +546,90 @@
                 console.log(err);
                 orderDetailVoucherResult.textContent = 'Có lỗi xảy ra, vui lòng thử lại';
                 orderDetailVoucherResult.classList.add('text-error');
+
+                var sum = 0;
+                for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                    const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                    sum += Number(serviceTotalTemp.textContent);
+                }
+                orderDetailTotalTableSum.textContent = sum;
+                orderDetailTotalTableDiscount.textContent = 0;
+                orderDetailTotalTableTotal.textContent = sum;
             }
+        }
+    });
+
+    const btnSave = document.querySelector('.btn-save');
+    btnSave.addEventListener('click', async () => {
+        try {
+            const orderCode = data.orderList[currentIndex].orderCode;
+            const customerName = orderDetailCustomerName.value;
+            const customerPhone = orderDetailCustomerPhone.value;
+            const customerMail = orderDetailCustomerMail.value;
+            const orderStatus = orderDetailDropdownStatus.textContent;
+            var serviceList = [];
+            const sum = orderDetailTotalTableSum.textContent;
+            const discount = orderDetailTotalTableDiscount.textContent;
+            const voucher = orderDetailInputVoucher.value;
+            const total = orderDetailTotalTableTotal.textContent;
+            const note = orderDetailNote.value;
+            const payment = orderDetailPayment.textContent;
+
+            for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                const serviceQuantity = document.querySelector('.service-table__service-quantity-' + i);
+                const servicePrice = document.querySelector('.service-table__service-price-' + i);
+                const serviceType = document.getElementById('dropdown-service-type-' + i);
+                const serviceTotal = document.querySelector('.service-table__service-total-' + i);
+
+                var service = {
+                    service: data.orderList[currentIndex].serviceList[i].service,
+                    type: serviceType.textContent,
+                    quantity: Number(serviceQuantity.value),
+                    price: Number(servicePrice.textContent),
+                    total:  Number(serviceTotal.textContent),
+                };
+                serviceList.push(service);
+            }
+
+            console.log(serviceList);
+
+            const res = await fetch('/account/admin-save-order', {
+                method: 'POST',
+                body: JSON.stringify({ orderCode, customerName, customerPhone, customerMail, orderStatus, serviceList, sum, discount, voucher, total, note, payment }),
+                headers: {'Content-Type': 'application/json'}
+            });
+            savedOrderData = await res.json();
+            if (savedOrderData) {
+                if (savedOrderData.savedOrder) {
+                    console.log('save order successful');
+                    data.orderList[currentIndex] = savedOrderData.savedOrder;
+
+                    const orderTableCustomerName = document.getElementById('order-table__customer-name-' + currentIndex);
+                    const orderTableOrderTotal = document.getElementById('order-table__order-total-' + currentIndex);
+                    const orderTableOrderStatus = document.getElementById('order-table__order-status-' + currentIndex);
+
+                    orderTableCustomerName.textContent = data.orderList[currentIndex].fullname;
+                    orderTableOrderTotal.textContent = data.orderList[currentIndex].total;
+                    orderTableOrderStatus.textContent = data.orderList[currentIndex].status;
+
+                    showAlertChicPet('alert-success', 'Lưu hóa đơn thành công');
+                }
+                else if (savedOrderData.error) {
+                    console.log('save order failed');
+                    console.log(savedOrderData.error);
+                    showAlertChicPet('alert-danger', 'Lưu hóa đơn thất bại, vui lòng thử lại');
+                }
+            }
+            else {
+                console.log('save order failed');
+                console.log('save order return null');
+                showAlertChicPet('alert-danger', 'Lưu hóa đơn thất bại, vui lòng thử lại');
+            }
+        }
+        catch(err) {
+            console.log('btn save error');
+            console.log(err);
+            showAlertChicPet('alert-danger', 'Lưu hóa đơn thất bại, vui lòng thử lại');
         }
     });
 </script>

@@ -13,6 +13,7 @@ router.get('/order', requireAuth, accountController.order_get);
 router.get('/get-order/:code', requireAuth, accountController.orderDetail_get);
 router.post('/admin-get-order', requireAuth, accountController.adminOrderList_post);
 router.post('/order-check-voucher', requireAuth, accountController.orderCheckVoucher_post);
+router.post('/admin-save-order', requireAuth, accountController.adminSaveOrder_post);
 router.get('/voucher', requireAuth, accountController.voucher_get);
 router.post('/admin-get-voucher', requireAuth, accountController.adminVoucherList_post);
 router.post('/admin-create-voucher', requireAuth, accountController.adminCreateVoucher_post);

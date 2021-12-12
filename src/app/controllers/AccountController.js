@@ -38,7 +38,7 @@ module.exports.profile_post = async (req, res) => {
                 await User.findOneAndUpdate(
                     { userCode: req.session.user.userCode },
                     { fullname: newName, phone: newPhone, mail: newEmail, address: newAddress },
-                    { runValidators: true, context: 'query' },
+                    { runValidators: true, context: 'query', new: true },
                 ).then(result => {
                     res.locals.user = result;
                     req.session.user = result;
@@ -67,7 +67,7 @@ module.exports.profile_post = async (req, res) => {
                     await User.findOneAndUpdate(
                         { userCode: req.session.user.userCode },
                         { fullname: newName, phone: newPhone, mail: newEmail, address: newAddress, password: encryptedPassword },
-                        { runValidators: true, context: 'query' },
+                        { runValidators: true, context: 'query', new: true },
                     ).then(result => {
                         res.locals.user = result;
                         req.session.user = result;
@@ -438,6 +438,51 @@ module.exports.adminOrderList_post = async (req, res) => {
         }
         else {
             console.log('orderList post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
+        }
+    }
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
+    }
+}
+
+module.exports.adminSaveOrder_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { orderCode, customerName, customerPhone, customerMail, orderStatus, serviceList, sum, discount, voucher, total, note, payment } = req.body;
+                
+                await Order.findOneAndUpdate(
+                    { orderCode: orderCode },
+                    { 
+                        fullname: customerName,
+                        phone: customerPhone,
+                        mail: customerMail,
+                        status: orderStatus,
+                        serviceList: serviceList,
+                        sum: sum,
+                        discount: discount,
+                        voucher: voucher,
+                        total: total,
+                        note: note,
+                        payment: payment,
+                    },
+                    { runValidators: true, context: 'query', new: true },
+                ).then(result => {
+                    console.log('save order successdful');
+                    console.log(result);
+                    res.json({ savedOrder: result });
+                });
+            }
+            catch(err) {
+                console.log('admin save order post error');
+                console.log(err);
+                res.status(400).json({ error: err });
+            }
+        }
+        else {
+            console.log('save order not authorized');
             res.status(400).json({ error: 'user not authorized' });
         }
     }

@@ -158,7 +158,7 @@ a:hover {
 }
 
 .btn-dropdown-service-type {
-    width: 4rem;
+    min-width: 4rem;
     /* border: 1px solid #ced4da; */
 }
 
