@@ -215,7 +215,7 @@ module.exports.book_post = async(req, res) => {
             mail: email,
             meetingTime: appointment,
             status: 'Chờ xác nhận',
-            services: services,
+            serviceList: services,
             sum: 0,
             discount: 0,
             voucher: '',
@@ -240,4 +240,39 @@ const generateOrderCode = () => {
     var orderCode = Date.now().toString();
     orderCode = orderCode.substring(orderCode.length - 9);
     return orderCode;
+}
+
+module.exports.customerListService_post = async (req, res) => {
+    if (res.locals.user) {
+        try {
+            const serviceListFind = await Service.find({});
+            if (serviceListFind) {
+                var serviceListToSend = [];
+                for (i = 0; i < serviceListFind.length; i++) {
+                    var service = {
+                        name: serviceListFind[i].name,
+                        img: serviceListFind[i].img,
+                        category: serviceListFind[i].category,
+                        prices: serviceListFind[i].prices,
+                    };
+                    serviceListToSend.push(service);
+                }
+                res.status(200).json({ serviceList: serviceListToSend });
+            }
+            else {
+                console.log('service list return null');
+                res.status(400).json({ error: 'service list null' });
+            }
+        }
+        catch(err) {
+            console.log('customer service list get error');
+            console.log(err);
+            res.status(400).json({ error: err });
+        }
+        
+    }
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
+    }
 }
