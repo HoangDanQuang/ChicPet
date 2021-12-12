@@ -236,6 +236,56 @@ module.exports.book_post = async(req, res) => {
     }
 }
 
+module.exports.adminBook_post = async(req, res) => {
+    const { userCode, name, phone, email, appointment, services, note } = req.body;
+
+    try {
+        if (req.session.user) {
+            console.log('service controller req.session.user');
+            console.log(req.session.user);
+        } else console.log('service controller req.session.user NULL');
+
+        const userInfo = await User.findOne({ userCode: userCode });
+        if (userInfo) {
+            console.log('userInfo');
+            console.log(userInfo);
+            var newOrder = new Order({
+                orderCode: generateOrderCode(),
+                customerId: userInfo._id,
+                userCode: userCode,
+                fullname: name,
+                phone: phone,
+                mail: email,
+                meetingTime: appointment,
+                status: 'Chờ xác nhận',
+                serviceList: services,
+                sum: 0,
+                discount: 0,
+                voucher: '',
+                total: 0,
+                note: note,
+                payment: 'Tiền mặt',
+            });
+            newOrder.save().then(result => {
+                console.log('make order successful');
+                console.log(result);
+                res.status(200).json({ order: newOrder });
+            });
+        }
+        else {
+            console.log('user code not found');
+            res.status(400).json({ error: 'user code not found' });
+        }
+
+        
+    } catch (err) {
+        console.log('book_post error');
+        console.log(err);
+        var error = JSON.stringify({ error: err });
+        res.status(400).json({ error });
+    }
+}
+
 const generateOrderCode = () => {
     var orderCode = Date.now().toString();
     orderCode = orderCode.substring(orderCode.length - 9);

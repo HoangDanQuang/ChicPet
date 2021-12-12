@@ -103,121 +103,240 @@
                     </tbody>
                 </table>
             </div>
-            <div class="admin-order-detail-container d-none">
-                <div class="order-detail-header text-center">
-                    <h2 class="text-uppercase order-detail-header__title">Thông tin đơn hàng</h2>
-                    <div class="my-3">
-                        Dưới đây là thông tin đơn hàng 
-                        <span class="order-detail-header__order-code">123456789</span>
-                        <span class="order-detail-header__order-time"> - 10:30 01/01/2021</span>
-                    </div>
-                    <div class="mb-4">
-                        <div class="order-detail-header__order-status-title mb-3">Trạng thái đơn hàng:</div>
-                        <div class="dropdown">
-                            <button class="btn btn-dropdown-status dropdown-toggle" type="button" id="dropdownOrderStatusButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Đã hoàn thành
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownOrderStatusButton">
-                                <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Chờ xác nhận')">Chờ xác nhận</div></li>
-                                <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã xác nhận')">Đã xác nhận</div></li>
-                                <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã hoàn thành')">Đã hoàn thành</div></li>
-                                <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã hủy')">Đã hủy</div></li>
-                            </ul>
+            <div class="order-option-container">
+                <div class="row">
+                    <button type="button" class="btn btn-option-info btn-order-option btn-order-option--active">Thông tin hóa đơn</button>
+                    <button type="button" class="btn btn-option-create btn-order-option">Tạo hóa đơn</button>
+                </div>
+            </div>
+            <div class="option-order-detail-container">
+                <div class="admin-order-detail-container d-none">
+                    <div class="order-detail-header text-center">
+                        <h2 class="text-uppercase order-detail-header__title">Thông tin đơn hàng</h2>
+                        <div class="my-3">
+                            Dưới đây là thông tin đơn hàng 
+                            <span class="order-detail-header__order-code">123456789</span>
+                            <span class="order-detail-header__order-time"> - 10:30 01/01/2021</span>
+                        </div>
+                        <div class="mb-4">
+                            <div class="order-detail-header__order-status-title mb-3">Trạng thái đơn hàng:</div>
+                            <div class="dropdown">
+                                <button class="btn btn-dropdown-status dropdown-toggle" type="button" id="dropdownOrderStatusButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Đã hoàn thành
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownOrderStatusButton">
+                                    <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Chờ xác nhận')">Chờ xác nhận</div></li>
+                                    <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã xác nhận')">Đã xác nhận</div></li>
+                                    <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã hoàn thành')">Đã hoàn thành</div></li>
+                                    <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã hủy')">Đã hủy</div></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                    <div class="order-detail-service-table text-center">
+                        <table class="table service-table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col-4" class="text-start align-middle" >Tên dịch vụ</th>
+                                    <th scope="col-2" class="align-middle">Số lượng</th>
+                                    <th scope="col-2" class="align-middle">Đơn giá</th>
+                                    <th scope="col-2" class="align-middle">Biến thể</th>
+                                    <th scope="col-2" class="align-middle">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody class="service-table-body">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="order-detail-check-voucher" style="padding-bottom: 8px">
+                        <div class="row d-flex justify-content-between">
+                            <label for="inputVoucher" style="width: 140px; margin-left: 12px;" class="col-form-label">Mã Voucher</label>
+                            <span class="row w-auto">
+                                <input type="text" class="form-control col-form-label" style="width: 190px;" id="inputVoucher">
+                                <button type="button" class="btn btn-check-voucher" style="margin: 0 12px 0 20px;">Kiểm tra</button>
+                            </span>
+                        </div>
+                        <div class="text-end check-voucher-result" style="padding-right: 120px;"></div>
+                    </div>
+                    <div class="order-detail-total-table">
+                        <table class="table total-table table-bordered border-white">
+                            <tbody>
+                                <tr>
+                                    <td class="text-start table-light">Tổng giá trị sản phẩm</td>
+                                    <td class="text-end table-light total-table__sum"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start table-light">Số tiền giảm giá</td>
+                                    <td class="text-end table-light total-table__discount"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start fw-bold">Tổng thanh toán</td>
+                                    <td class="text-end fw-bold total-table__total"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="order-detail-customer-info mt-4">
+                        <p class="fw-bold my-3">
+                            Thông tin khách hàng
+                        </p>
+                        <div class="row my-3">
+                            <label for="customerCode" class="col-3 col-form-label">Mã khách hàng:</label>
+                            <div class="col-9">
+                                <div id="customerCode" class="customer-info__customer-code"></div>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <label for="inputCustomerName" class="col-3 col-form-label">Tên khách hàng:</label>
+                            <div class="col-6">
+                                <input type="text" class="col-6 form-control col-form-label" id="inputCustomerName" value="">
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <label for="inputCustomerMail" class="col-3 col-form-label">Địa chỉ Email:</label>
+                            <div class="col-6">
+                                <input type="text" class="col-6 form-control col-form-label" id="inputCustomerMail" value="">
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <label for="inputCustomerPhone" class="col-3 col-form-label">Số điện thoại:</label>
+                            <div class="col-6">
+                                <input type="text" class="col-6 form-control col-form-label" id="inputCustomerPhone" value="">
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <label for="dropdownOrderPayment" class="col-3 col-form-label">Hình thức thanh toán:</label>
+                            <div class="dropdown col-6">
+                                <button class="btn btn-dropdown-payment dropdown-toggle" type="button" id="dropdownOrderPayment" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tiền mặt
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownOrderPayment">
+                                    <li><div class="dropdown-item dropdown-payment-item" onclick="updateDropdownOrderPaymentBtn('Tiền mặt')">Tiền mặt</div></li>
+                                    <li><div class="dropdown-item dropdown-payment-item" onclick="updateDropdownOrderPaymentBtn('MoMo')">MoMo</div></li>
+                                    <li><div class="dropdown-item dropdown-payment-item" onclick="updateDropdownOrderPaymentBtn('ZaloPay')">ZaloPay</div></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating my-3">
+                        <textarea class="form-control" id="inputNote" style="height: 100px"></textarea>
+                        <label for="inputNote">Ghi chú</label>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-save">Lưu</button>
+                    </div>
                 </div>
-                <div class="order-detail-service-table text-center">
-                    <table class="table service-table table-borderless">
+            </div>
+
+            <div class="option-create-order-container d-none">
+                <div class="book-service-container">
+                    <p class="fw-bold my-3">
+                        Danh sách dịch vụ
+                    </p>
+                    <div class="d-flex align-items-start">
+                        <div class="col-1"></div>
+                        <div class="nav col-2 flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <button class="nav-link active" id="v-pills-dog-tab" data-bs-toggle="pill" data-bs-target="#v-pills-dog" type="button" role="tab" aria-controls="v-pills-dog" aria-selected="true">Dog</button>
+                            <button class="nav-link" id="v-pills-cat-tab" data-bs-toggle="pill" data-bs-target="#v-pills-cat" type="button" role="tab" aria-controls="v-pills-cat" aria-selected="false">Cat</button>
+                            <button class="nav-link" id="v-pills-other-tab" data-bs-toggle="pill" data-bs-target="#v-pills-other" type="button" role="tab" aria-controls="v-pills-other" aria-selected="false">Other Pets</button>
+                        </div>
+                        <div class="col-1"></div>
+                        <div class="tab-content col-6" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-dog" role="tabpanel" aria-labelledby="v-pills-dog-tab">
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-cat" role="tabpanel" aria-labelledby="v-pills-cat-tab"></div>
+                            <div class="tab-pane fade" id="v-pills-other" role="tabpanel" aria-labelledby="v-pills-other-tab"></div>
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
+                </div>
+                <div class="book-form-container">
+                    <p class="fw-bold my-3">
+                        Tạo hóa đơn
+                    </p>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <label for="userCode" class="col-3 col-form-label">Mã KH</label>
+                                <div class="col-7">
+                                    <input class="form-control" id="userCode" name="userCode" placeholder="Code" type="text" value="">
+                                    <div class="inputUserCodeError text-error"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-check-user-code">Kiểm tra</button>
+                        </div>
+                        <div class="col-2">
+                            
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <label for="name" class="col-3 col-form-label">Họ tên</label>
+                                <div class="col-7">
+                                    <input class="form-control" id="name" name="name" placeholder="Name " type="text" value="">
+                                    <div class="inputNameError text-error"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <label for="phone" class="col-3 col-form-label">Số điện thoại</label>
+                                <div class="col-7">
+                                    <input class="form-control" id="phone" name="phone" placeholder="Phone" type="text" value="" onkeypress="return isNumber(event)" onpaste="return false;">
+                                    <div class="inputPhoneError text-error"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <label for="email" class="col-3 col-form-label">Email</label>
+                                <div class="col-7">
+                                    <input class="form-control" id="email" name="email" placeholder="Email" type="email" value="">
+                                    <div class="inputMailError text-error"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <label for="appointment" class="col-3 col-form-label">Thời gian hẹn</label>
+                                <div class="col-7">
+                                    <input type="datetime-local" class="book-form__appointment-input" id="appointment" name="appointment">
+                                    <div class="inputAppointmentError text-error"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table mt-3 book-service-table">
                         <thead>
                             <tr>
-                                <th scope="col-4" class="text-start align-middle" >Tên dịch vụ</th>
-                                <th scope="col-2" class="align-middle">Số lượng</th>
-                                <th scope="col-2" class="align-middle">Đơn giá</th>
-                                <th scope="col-2" class="align-middle">Biến thể</th>
-                                <th scope="col-2" class="align-middle">Thành tiền</th>
+                                <th scope="col">#</th>
+                                <th scope="col" style="width: 60%">Service</th>
+                                <th scope="col">Amount</th>
                             </tr>
                         </thead>
-                        <tbody class="service-table-body">
-                            
+                        <tbody class="book-service-table-body">
+
                         </tbody>
                     </table>
-                </div>
-                <div class="order-detail-check-voucher" style="padding-bottom: 8px">
-                    <div class="row d-flex justify-content-between">
-                        <label for="inputVoucher" style="width: 140px; margin-left: 12px;" class="col-form-label">Mã Voucher</label>
-                        <span class="row w-auto">
-                            <input type="text" class="form-control col-form-label" style="width: 190px;" id="inputVoucher">
-                            <button type="button" class="btn btn-check-voucher" style="margin: 0 12px 0 20px;">Kiểm tra</button>
-                        </span>
+                    <div class="serviceTableError text-error text-end"></div>
+                    <div>
+                        <textarea class="form-control mt-3" id="comments" name="note" placeholder="Note" rows="4"></textarea><br>
                     </div>
-                    <div class="text-end check-voucher-result" style="padding-right: 120px;"></div>
-                </div>
-                <div class="order-detail-total-table">
-                    <table class="table total-table table-bordered border-white">
-                        <tbody>
-                            <tr>
-                                <td class="text-start table-light">Tổng giá trị sản phẩm</td>
-                                <td class="text-end table-light total-table__sum"></td>
-                            </tr>
-                            <tr>
-                                <td class="text-start table-light">Số tiền giảm giá</td>
-                                <td class="text-end table-light total-table__discount"></td>
-                            </tr>
-                            <tr>
-                                <td class="text-start fw-bold">Tổng thanh toán</td>
-                                <td class="text-end fw-bold total-table__total"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="order-detail-customer-info mt-4">
-                    <p class="fw-bold my-3">
-                        Thông tin khách hàng
-                    </p>
-                    <div class="row my-3">
-                        <label for="customerCode" class="col-3 col-form-label">Mã khách hàng:</label>
-                        <div class="col-9">
-                            <div id="customerCode" class="customer-info__customer-code"></div>
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-book" >Tạo hóa đơn</button>
                     </div>
-                    <div class="row my-3">
-                        <label for="inputCustomerName" class="col-3 col-form-label">Tên khách hàng:</label>
-                        <div class="col-6">
-                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerName" value="">
-                        </div>
-                    </div>
-                    <div class="row my-3">
-                        <label for="inputCustomerMail" class="col-3 col-form-label">Địa chỉ Email:</label>
-                        <div class="col-6">
-                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerMail" value="">
-                        </div>
-                    </div>
-                    <div class="row my-3">
-                        <label for="inputCustomerPhone" class="col-3 col-form-label">Số điện thoại:</label>
-                        <div class="col-6">
-                            <input type="text" class="col-6 form-control col-form-label" id="inputCustomerPhone" value="">
-                        </div>
-                    </div>
-                    <div class="row my-3">
-                        <label for="dropdownOrderPayment" class="col-3 col-form-label">Hình thức thanh toán:</label>
-                        <div class="dropdown col-6">
-                            <button class="btn btn-dropdown-payment dropdown-toggle" type="button" id="dropdownOrderPayment" data-bs-toggle="dropdown" aria-expanded="false">
-                                Tiền mặt
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownOrderPayment">
-                                <li><div class="dropdown-item dropdown-payment-item" onclick="updateDropdownOrderPaymentBtn('Tiền mặt')">Tiền mặt</div></li>
-                                <li><div class="dropdown-item dropdown-payment-item" onclick="updateDropdownOrderPaymentBtn('MoMo')">MoMo</div></li>
-                                <li><div class="dropdown-item dropdown-payment-item" onclick="updateDropdownOrderPaymentBtn('ZaloPay')">ZaloPay</div></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-floating my-3">
-                    <textarea class="form-control" id="inputNote" style="height: 100px"></textarea>
-                    <label for="inputNote">Ghi chú</label>
-                </div>
-                <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-save">Lưu</button>
                 </div>
             </div>
         </div>
@@ -253,6 +372,9 @@
     const orderTable = document.querySelector('.order-table');
     const orderTableBody = document.querySelector('.order-table-body');
 
+    const optionOrderDetailContainer = document.querySelector('.option-order-detail-container');
+    const optionCreateOrderContainer = document.querySelector('.option-create-order-container');
+
     const orderDetailContainer = document.querySelector('.admin-order-detail-container');
     const orderDetailCode = document.querySelector('.order-detail-header__order-code');
     const orderDetailTime = document.querySelector('.order-detail-header__order-time');
@@ -274,10 +396,29 @@
     var currentIndex = 0;
 
     btnSearchOnClick();
-    if (orderTable.rows.length > 1) orderTable.rows[1].classList.add('table-active'); 
+    if (orderTable.rows.length > 1) orderTable.rows[1].classList.add('table-active');
+
+    const btnOptionInfo = document.querySelector('.btn-option-info');
+    btnOptionInfo.addEventListener('click', btnOptionInfoOnClick);
+    function btnOptionInfoOnClick() {
+        btnOptionInfo.classList.add('btn-order-option--active');
+        btnOptionCreate.classList.remove('btn-order-option--active');
+        optionOrderDetailContainer.classList.remove('d-none');
+        optionCreateOrderContainer.classList.add('d-none');
+    };
+
+    const btnOptionCreate = document.querySelector('.btn-option-create');
+    btnOptionCreate.addEventListener('click', btnOptionCreateOnClick);
+    function btnOptionCreateOnClick() {
+        btnOptionInfo.classList.remove('btn-order-option--active');
+        btnOptionCreate.classList.add('btn-order-option--active');
+        optionOrderDetailContainer.classList.add('d-none');
+        optionCreateOrderContainer.classList.remove('d-none');
+    };
 
     function orderTableRowClick(rowIndex) {
         console.log('table row ', rowIndex, ' clicked');
+        btnOptionInfoOnClick();
         for (i = 1; i < orderTable.rows.length; i++) {
             if (orderTable.rows[i].classList.contains('table-active')) {
                 orderTable.rows[i].classList.remove('table-active');
@@ -297,22 +438,6 @@
         orderDetailPayment.textContent = data.orderList[currentIndex].payment;
         orderDetailNote.value = data.orderList[currentIndex].note;
         var serviceTableBody = '';
-        {{!-- for (i = 0; i < data.orderList[currentIndex].serviceList[i].length; i++) {
-            var row = '<tr>'
-                        + '<td class="text-start" style="width: 40%;">' + data.orderList[currentIndex].serviceList[i].service.name + '</td>'
-                        //+ '<td style="width: 15%;"">' + data.orderList[currentIndex].serviceList[i].quantity + '</td>'
-                        + '<td>'
-                            + '<div>'
-                                + '<input type="number" class="text-center border-0" max="10" min="1" value="' + data.orderList[currentIndex].serviceList[i].quantity + '">'
-                            + '</div>'
-                        + '</td>'
-                        + '<td style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].price + 'đ</td>'
-                        + '<td style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].type + '</td>'
-                        + '<td style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].total + 'đ</td>'
-                        + '</tr>';
-            serviceTableBody += row;
-        } --}}
-
 
         for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
             var row = '<tr>'
@@ -340,19 +465,12 @@
             serviceTableBody += row;
         }
 
-
-        
-
-
-
         orderDetailServiceTableBody.innerHTML = serviceTableBody;
         orderDetailInputVoucher.value = data.orderList[currentIndex].voucher;
         orderDetailTotalTableSum.textContent = data.orderList[currentIndex].sum;
         orderDetailTotalTableDiscount.textContent = data.orderList[currentIndex].discount;
         orderDetailTotalTableTotal.textContent = data.orderList[currentIndex].total;
     }
-
-
 
     function updateDropdownServiceType(indexService, indexType) {
         const serviceQuantity = document.querySelector('.service-table__service-quantity-' + indexService);
@@ -373,10 +491,6 @@
         orderDetailTotalTableDiscount.textContent = 0;
         orderDetailTotalTableTotal.textContent = sum;
     };
-
-
-
-
        
     btnSearch.addEventListener('click', btnSearchOnClick);
     async function btnSearchOnClick() {
@@ -632,4 +746,293 @@
             showAlertChicPet('alert-danger', 'Lưu hóa đơn thất bại, vui lòng thử lại');
         }
     });
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ( (charCode > 31 && charCode < 48) || charCode > 57) {
+            return false;
+        }
+        return true;
+    }
+
+    // script create order
+
+    const bookServiceTableBody = document.querySelector('.book-service-table-body');
+    const btnAdd = document.querySelectorAll('.btn-add');
+
+    var bookServiceList = [];
+    const dogServiceContainer = document.getElementById('v-pills-dog');
+    const catServiceContainer = document.getElementById('v-pills-cat');
+    const otherServiceContainer = document.getElementById('v-pills-other');
+
+    var bookOrderServiceList = [];
+
+    const inputBookUserCode = document.getElementById('userCode');
+    const inputBookName = document.getElementById('name');
+    const inputBookPhone = document.getElementById('phone');
+    const inputBookEmail = document.getElementById('email');
+    const inputBookAppointment = document.getElementById('appointment');
+    const inputBookNote = document.getElementById('comments');
+    const btnCheckUserCode = document.querySelector('.btn-check-user-code');
+    const btnBook = document.querySelector('.btn-book');
+
+    const inputBookUserCodeError = document.querySelector('.inputUserCodeError');
+    const inputBookNameError = document.querySelector('.inputNameError');
+    const inputBookPhoneError = document.querySelector('.inputPhoneError');
+    const inputBookMailError = document.querySelector('.inputMailError');
+    const inputBookAppointmentError = document.querySelector('.inputAppointmentError');
+    const bookServiceTableError = document.querySelector('.serviceTableError');
+
+    renderListService();
+
+    async function renderListService() {
+        try {
+            const res = await fetch('/service/book/get-service-list', {
+                method: 'POST',
+                body: JSON.stringify({ }),
+                headers: {'Content-Type': 'application/json'}
+            });
+            const serviceListData = await res.json();
+            if (serviceListData) {
+                if (serviceListData.serviceList) {
+                    console.log(serviceListData.serviceList);
+                    bookServiceList = serviceListData.serviceList;
+                    var dogServiceHTML = '';
+                    var catServiceHTML = '';
+                    var otherServiceHTML = '';
+                    for (i = 0; i < bookServiceList.length; i++) {
+                        var serviceHTML = '<div class="row service-item p-1" >'
+                                                + '<div class="col-md-10 px-1">' + bookServiceList[i].name + '</div>'
+                                                + '<div class="col-md-2 px-1 py-0 d-flex justify-content-center align-items-center">'
+                                                    + '<button type="button" class="btn p-0 btn-add" onClick="reply_click(' + '\'' + bookServiceList[i].name + '\'' + ')">Add</button>'
+                                                + '</div>'
+                                            + '</div>'
+                        
+                        if (bookServiceList[i].category === 'dog-service') {
+                            dogServiceHTML += serviceHTML;
+                        }
+                        else if (bookServiceList[i].category === 'cat-service') {
+                            catServiceHTML += serviceHTML;
+                        }
+                        else if (bookServiceList[i].category === 'other-service') {
+                            otherServiceHTML += serviceHTML;
+                        }
+                    }
+                    dogServiceContainer.innerHTML = dogServiceHTML;
+                    catServiceContainer.innerHTML = catServiceHTML;
+                    otherServiceContainer.innerHTML = otherServiceHTML;
+                }
+                else if (serviceListData.error) {
+                    console.log('get service list error');
+                    console.log(serviceListData.error);
+                }
+            }
+            else {
+                console.log('get service list failed');
+            }
+        }
+        catch(err) {
+            console.log('get service list error');
+            console.log(err);
+        }
+    }
+
+    const render = () => {
+        const html = bookOrderServiceList.map((element, index) => (
+            `<tr>
+            <th scope="row">${index + 1}</th>
+            <td>${element.nameService}</td>
+            <td>
+                <div class="buttons_added border-none">
+                    <input aria-label="quantity" class="input-qty" max="10" min="0" type="number" id="${index}" value="${element.amount}" onchange="myFunction(this.value, this.id)">    
+                </div>
+            </td>
+        </tr>`
+        ));
+        bookServiceTableBody.innerHTML = html.join('');
+    }
+
+    function reply_click(serviceName)
+    {  
+        var b = false;
+        bookOrderServiceList.forEach((element) => { 
+            if(element.nameService == serviceName){
+                b = true;
+                if(element.amount < 10){
+                    element.amount ++;
+                    render();
+                }
+            } 
+        } );
+        const Data = {
+            nameService: serviceName,
+            amount: 1
+        }
+        if(!b){
+            bookOrderServiceList.push(Data);
+            render();
+        }
+        console.log(bookOrderServiceList);
+    }
+
+    function myFunction(value, id){
+        if(value < 1){
+            bookOrderServiceList.splice(id, 1);
+            render();
+        }
+        else if(value > 10){
+            bookOrderServiceList[id].amount = 10;
+            render();
+        }
+        else{
+            bookOrderServiceList[id].amount = Number(value);
+        }
+        console.log(bookOrderServiceList);
+    }
+
+    btnCheckUserCode.addEventListener('click', async () => {
+        const userCodeToFind = inputBookUserCode.value;
+        inputBookUserCodeError.textContent = '';
+
+        if (userCodeToFind !== '') {
+            try {
+                const res = await fetch('/account/get-user-info', {
+                    method: 'POST',
+                    body: JSON.stringify({ userCodeToFind }),
+                    headers: {'Content-Type': 'application/json'}
+                });
+                const userInfoData = await res.json();
+                console.log(userInfoData);
+                if (userInfoData) {
+                    if (userInfoData.userInfo) {
+                        console.log('get user info successful');
+                        console.log(userInfoData.userInfo);
+                        inputBookName.value = userInfoData.userInfo.fullname;
+                        inputBookPhone.value = userInfoData.userInfo.phone;
+                        inputBookEmail.value = userInfoData.userInfo.mail;
+                    }
+                    else if (userInfoData.error) {
+                        if (userInfoData.error === 'userInfo null') {
+                            console.log('get user info successful');
+                            console.log(userInfoData.error);
+                            inputBookUserCodeError.textContent = 'Mã khách hàng không hợp lệ';
+                        }
+                        else {
+                            console.log('get user info failed');
+                            console.log(userInfoData.error);
+                            inputBookUserCodeError.textContent = 'Mã khách hàng không hợp lệ';
+                        }
+                    }
+                    else {
+                        console.log('get user info failed');
+                    }
+                }
+            }
+            catch(err) {
+                console.log('btn get user info error');
+                console.log(err);
+            }
+        }
+        else {
+            inputBookUserCodeError.textContent = 'Vui lòng nhập mã khách hàng';
+        }
+    })
+
+    btnBook.addEventListener('click', async ()=>{
+        console.log('btn-book clicked');
+        inputBookNameError.textContent = '';
+        inputBookPhoneError.textContent = '';
+        bookServiceTableError.textContent = '';
+
+        const userCode = inputBookUserCode.value;
+        const name = inputBookName.value;
+        const phone = inputBookPhone.value;
+        const email = inputBookEmail.value;
+        const appointment = inputBookAppointment.value;
+        const note = inputBookNote.value;
+        var orderValidated = true;
+
+        if (userCode === '') {
+            inputBookUserCodeError.textContent = 'Vui lòng nhập mã khách hàng';
+            orderValidated = false;
+        }
+        if (name === '') {
+            inputBookNameError.textContent = 'Vui lòng nhập họ tên';
+            orderValidated = false;
+        }
+        if (phone === '') {
+            inputBookPhoneError.textContent = 'Vui lòng nhập số điện thoại';
+            orderValidated = false;
+        }
+        if (bookOrderServiceList.length < 1) {
+            bookServiceTableError.textContent = 'Vui lòng chọn dịch vụ';
+            orderValidated = false;
+        }
+
+        if (orderValidated) {
+            var services = [];
+            for (i = 0; i < bookOrderServiceList.length; i++) {
+                var serviceInfo = bookServiceList.find(element => (element.name === bookOrderServiceList[i].nameService));
+                console.log(serviceInfo);
+                var service = {
+                    service: serviceInfo,
+                    type: '',
+                    quantity: bookOrderServiceList[i].amount,
+                    price: 0,
+                    total:  0
+                }
+                services.push(service);
+            }
+            console.log(services);
+            try {
+                const res = await fetch('/service/admin-book', {
+                    method: 'POST',
+                    body: JSON.stringify({ userCode, name, phone, email, appointment, services, note }),
+                    headers: {'Content-Type': 'application/json'}
+                });
+                const bookedServiceData = await res.json();
+                console.log(bookedServiceData);
+                if (bookedServiceData) {
+                    if (bookedServiceData.order) {
+                        console.log('book service successful');
+                        console.log(bookedServiceData.order);
+                        showAlertChicPet('alert-success', 'Đăng ký đơn thành công');
+
+                        btnSearchOnClick();
+                        inputBookUserCode.value = '';
+                        inputBookName.value = '';
+                        inputBookPhone.value = '';
+                        inputBookEmail.value = '';
+                        inputBookAppointment.value = '';
+                        inputBookNote.value = '';
+                        bookServiceTableBody.innerHTML = '';
+                    }
+                    else if (bookedServiceData.error) {
+                        if (bookedServiceData.error === 'user code not found') {
+                            console.log('book service failed');
+                            console.log(bookedServiceData.error);
+                            inputBookUserCodeError.textContent = 'Mã khách hàng không hợp lệ';
+                            showAlertChicPet('alert-danger', 'Đăng ký đơn thất bại, vui lòng thử lại');
+                        }
+                        else {
+                            console.log('book service failed');
+                            console.log(bookedServiceData.error);
+                            showAlertChicPet('alert-danger', 'Đăng ký đơn thất bại, vui lòng thử lại');
+                        }
+                    }
+                    else {
+                        console.log('book service failed');
+                        showAlertChicPet('alert-danger', 'Đăng ký đơn thất bại, vui lòng thử lại');
+                    }
+                }
+            }
+            catch (err) {
+                console.log('book service error');
+                console.log(err);
+                showAlertChicPet('alert-danger', 'Đăng ký đơn thất bại, vui lòng thử lại');
+            }
+        }
+    });
+
 </script>

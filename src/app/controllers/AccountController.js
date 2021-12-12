@@ -87,6 +87,39 @@ module.exports.profile_post = async (req, res) => {
     else res.render('404NotFound');
 }
 
+module.exports.userInfo_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { userCodeToFind } = req.body;
+                const userInfo = await User.findOne({ userCode: userCodeToFind });
+                if (userInfo) {
+                    console.log('user info post successful');
+                    console.log(userInfo);
+                    res.status(200).json({ userInfo: { fullname: userInfo.fullname, phone: userInfo.phone, mail: userInfo.mail } });
+                }
+                else {
+                    console.log('user info post null');
+                    res.status(400).json({ error: 'userInfo null' });
+                }
+            }
+            catch(err) {
+                console.log('user info post orderList error');
+                console.log(err);
+                res.status(400).json({ error: err });
+            }
+        }
+        else {
+            console.log('user info post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
+        }
+    }
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
+    }
+}
+
 module.exports.customer_get = (req, res) => {
     if (res.locals.user) {
         if (res.locals.user.role === 'admin') {
@@ -452,7 +485,7 @@ module.exports.adminSaveOrder_post = async (req, res) => {
         if (res.locals.user.role === 'admin') {
             try {
                 const { orderCode, customerName, customerPhone, customerMail, orderStatus, serviceList, sum, discount, voucher, total, note, payment } = req.body;
-                
+
                 await Order.findOneAndUpdate(
                     { orderCode: orderCode },
                     { 
