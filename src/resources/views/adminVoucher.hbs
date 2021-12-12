@@ -311,7 +311,6 @@
             var row = '';
             row += '<tr>';
             for (j = 0; j < 5; j++) {
-                console.log(i * 5 + j);
                 if (data.voucherList[currentIndex].codeList[i * 5 + j].isUsed) {
                     numberUsed++;
                     row += '<td class="text-decoration-line-through">' + data.voucherList[currentIndex].codeList[i * 5 + j].code + '</td>';
@@ -329,8 +328,6 @@
             row += '<tr>';
             for (i = 0; i < 5; i++) {
                 var index = numberOfRowsCreated * 5 + i;
-                console.log(index);
-                console.log('length: ' + data.voucherList[currentIndex].codeList.length);
                 if (index < data.voucherList[currentIndex].codeList.length) {
                     if (data.voucherList[currentIndex].codeList[index].isUsed) {
                         numberUsed++;
