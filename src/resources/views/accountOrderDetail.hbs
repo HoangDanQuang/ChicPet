@@ -35,9 +35,9 @@
                     </thead>
                     <tbody>
 
-                        {{#each order.services}}
+                        {{#each order.serviceList}}
                             <tr>
-                                <td class="text-start" style="width: 40%;">{{this.serviceName}}</td>
+                                <td class="text-start" style="width: 40%;">{{this.service.name}}</td>
                                 <td style="width: 15%;">{{this.quantity}}</td>
                                 <td style="width: 15%;">{{this.price}}</td>
                                 <td style="width: 15%;">{{this.type}}</td>
@@ -68,16 +68,16 @@
                 <table class="table total-table table-bordered border-white">
                     <tbody>
                         <tr>
-                            <td class="text-start table-light">Tổng giá trị sản phẩm</td>
+                            <td class="text-start">Mã Voucher</td>
+                            <td class="text-end">{{order.voucher}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start table-light">Tổng giá trị dịch vụ</td>
                             <td class="text-end table-light">{{order.sum}}</td>
                         </tr>
                         <tr>
                             <td class="text-start table-light">Số tiền giảm giá</td>
                             <td class="text-end table-light">{{order.discount}}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-start table-light">Voucher khuyến mãi</td>
-                            <td class="text-end table-light">{{order.voucher}}</td>
                         </tr>
                         <tr>
                             <td class="text-start fw-bold">Tổng thanh toán</td>
@@ -88,10 +88,10 @@
             </div>
             <div class="order-detail-customer-info mt-4">
                 <p class="fw-bold my-3">
-                    Thông tin nhận hàng
+                    Thông tin khách hàng
                 </p>
                 <p class="my-3">
-                    Tên người nhận: 
+                    Tên khách hàng: 
                     <span class="fw-bold">{{order.fullname}}</span>
                 </p>
                 <p class="my-3">

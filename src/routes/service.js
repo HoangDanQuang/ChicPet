@@ -8,6 +8,8 @@ const { requireAdmin } = require('../app/middleware/RequireAdminMiddleware');
 
 router.get('/book', requireAuth, ServiceController.book_get);
 router.post('/book', requireAuth, ServiceController.book_post);
+router.post('/admin-book', requireAuth, ServiceController.adminBook_post);
+router.post('/book/get-service-list', requireAuth, ServiceController.customerListService_post);
 router.get('/', verifyCache, ServiceController.service_get);
 
 router.get('/editService', requireAdmin, ServiceController.editService_get);

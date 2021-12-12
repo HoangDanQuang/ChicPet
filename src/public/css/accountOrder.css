@@ -119,10 +119,10 @@ a:hover {
 }
 
 .service-item__image {
-    width: 70px;
-    height: 80px;
+    width: 150px;
+    height: 100px;
     margin-right: 15px;
-    background-color: #C0C0C0;
+    /* background-color: #C0C0C0; */
 }
 
 .service-item__content {

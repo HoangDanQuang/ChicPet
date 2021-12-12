@@ -33,20 +33,22 @@ const OrderSchema = new Schema ({
         type: String,
         required: true,
     },
-    services: [{
-        serviceName: {
-            type: String,
-            required: true,
+    serviceList: [{
+        service: {
+            type: Schema.Types.Map,
         },
         type: {
             type: String,
         },
+        price: {
+            type: Number,
+        },
         quantity: {
             type: Number,
-            required: true,
         },
-        price: Number,
-        total: Number,
+        total: {
+            type: Number,
+        },
     }],
     sum: {
         type: Number,

@@ -193,7 +193,7 @@
                         <label for="inputPercentVoucherValue" class="col-3 col-form-label">Giá trị:</label>
                         <div class="col-6">
                             <div class="input-group">
-                                <input type="text" class="form-control col-form-label" id="inputPercentVoucherValue" value="" onkeypress="return isNumber(event)" onpaste="return false;">
+                                <input type="text" class="form-control col-form-label" id="inputPercentVoucherValue" value="" min="1" max="100" onkeypress="return isNumber(event)" onpaste="return false;">
                                 <span class="input-group-text input-group-text-unit">%</span>
                             </div>
                             <div class="inputPercentVoucherValueError text-error"></div>
@@ -311,7 +311,6 @@
             var row = '';
             row += '<tr>';
             for (j = 0; j < 5; j++) {
-                console.log(i * 5 + j);
                 if (data.voucherList[currentIndex].codeList[i * 5 + j].isUsed) {
                     numberUsed++;
                     row += '<td class="text-decoration-line-through">' + data.voucherList[currentIndex].codeList[i * 5 + j].code + '</td>';
@@ -329,8 +328,6 @@
             row += '<tr>';
             for (i = 0; i < 5; i++) {
                 var index = numberOfRowsCreated * 5 + i;
-                console.log(index);
-                console.log('length: ' + data.voucherList[currentIndex].codeList.length);
                 if (index < data.voucherList[currentIndex].codeList.length) {
                     if (data.voucherList[currentIndex].codeList[index].isUsed) {
                         numberUsed++;
@@ -510,7 +507,7 @@
                 catch(err) {
                     console.log('btn delete error');
                     console.log(err);
-                    alert('Xóa Voucher thất bại, vui lòng thử lại');
+                    showAlertChicPet('alert-danger', 'Xóa Voucher thất bại, vui lòng thử lại');
                 }
             }
         }
@@ -557,6 +554,10 @@
         else if (dropdownTypeCreateVoucher.textContent === 'Phần trăm') {
             if (inputPercentVoucherValue.value === '') {
                 inputPercentVoucherValueError.textContent = 'Vui lòng nhập giá trị Voucher';
+                inputValidated = false;
+            }
+            else if (inputPercentVoucherValue.value < 1 || inputPercentVoucherValue.value > 100) {
+                inputPercentVoucherValueError.textContent = 'Giá trị Voucher không hợp lệ';
                 inputValidated = false;
             }
             if (inputPercentVoucherMaxValue.value === '') {

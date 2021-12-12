@@ -12,7 +12,7 @@
             </div>
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-dog" role="tabpanel" aria-labelledby="v-pills-dog-tab">
-                    <div class="row service-item p-1" >
+                    {{!-- <div class="row service-item p-1" >
                         <div class="col-md-10 px-1">Activity Exercise</div>
                         <div class="col-md-2 px-1 py-0 d-flex justify-content-center align-items-center">
                             <button type="button" class="btn p-0 btn-add"  id = "Activity Exercise(Dog)" onClick="reply_click(this.id)">Add</button>
@@ -51,10 +51,10 @@
                         <div class="col-md-2 px-1 d-flex justify-content-center align-items-center">
                             <button type="button" class="btn p-0 btn-add" id = "Sefl-Serve Wash(Dog)" onClick="reply_click(this.id)">Add</button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="tab-pane fade" id="v-pills-cat" role="tabpanel" aria-labelledby="v-pills-cat-tab">
-                                        <div class="row service-item p-1" >
+                    {{!-- <div class="row service-item p-1" >
                         <div class="col-md-10 px-1">Activity Exercise</div>
                         <div class="col-md-2 px-1 py-0 d-flex justify-content-center align-items-center">
                             <button type="button" class="btn p-0 btn-add"  id = "Activity Exercise(Cat)" onClick="reply_click(this.id)">Add</button>
@@ -93,10 +93,10 @@
                         <div class="col-md-2 px-1 d-flex justify-content-center align-items-center">
                             <button type="button" class="btn p-0 btn-add" id = "Sefl-Serve Wash(Cat)" onClick="reply_click(this.id)">Add</button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="tab-pane fade" id="v-pills-other" role="tabpanel" aria-labelledby="v-pills-other-tab">
-                    <div class="row service-item p-1">
+                    {{!-- <div class="row service-item p-1">
                         <div class="col-md-10 px-1">Pet Grooming</div>
                         <div class="col-md-2 px-1 d-flex justify-content-center align-items-center">
                             <button type="button" class="btn p-0 btn-add" id = "Pet Grooming(Other pets)" onClick="reply_click(this.id)">Add</button>
@@ -108,7 +108,7 @@
                         <div class="col-md-2 px-1 d-flex justify-content-center align-items-center">
                             <button type="button" class="btn p-0 btn-add" id = "Pet Boarding(Other Pets)" onClick="reply_click(this.id)">Add</button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -118,18 +118,22 @@
 
         <div class="row">
             <div class="col-sm-6 form-group">
-                <input class="form-control" id="name" name="name" placeholder="Name " type="text" value="{{user.fullname}}" required>
+                <input class="form-control" id="name" name="name" placeholder="Name " type="text" value="{{user.fullname}}">
+                <div class="inputNameError text-error"></div>
             </div>
             <div class="col-sm-6 form-group">
-                <input class="form-control" id="phone" name="phone" placeholder="Phone" type="text" value="{{user.phone}}" required>
+                <input class="form-control" id="phone" name="phone" placeholder="Phone" type="text" value="{{user.phone}}" onkeypress="return isNumber(event)" onpaste="return false;">
+                <div class="inputPhoneError text-error"></div>
             </div>
         </div>
         <div class="mt-3 form-group row">
             <div class="col-sm-6">
-                <input class="form-control" id="email" name="email" placeholder="Email" type="email" value="{{user.mail}}" required>
+                <input class="form-control" id="email" name="email" placeholder="Email" type="email" value="{{user.mail}}">
+                <div class="inputMailError text-error"></div>
             </div>
             <div class="col-sm-6 appointment">
                 <input type="datetime-local" class="px-2" id="appointment" name="appointment">
+                <div class="inputAppointmentError text-error"></div>
             </div>          
         </div>
 
@@ -154,6 +158,7 @@
  --}}
             </tbody>
         </table>
+        <div class="serviceTableError text-error text-end"></div>
 
 
         <div>
@@ -169,10 +174,75 @@
     const elementTbody = document.querySelector('tbody');
     const btnAdd = document.querySelectorAll('.btn-add');
 
-    var listService = []
+    var serviceList = [];
+    const dogServiceContainer = document.getElementById('v-pills-dog');
+    const catServiceContainer = document.getElementById('v-pills-cat');
+    const otherServiceContainer = document.getElementById('v-pills-other');
+
+    var orderServiceList = []
+
+    const inputNameError = document.querySelector('.inputNameError');
+    const inputPhoneError = document.querySelector('.inputPhoneError');
+    const inputMailError = document.querySelector('.inputMailError');
+    const inputAppointmentError = document.querySelector('.inputAppointmentError');
+    const serviceTableError = document.querySelector('.serviceTableError');
+
+    renderListService();
+
+    async function renderListService() {
+        try {
+            const res = await fetch('/service/book/get-service-list', {
+                method: 'POST',
+                body: JSON.stringify({ }),
+                headers: {'Content-Type': 'application/json'}
+            });
+            const data = await res.json();
+            if (data) {
+                if (data.serviceList) {
+                    console.log(data.serviceList);
+                    serviceList = data.serviceList;
+                    var dogServiceHTML = '';
+                    var catServiceHTML = '';
+                    var otherServiceHTML = '';
+                    for (i = 0; i < serviceList.length; i++) {
+                        var serviceHTML = '<div class="row service-item p-1" >'
+                                                + '<div class="col-md-10 px-1">' + serviceList[i].name + '</div>'
+                                                + '<div class="col-md-2 px-1 py-0 d-flex justify-content-center align-items-center">'
+                                                    + '<button type="button" class="btn p-0 btn-add" onClick="reply_click(' + '\'' + serviceList[i].name + '\'' + ')">Add</button>'
+                                                + '</div>'
+                                            + '</div>'
+                        
+                        if (serviceList[i].category === 'dog-service') {
+                            dogServiceHTML += serviceHTML;
+                        }
+                        else if (serviceList[i].category === 'cat-service') {
+                            catServiceHTML += serviceHTML;
+                        }
+                        else if (serviceList[i].category === 'other-service') {
+                            otherServiceHTML += serviceHTML;
+                        }
+                    }
+                    dogServiceContainer.innerHTML = dogServiceHTML;
+                    catServiceContainer.innerHTML = catServiceHTML;
+                    otherServiceContainer.innerHTML = otherServiceHTML;
+                }
+                else if (data.error) {
+                    console.log('get service list error');
+                    console.log(data.error);
+                }
+            }
+            else {
+                console.log('get service list failed');
+            }
+        }
+        catch(err) {
+            console.log('get service list error');
+            console.log(err);
+        }
+    }
 
     const render = () => {
-        const html = listService.map((element, index) => (
+        const html = orderServiceList.map((element, index) => (
             `<tr>
             <th scope="row">${index + 1}</th>
             <td>${element.nameService}</td>
@@ -186,11 +256,11 @@
         elementTbody.innerHTML = html.join('');
     }
 
-    function reply_click(clicked_id)
+    function reply_click(serviceName)
     {  
         var b = false;
-        listService.forEach((element) => { 
-            if(element.nameService == clicked_id){
+        orderServiceList.forEach((element) => { 
+            if(element.nameService == serviceName){
                 b = true;
                 if(element.amount < 10){
                     element.amount ++;
@@ -199,27 +269,29 @@
             } 
         } );
         const Data = {
-            nameService: clicked_id,
-            amount: "1"
+            nameService: serviceName,
+            amount: 1
         }
         if(!b){
-            listService.push(Data);
+            orderServiceList.push(Data);
             render();
         }
+        console.log(orderServiceList);
     }
 
     function myFunction(value, id){
         if(value < 1){
-            listService.splice(id, 1);
+            orderServiceList.splice(id, 1);
             render();
         }
         else if(value > 10){
-            listService[id].amount = 10;
+            orderServiceList[id].amount = 10;
             render();
         }
         else{
-            listService[id].amount = value;
+            orderServiceList[id].amount = Number(value);
         }
+        console.log(orderServiceList);
     }
 
 
@@ -238,44 +310,71 @@
 
     btnBook.addEventListener('click', async ()=>{
         console.log('btn-book clicked');
-        var services = [];
-        for (i = 0; i < listService.length; i++) {
-            console.log(listService[i].amount);
-            var service = {
-                serviceName: listService[i].nameService,
-                type: '',
-                quantity: listService[i].amount,
-                price: 0,
-                total:  0
-            }
-            console.log(service);
-            services.push(service);
-        }
-        try {
-            const name = inputName.value;
-            const phone = inputPhone.value;
-            const email = inputEmail.value;
-            const appointment = inputAppointment.value;
-            const note = inputNote.value;
+        inputNameError.textContent = '';
+        inputPhoneError.textContent = '';
+        serviceTableError.textContent = '';
 
-            const res = await fetch('/service/book', {
-                method: 'POST',
-                body: JSON.stringify({ name, phone, email, appointment, services, note }),
-                headers: {'Content-Type': 'application/json'}
-            });
-            const data = await res.json();
-            console.log(data);
-            if (data) {
-                console.log("DK Thanh Cong");
-            }
+        const name = inputName.value;
+        const phone = inputPhone.value;
+        const email = inputEmail.value;
+        const appointment = inputAppointment.value;
+        const note = inputNote.value;
+        var orderValidated = true;
+
+        if (name === '') {
+            inputNameError.textContent = 'Vui lòng nhập họ tên';
+            orderValidated = false;
         }
-        catch (err) {
-            console.log('sign up error');
-            console.log(err);
+        if (phone === '') {
+            inputPhoneError.textContent = 'Vui lòng nhập số điện thoại';
+            orderValidated = false;
+        }
+        if (orderServiceList.length < 1) {
+            serviceTableError.textContent = 'Vui lòng chọn dịch vụ';
+            orderValidated = false;
         }
 
+        if (orderValidated) {
+            var services = [];
+            for (i = 0; i < orderServiceList.length; i++) {
+                var serviceInfo = serviceList.find(element => (element.name === orderServiceList[i].nameService));
+                console.log(serviceInfo);
+                var service = {
+                    service: serviceInfo,
+                    type: '',
+                    quantity: orderServiceList[i].amount,
+                    price: 0,
+                    total:  0
+                }
+                services.push(service);
+            }
+            console.log(services);
+            try {
+                const res = await fetch('/service/book', {
+                    method: 'POST',
+                    body: JSON.stringify({ name, phone, email, appointment, services, note }),
+                    headers: {'Content-Type': 'application/json'}
+                });
+                const data = await res.json();
+                console.log(data);
+                if (data) {
+                    console.log("DK Thanh Cong");
+                }
+            }
+            catch (err) {
+                console.log('sign up error');
+                console.log(err);
+            }
+        }
     });
     
-
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ( (charCode > 31 && charCode < 48) || charCode > 57) {
+            return false;
+        }
+        return true;
+    }
 </script>
 

@@ -35,13 +35,13 @@
                             {{/ifCond}}
                         </a>
                         <div class="col service-list">
-                            {{#each this.services}}
+                            {{#each this.serviceList}}
                                 <div class="row service-item">
                                     <div class="service-item__image">
-                                            
+                                            <img src="{{this.service.img}}" class="img-fluid img-thumbnail" alt="">
                                     </div>
                                     <span class="col service-item__content">
-                                        <a href="#" class="service-item__name">{{this.serviceName}}</a>
+                                        <a href="#" class="service-item__name">{{this.service.name}}</a>
                                         <div class="service-item__quantity">x {{this.quantity}}</div>
                                         <div class="service-item__type">{{this.type}}</div>
                                     </span>
