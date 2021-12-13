@@ -26,6 +26,9 @@ html{
 .carousel-control-next{
     margin-top: 90px !important;
 }
+.carousel-item img{
+    object-fit: cover;
+}
 /*-----------------------------*/
 .btn-collapse{
     border: solid 1px black;
@@ -42,7 +45,6 @@ html{
     width: 100%;
     height: 100%;
 }
-
 /*-------------------------------*/
 .box
 {
@@ -61,6 +63,9 @@ html{
     background-position: top center, top center, bottom center;
     -webkit-animation: drawBorderFromCenter 1s;
 
+}
+.box .active-btn{
+    border-bottom: solid 2px rgb(255, 101, 80);
 }
 
 /* Chrome, Safari, Opera */

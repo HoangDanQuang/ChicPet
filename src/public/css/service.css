@@ -163,3 +163,13 @@ img {
     color: rgb(255, 80, 101);
     border: solid 1px rgb(255, 80, 101);
 }
+.stretched-link{
+    text-decoration: none;
+    border: solid 1px black;
+    text-align: center;
+    color: black;
+}
+.stretched-link:hover{
+    border-color: rgb(255, 80, 101);
+    color: rgb(255, 80, 101);
+}

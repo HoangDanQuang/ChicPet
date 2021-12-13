@@ -15,12 +15,25 @@ html{
 .home-slider img{
   height: 650px;
   margin-top: 90px;
+  object-fit: cover;
 }
 .carousel-control-prev{
   margin-top: 90px !important;
 }
 .carousel-control-next{
   margin-top: 90px !important;
+}
+.sloganHome{
+  font-family: 'Papyrus', Fantasy;
+  color: black;
+  position: absolute;
+  top: 25%;
+  right: 75%;
+  font-size: 70px;
+}
+.carousel-caption h4,
+.carousel-caption h5{
+  font-family: 'Papyrus', Fantasy;
 }
 
   /*----------------------about-------------*/

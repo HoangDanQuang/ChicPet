@@ -51,3 +51,8 @@
     min-width: 120px;
     text-align: center;
 }
+
+.navbar-collapse .active{
+    font-weight: bolder;
+    color: rgb(255, 101, 80) !important;
+}

@@ -209,7 +209,7 @@ module.exports.editDetailBlog_post = async (req, res) => {
             contentCode: contentCode
         });
         if (result.modifiedCount === 1) {
-            console.log("Successfully deleted one document.");
+            console.log("Successfully update one document.");
             blogListcache.del( "blogList" );//remove cache
             res.status(200).json({ blog: newBlog });
 
