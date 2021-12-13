@@ -591,6 +591,16 @@ module.exports.orderDetail_get = async (req, res) => {
     }
 }
 
+module.exports.contact_get = (req, res) => {
+    if (res.locals.user) {
+        res.render('accountContact');
+    }
+    else {
+        console.log('user not log in');
+        res.render('login');
+    }
+}
+
 module.exports.voucher_get = (req, res) => {
     if (res.locals.user) {
         if (res.locals.user.role === 'admin') {
