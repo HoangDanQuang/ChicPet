@@ -53,37 +53,47 @@
             </button>
         </p>
         <div class="collap-content">
-            <div class="collapse" id="collapseWidthExample">
+            <div class="collapse show" id="collapseWidthExample">
                 <div class="card card-body" >
                     <div class="row d-flex px-0 body1 mx-0">
 
                         <div class="box col mx-3 blog-item4">
-                            <button class="p-3 btn-dog-breed">
+                            <button class="p-3 btn-dog-breed" id="btn-dog-breed" onclick="activeCategory(this.id)">
                                 <img src="./img/blog/dog.png" width="60" height="60">
                                 <h5 class="mt-2">Các giống chó</h5>
                             </button>
                         </div>
 
                         <div class="box col mx-3 blog-item4">
-                            <button class="p-3 btn-cat-breed">
+                            <button class="p-3 btn-cat-breed" id="btn-cat-breed" onclick="activeCategory(this.id)">
                                 <img src="./img/blog/cat.png" width="60" height="60">
                                 <h5 class="mt-2">Các giống mèo</h5>
                             </button>
                         </div>
 
                         <div class="box col mx-3 blog-item4">
-                            <button class="p-3 btn-takecare-dog">
+                            <button class="p-3 btn-takecare-dog" id="btn-takecare-dog" onclick="activeCategory(this.id)">
                                 <img src="./img/blog/pet-care1.png" width="60" height="60">
                                 <h5 class="mt-2">Chăm sóc chó</h5>
                             </button>
                         </div>
 
                         <div class="box col mx-3 blog-item4">
-                            <button class="p-3 btn-takecare-cat">
+                            <button class="p-3 btn-takecare-cat" id="btn-takecare-cat" onclick="activeCategory(this.id)">
                                 <img src="./img/blog/pet-care2.png" width="70" height="60">
                                 <h5 class="mt-2">Chăm sóc mèo</h5>
                             </button>
                         </div>
+                        <script>
+                                function activeCategory(id){
+                                    document.getElementById("btn-dog-breed").classList.remove("active-btn");
+                                    document.getElementById("btn-cat-breed").classList.remove("active-btn");
+                                    document.getElementById("btn-takecare-dog").classList.remove("active-btn");
+                                    document.getElementById("btn-takecare-cat").classList.remove("active-btn");
+
+                                    document.getElementById(id).classList.add("active-btn");
+                                }
+                        </script>
                         
                     </div>
                 </div>
@@ -105,11 +115,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{this.title}}</h5>
                 <p class="card-text">{{this.description}}</p>
-                <div class="row"> 
-                    <a href="/blog/{{this._id}}" class="btn btn-read col-3 ms-3">Read</a>  
-                        {{!-- <button class="btn btn-adjust mx-2 col">Adjust</button>
-                        <button class="btn btn-delete mx-2 col">Delete</button> --}}
-                </div>
+                <a href="/blog/{{this._id}}" class="btn btn-read">Read</a>  
             </div>
             </div>
         {{/each}}    
@@ -215,6 +221,10 @@
 
     const btnAllBlog = document.querySelector('.btn-allCatagory');
     btnAllBlog.addEventListener('click', ()=>{
+        document.getElementById("btn-dog-breed").classList.remove("active-btn");
+        document.getElementById("btn-cat-breed").classList.remove("active-btn");
+        document.getElementById("btn-takecare-dog").classList.remove("active-btn");
+        document.getElementById("btn-takecare-cat").classList.remove("active-btn");
         var html = `{{#each blogs }}
                         <div class="card col-md-4 mb-4" data-bs-toggle="popover" data-bs-trigger="hover focus" title="{{this.title}}">
                         <img src="{{this.img}}" class="card-img-top" alt="" height="250">
@@ -227,4 +237,6 @@
                     {{/each}}`;
         blogContent.innerHTML = html;
     });
+
+    document.getElementById("nav-blog").classList.add("active");
 </script>

@@ -37,8 +37,6 @@
                 <div class="title-error error-text"></div>
 
                 <div class="input-group input-group-sm mt-3">
-                    {{!-- <span class="input-group-text">Image</span>
-                    <input type="text" aria-label="First name" class="form-control img-blog"> --}}
 
                     <input type="file" class="form-control form-control-sm  blog-img" name="blog-img" accept="image/png, image/jpeg">
                     <button class="btn btn-outline-secondary" type="button" onclick="uploadPicture()">Upload</button>
@@ -84,7 +82,6 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-closeModal" data-bs-dismiss="modal">Close</button>
-            {{!-- <button type="button" class="btn btn-viewBlog" href="">View blog</button> --}}
             <a class="btn btn-viewBlog" type="button" href="./../blog">View blog</a>
         </div>
         </div>
@@ -103,6 +100,7 @@
         </div>
         <div class="previewModal-body"></div>
         <div class="modal-footer">
+            <button type="button" class="btn btn-post" data-bs-dismiss="modal" onclick="postBlog()">Post now</button>
             <button type="button" class="btn btn-closeModal" data-bs-dismiss="modal">Close</button>
         </div>
         </div>
@@ -167,7 +165,12 @@
         }
     }
 
+    async function postBlog(){
+        btnPost.click();
+    }
+
     btnPost.addEventListener('click', async ()=> {
+
         const inputTitle = document.querySelector('.title-blog').value;
         const inputCategory = document.querySelector('.category-blog').value;
         const inputDescription = document.querySelector('.description-blog').value
@@ -227,7 +230,7 @@
         var today = new Date();
         today.toISOString().substring(0, 10);
         
-        var html = `    <div class="container px-5"
+        var html = `    <div class="container px-5">
                         <div class="blog-header mb-5">
                             <div class="blog-category">
                                 <p>${inputCategory}</p>
@@ -257,4 +260,7 @@
         modalPreview.show();
     })
 
+</script>
+<script>
+    document.getElementById("nav-blog").classList.add("active");
 </script>
