@@ -618,6 +618,20 @@
                             orderDetailTotalTableDiscount.textContent = 0;
                             orderDetailTotalTableTotal.textContent = sum;
                         }
+                        else if (voucherData.error === 'voucher expired') {
+                            console.log('check voucher successful');
+                            orderDetailVoucherResult.textContent = 'Voucher đã hết hạn';
+                            orderDetailVoucherResult.classList.add('text-error');
+
+                            var sum = 0;
+                            for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                                const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                                sum += Number(serviceTotalTemp.textContent);
+                            }
+                            orderDetailTotalTableSum.textContent = sum;
+                            orderDetailTotalTableDiscount.textContent = 0;
+                            orderDetailTotalTableTotal.textContent = sum;
+                        }
                         else if (voucherData.error === 'voucher null') {
                             console.log('check voucher successful');
                             orderDetailVoucherResult.textContent = 'Voucher không hợp lệ';
@@ -685,6 +699,9 @@
     const btnSave = document.querySelector('.btn-save');
     btnSave.addEventListener('click', async () => {
         try {
+            orderDetailVoucherResult.textContent = '';
+            orderDetailVoucherResult.classList.remove('text-error');
+
             const orderCode = data.orderList[currentIndex].orderCode;
             const customerName = orderDetailCustomerName.value;
             const customerPhone = orderDetailCustomerPhone.value;
@@ -738,9 +755,59 @@
                     showAlertChicPet('alert-success', 'Lưu hóa đơn thành công');
                 }
                 else if (savedOrderData.error) {
-                    console.log('save order failed');
-                    console.log(savedOrderData.error);
-                    showAlertChicPet('alert-danger', 'Lưu hóa đơn thất bại, vui lòng thử lại');
+                    if (savedOrderData.error === 'voucher already used') {
+                        console.log('save order voucher already used');
+                        orderDetailVoucherResult.textContent = 'Voucher đã được sử dụng';
+                        orderDetailVoucherResult.classList.add('text-error');
+
+                        var sumTemp = 0;
+                        for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                            const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                            sumTemp += Number(serviceTotalTemp.textContent);
+                        }
+                        orderDetailTotalTableSum.textContent = sumTemp;
+                        orderDetailTotalTableDiscount.textContent = 0;
+                        orderDetailTotalTableTotal.textContent = sumTemp;
+
+                        showAlertChicPet('alert-danger', 'Voucher đã được sử dụng');
+                    }
+                    else if (savedOrderData.error === 'voucher expired') {
+                        console.log('save order voucher expired');
+                        orderDetailVoucherResult.textContent = 'Voucher đã hết hạn';
+                        orderDetailVoucherResult.classList.add('text-error');
+
+                        var sumTemp = 0;
+                        for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                            const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                            sumTemp += Number(serviceTotalTemp.textContent);
+                        }
+                        orderDetailTotalTableSum.textContent = sumTemp;
+                        orderDetailTotalTableDiscount.textContent = 0;
+                        orderDetailTotalTableTotal.textContent = sumTemp;
+
+                        showAlertChicPet('alert-danger', 'Voucher đã hết hạn');
+                    }
+                    else if (savedOrderData.error === 'voucher null') {
+                        console.log('save order voucher null');
+                        orderDetailVoucherResult.textContent = 'Voucher không hợp lệ';
+                        orderDetailVoucherResult.classList.add('text-error');
+
+                        var sumTemp = 0;
+                        for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
+                            const serviceTotalTemp = document.querySelector('.service-table__service-total-' + i);
+                            sumTemp += Number(serviceTotalTemp.textContent);
+                        }
+                        orderDetailTotalTableSum.textContent = sumTemp;
+                        orderDetailTotalTableDiscount.textContent = 0;
+                        orderDetailTotalTableTotal.textContent = sumTemp;
+
+                        showAlertChicPet('alert-danger', 'Voucher không hợp lệ');
+                    }
+                    else {
+                        console.log('save order failed');
+                        console.log(savedOrderData.error);
+                        showAlertChicPet('alert-danger', 'Lưu hóa đơn thất bại, vui lòng thử lại');
+                    }
                 }
             }
             else {
