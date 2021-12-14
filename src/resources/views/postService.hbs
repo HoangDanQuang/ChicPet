@@ -116,6 +116,7 @@
         </div>
         <div class="previewModal-body"></div>
         <div class="modal-footer">
+            <button type="button" class="btn btn-closeModal" data-bs-dismiss="modal" onclick="postNow()">Post now</button>
             <button type="button" class="btn btn-closeModal" data-bs-dismiss="modal">Close</button>
         </div>
         </div>
@@ -182,6 +183,10 @@
     }
 
     /*----------------------------post--------------------------------------------------*/
+    function postNow(){
+        btnPost.click();
+    }
+
     const btnPost = document.querySelector('.btn-post');
     btnPost.addEventListener('click', async ()=> {
         const inputName = document.querySelector('.name-service').value;
