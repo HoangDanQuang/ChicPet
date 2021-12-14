@@ -269,6 +269,20 @@ a:hover {
     background-color: rgba(255, 101, 80, 75%);
 }
 
+.btn-delete {
+    background-color: rgb(220,20,60);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 40px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-delete:hover {
+    background-color: rgba(220, 20, 60, 75%);
+}
 
 .nav-pills .nav-link{
     border: 1px solid rgb(255, 101, 80);

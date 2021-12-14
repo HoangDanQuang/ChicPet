@@ -612,6 +612,37 @@ module.exports.orderCheckVoucher_post = async (req, res) => {
     }
 }
 
+module.exports.adminDeleteOrder_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { orderCode } = req.body;
+                await Order.findOneAndDelete({ orderCode: orderCode }).then(result => {
+                    if (result) {
+                        console.log('admin delete order post successful');
+                        console.log('deleted order: ');
+                        console.log(result);
+                        res.status(200).json({ deletedOrder: result });
+                    }
+                });
+            }
+            catch(err) {
+                console.log('admin delete order post error');
+                console.log(err);
+                res.status(400).json({ error: err });
+            }
+        }
+        else {
+            console.log('admin delete order post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
+        }
+    }
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
+    }
+}
+
 module.exports.orderDetail_get = async (req, res) => {
     if (res.locals.user) {
         try {

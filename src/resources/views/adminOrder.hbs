@@ -228,6 +228,7 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-save">Lưu</button>
+                        <button type="button" class="btn btn-delete ms-4">Xóa</button>
                     </div>
                 </div>
             </div>
@@ -738,7 +739,7 @@
                 body: JSON.stringify({ orderCode, customerName, customerPhone, customerMail, orderStatus, serviceList, sum, discount, voucher, total, note, payment }),
                 headers: {'Content-Type': 'application/json'}
             });
-            savedOrderData = await res.json();
+            const savedOrderData = await res.json();
             if (savedOrderData) {
                 if (savedOrderData.savedOrder) {
                     console.log('save order successful');
@@ -822,6 +823,46 @@
             showAlertChicPet('alert-danger', 'Lưu hóa đơn thất bại, vui lòng thử lại');
         }
     });
+
+    const btnDelete = document.querySelector('.btn-delete');
+    btnDelete.addEventListener('click', async () => {
+        const orderCode = data.orderList[currentIndex].orderCode;
+        if (confirm('Bạn có chắc muốn xóa hóa đơn ' + orderCode + '?')) {
+            try {
+                const res = await fetch('/account/admin-delete-order', {
+                    method: 'POST',
+                    body: JSON.stringify({ orderCode }),
+                    headers: {'Content-Type': 'application/json'}
+                });
+                const deletedOrderData = await res.json();
+                if (deletedOrderData) {
+                    if (deletedOrderData.deletedOrder) {
+                        console.log('save order successful');
+                        console.log('deleted order: ');
+                        console.log(deletedOrderData.deletedOrder);
+                        showAlertChicPet('alert-success', 'Xóa hóa đơn thành công');
+                        btnSearchOnClick();
+                    }
+                    else {
+                        console.log('delete order failed');
+                        console.log('delete order failed');
+                        showAlertChicPet('alert-danger', 'Xóa hóa đơn thất bại, vui lòng thử lại');
+                    }
+                }
+                else {
+                    console.log('delete order failed');
+                    console.log('delete order return null');
+                    showAlertChicPet('alert-danger', 'Xóa hóa đơn thất bại, vui lòng thử lại');
+                }
+            }
+            catch(err) {
+                console.log('btn delete error');
+                console.log(err);
+                showAlertChicPet('alert-danger', 'Xóa hóa đơn thất bại, vui lòng thử lại');
+            }
+        }
+        
+    })
 
     function isNumber(evt) {
         evt = (evt) ? evt : window.event;
