@@ -485,28 +485,72 @@ module.exports.adminSaveOrder_post = async (req, res) => {
         if (res.locals.user.role === 'admin') {
             try {
                 const { orderCode, customerName, customerPhone, customerMail, orderStatus, serviceList, sum, discount, voucher, total, note, payment } = req.body;
+                var voucherVerified = true;
+                var voucherInfo;
 
-                await Order.findOneAndUpdate(
-                    { orderCode: orderCode },
-                    { 
-                        fullname: customerName,
-                        phone: customerPhone,
-                        mail: customerMail,
-                        status: orderStatus,
-                        serviceList: serviceList,
-                        sum: sum,
-                        discount: discount,
-                        voucher: voucher,
-                        total: total,
-                        note: note,
-                        payment: payment,
-                    },
-                    { runValidators: true, context: 'query', new: true },
-                ).then(result => {
-                    console.log('save order successdful');
-                    console.log(result);
-                    res.json({ savedOrder: result });
-                });
+                if (voucher !== '') {
+                    voucherInfo = await Voucher.findOne({ 'codeList.code': voucher });
+                    if (voucherInfo) {
+                        if (voucherInfo.codeList.find(element => (element.code === voucher && element.isUsed === true))) {
+                            voucherVerified = false;
+                            console.log('admin save order voucher already used');
+                            res.status(400).json({ error: 'voucher already used' });
+                        }
+                        else {
+                            var voucherExpDate = new Date(voucherInfo.exp);
+                            if (voucherExpDate.getTime() < Date.now()) {
+                                voucherVerified = false;
+                                console.log('admin save order voucher expired');
+                                res.status(400).json({ error: 'voucher expired' });
+                            }
+                        }
+                    }
+                    else {
+                        console.log('admin save order voucher null');
+                        voucherVerified = false;
+                        res.status(400).json({ error: 'voucher null' });
+                    }
+                }
+
+                if (voucherVerified) {
+                    if (voucher !== '') {
+                        for (i = 0; i < voucherInfo.codeList.length; i++) {
+                            if (voucherInfo.codeList[i].code === voucher) {
+                                voucherInfo.codeList[i].isUsed = true;
+                            }
+                            break;
+                        }
+                        await Voucher.findOneAndUpdate(
+                            { voucherId: voucherInfo.voucherId },
+                            { codeList: voucherInfo.codeList },
+                            { runValidators: true, context: 'query', new: true },
+                        )
+                    }
+                    
+                    await Order.findOneAndUpdate(
+                        { orderCode: orderCode },
+                        { 
+                            fullname: customerName,
+                            phone: customerPhone,
+                            mail: customerMail,
+                            status: orderStatus,
+                            serviceList: serviceList,
+                            sum: sum,
+                            discount: discount,
+                            voucher: voucher,
+                            total: total,
+                            note: note,
+                            payment: payment,
+                        },
+                        { runValidators: true, context: 'query', new: true },
+                    ).then(result => {
+                        console.log('save order successdful');
+                        console.log(result);
+                        res.json({ savedOrder: result });
+                    });
+                }
+
+                
             }
             catch(err) {
                 console.log('admin save order post error');
@@ -538,7 +582,14 @@ module.exports.orderCheckVoucher_post = async (req, res) => {
                         res.status(200).json({ error: 'voucher already used' });
                     }
                     else {
-                        res.status(200).json({ voucher: { voucherId: voucher.voucherId, type: voucher.type, value: voucher.value, max: voucher.max } });
+                        var voucherExpDate = new Date(voucher.exp);
+                        if (voucherExpDate.getTime() < Date.now()) {
+                            console.log('order check voucher expired');
+                            res.status(200).json({ error: 'voucher expired' });
+                        }
+                        else {
+                            res.status(200).json({ voucher: { voucherId: voucher.voucherId, type: voucher.type, value: voucher.value, max: voucher.max } });
+                        }
                     }
                 }
                 else {
@@ -554,6 +605,37 @@ module.exports.orderCheckVoucher_post = async (req, res) => {
         }
         else {
             console.log('order check voucher post not authorized');
+            res.status(400).json({ error: 'user not authorized' });
+        }
+    }
+    else {
+        console.log('user not log in');
+        res.status(400).json({ error: 'user not log in' });
+    }
+}
+
+module.exports.adminDeleteOrder_post = async (req, res) => {
+    if (res.locals.user) {
+        if (res.locals.user.role === 'admin') {
+            try {
+                const { orderCode } = req.body;
+                await Order.findOneAndDelete({ orderCode: orderCode }).then(result => {
+                    if (result) {
+                        console.log('admin delete order post successful');
+                        console.log('deleted order: ');
+                        console.log(result);
+                        res.status(200).json({ deletedOrder: result });
+                    }
+                });
+            }
+            catch(err) {
+                console.log('admin delete order post error');
+                console.log(err);
+                res.status(400).json({ error: err });
+            }
+        }
+        else {
+            console.log('admin delete order post not authorized');
             res.status(400).json({ error: 'user not authorized' });
         }
     }
@@ -588,6 +670,16 @@ module.exports.orderDetail_get = async (req, res) => {
     else {
         console.log('user not log in');
         res.render('404NotFound');
+    }
+}
+
+module.exports.contact_get = (req, res) => {
+    if (res.locals.user) {
+        res.render('accountContact');
+    }
+    else {
+        console.log('user not log in');
+        res.render('login');
     }
 }
 
