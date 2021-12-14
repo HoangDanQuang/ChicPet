@@ -241,16 +241,39 @@
                     <div class="d-flex align-items-start">
                         <div class="col-1"></div>
                         <div class="nav col-2 flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <button class="nav-link active" id="v-pills-dog-tab" data-bs-toggle="pill" data-bs-target="#v-pills-dog" type="button" role="tab" aria-controls="v-pills-dog" aria-selected="true">Dog</button>
-                            <button class="nav-link" id="v-pills-cat-tab" data-bs-toggle="pill" data-bs-target="#v-pills-cat" type="button" role="tab" aria-controls="v-pills-cat" aria-selected="false">Cat</button>
-                            <button class="nav-link" id="v-pills-other-tab" data-bs-toggle="pill" data-bs-target="#v-pills-other" type="button" role="tab" aria-controls="v-pills-other" aria-selected="false">Other Pets</button>
+                            <button class="nav-link active" id="v-pills-dog-tab" onclick="renderDropdownServiceName()" data-bs-toggle="pill" data-bs-target="#v-pills-dog" type="button" role="tab" aria-controls="v-pills-dog" aria-selected="true">Dog</button>
+                            <button class="nav-link" id="v-pills-cat-tab" onclick="renderDropdownServiceName()" data-bs-toggle="pill" data-bs-target="#v-pills-cat" type="button" role="tab" aria-controls="v-pills-cat" aria-selected="false">Cat</button>
+                            <button class="nav-link" id="v-pills-other-tab" onclick="renderDropdownServiceName()" data-bs-toggle="pill" data-bs-target="#v-pills-other" type="button" role="tab" aria-controls="v-pills-other" aria-selected="false">Other Pets</button>
                         </div>
                         <div class="col-1"></div>
-                        <div class="tab-content col-6" id="v-pills-tabContent">
-                            <div class="tab-pane fade show active" id="v-pills-dog" role="tabpanel" aria-labelledby="v-pills-dog-tab">
+                        <div class="col-6">
+                            <div class="pb-2">
+                                <label for="dropdownServiceName" class="col-form-label">Tên dịch vụ</label>
+
+                                <div class="dropdown">
+                                    <button class="btn dropdown-service-name dropdown-toggle w-100" type="button" id="dropdownServiceName" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu dropdown-service-name-menu w-100">
+
+                                    </ul>
+                                </div>
+                                <div class="dropdownServiceNameError text-error"></div>
                             </div>
-                            <div class="tab-pane fade" id="v-pills-cat" role="tabpanel" aria-labelledby="v-pills-cat-tab"></div>
-                            <div class="tab-pane fade" id="v-pills-other" role="tabpanel" aria-labelledby="v-pills-other-tab"></div>
+                            
+                            <div class="pb-2">
+                                <label for="dropdownServiceType" class="col-form-label">Tên dịch vụ</label>
+
+                                <div class="dropdown">
+                                    <button class="btn dropdown-service-type dropdown-toggle w-100" type="button" id="dropdownServiceType" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu dropdown-service-type-menu w-100">
+                                        
+                                    </ul>
+                                </div>
+                                <div class="dropdownServiceTypeError text-error"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-end pt-3">
+                                <button type="button" class="btn btn-add-service">Thêm</button>
+                            </div>
                         </div>
                         <div class="col-2"></div>
                     </div>
@@ -326,14 +349,21 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col" style="width: 60%">Service</th>
-                                <th scope="col">Amount</th>
+                                <th scope="col" class="text-start align-middle" >Tên dịch vụ</th>
+                                <th scope="col" class="align-middle">Biến thể</th>
+                                <th scope="col" class="align-middle">Số lượng</th>
+                                <th scope="col" class="align-middle">Đơn giá</th>
+                                <th scope="col" class="align-middle">Thành tiền</th>
                             </tr>
                         </thead>
                         <tbody class="book-service-table-body">
 
                         </tbody>
                     </table>
+                    <div class="row">
+                        <div class="col-6 fw-bold text-start ps-5">Tổng thanh toán</div>
+                        <div class="col-6 allServiceTotal fw-bold text-end pe-5">0</div>
+                    </div>
                     <div class="serviceTableError text-error text-end"></div>
                     <div>
                         <textarea class="form-control mt-3" id="comments" name="note" placeholder="Note" rows="4"></textarea><br>
@@ -875,15 +905,24 @@
 
     // script create order
 
-    const bookServiceTableBody = document.querySelector('.book-service-table-body');
-    const btnAdd = document.querySelectorAll('.btn-add');
-
     var bookServiceList = [];
-    const dogServiceContainer = document.getElementById('v-pills-dog');
-    const catServiceContainer = document.getElementById('v-pills-cat');
-    const otherServiceContainer = document.getElementById('v-pills-other');
-
     var bookOrderServiceList = [];
+
+    const dogServiceNav = document.getElementById('v-pills-dog-tab');
+    const catServiceNav = document.getElementById('v-pills-cat-tab');
+    const otherServiceNav = document.getElementById('v-pills-other-tab');
+
+    const dropdownServiceName = document.getElementById('dropdownServiceName');
+    const dropdownServiceNameMenu = document.querySelector('.dropdown-service-name-menu');
+    const dropdownServiceNameError = document.querySelector('.dropdownServiceNameError');
+
+    const dropdownServiceType = document.getElementById('dropdownServiceType');
+    const dropdownServiceTypeMenu = document.querySelector('.dropdown-service-type-menu');
+    const dropdownServiceTypeError = document.querySelector('.dropdownServiceTypeError');
+
+    const btnAdd = document.querySelector('.btn-add-service');
+
+    const btnCheckUserCode = document.querySelector('.btn-check-user-code');
 
     const inputBookUserCode = document.getElementById('userCode');
     const inputBookName = document.getElementById('name');
@@ -891,9 +930,9 @@
     const inputBookEmail = document.getElementById('email');
     const inputBookAppointment = document.getElementById('appointment');
     const inputBookNote = document.getElementById('comments');
-    const btnCheckUserCode = document.querySelector('.btn-check-user-code');
-    const btnBook = document.querySelector('.btn-book');
 
+    const bookServiceTableBody = document.querySelector('.book-service-table-body');
+    
     const inputBookUserCodeError = document.querySelector('.inputUserCodeError');
     const inputBookNameError = document.querySelector('.inputNameError');
     const inputBookPhoneError = document.querySelector('.inputPhoneError');
@@ -901,9 +940,13 @@
     const inputBookAppointmentError = document.querySelector('.inputAppointmentError');
     const bookServiceTableError = document.querySelector('.serviceTableError');
 
-    renderListService();
+    const allServiceTotal = document.querySelector('.allServiceTotal');
 
-    async function renderListService() {
+    const btnBook = document.querySelector('.btn-book');
+
+    getListService();
+
+    async function getListService() {
         try {
             const res = await fetch('/service/book/get-service-list', {
                 method: 'POST',
@@ -915,30 +958,8 @@
                 if (serviceListData.serviceList) {
                     console.log(serviceListData.serviceList);
                     bookServiceList = serviceListData.serviceList;
-                    var dogServiceHTML = '';
-                    var catServiceHTML = '';
-                    var otherServiceHTML = '';
-                    for (i = 0; i < bookServiceList.length; i++) {
-                        var serviceHTML = '<div class="row service-item p-1" >'
-                                                + '<div class="col-md-10 px-1">' + bookServiceList[i].name + '</div>'
-                                                + '<div class="col-md-2 px-1 py-0 d-flex justify-content-center align-items-center">'
-                                                    + '<button type="button" class="btn p-0 btn-add" onClick="reply_click(' + '\'' + bookServiceList[i].name + '\'' + ')">Add</button>'
-                                                + '</div>'
-                                            + '</div>'
-                        
-                        if (bookServiceList[i].category === 'dog-service') {
-                            dogServiceHTML += serviceHTML;
-                        }
-                        else if (bookServiceList[i].category === 'cat-service') {
-                            catServiceHTML += serviceHTML;
-                        }
-                        else if (bookServiceList[i].category === 'other-service') {
-                            otherServiceHTML += serviceHTML;
-                        }
-                    }
-                    dogServiceContainer.innerHTML = dogServiceHTML;
-                    catServiceContainer.innerHTML = catServiceHTML;
-                    otherServiceContainer.innerHTML = otherServiceHTML;
+                    renderDropdownServiceName();
+                    renderDropdownServiceType(bookServiceList[0].name);                
                 }
                 else if (serviceListData.error) {
                     console.log('get service list error');
@@ -955,55 +976,203 @@
         }
     }
 
-    const render = () => {
+    function renderDropdownServiceName() {
+        if (dogServiceNav.classList.contains('active')) {
+            var numberOfServiceAdded = 0;
+            var html = '';
+            for (i = 0; i < bookServiceList.length; i++) {
+                if (bookServiceList[i].category === 'dog-service') {
+                    numberOfServiceAdded++;
+                    html += `<li><div class="dropdown-item dropdown-service-name-item text-wrap" onclick="updateDropdownServiceNameBtn('${bookServiceList[i].name}')">${bookServiceList[i].name}</div></li>`
+                }
+            }
+            if (numberOfServiceAdded > 0) {
+                dropdownServiceNameMenu.innerHTML = html;
+                for (i = 0; i < bookServiceList.length; i++) {
+                    if (bookServiceList[i].category === 'dog-service') {
+                        dropdownServiceName.textContent = bookServiceList[i].name;
+                        renderDropdownServiceType(bookServiceList[i].name);
+                        break;
+                    }
+                }
+            }
+            else {
+                dropdownServiceName.textContent = '';
+                dropdownServiceNameMenu.innerHTML = '';
+                dropdownServiceType.textContent = '';
+                dropdownServiceNameMenu.innerHTML = '';
+            }
+        }
+        else if (catServiceNav.classList.contains('active')) {
+            var numberOfServiceAdded = 0;
+            var html = '';
+            for (i = 0; i < bookServiceList.length; i++) {
+                if (bookServiceList[i].category === 'cat-service') {
+                    numberOfServiceAdded++;
+                    html += `<li><div class="dropdown-item dropdown-service-name-item text-wrap" onclick="updateDropdownServiceNameBtn('${bookServiceList[i].name}')">${bookServiceList[i].name}</div></li>`
+                }
+            }
+            if (numberOfServiceAdded > 0) {
+                dropdownServiceNameMenu.innerHTML = html;
+                for (i = 0; i < bookServiceList.length; i++) {
+                    if (bookServiceList[i].category === 'cat-service') {
+                        dropdownServiceName.textContent = bookServiceList[i].name;
+                        renderDropdownServiceType(bookServiceList[i].name);
+                        break;
+                    }
+                }
+            }
+            else {
+                dropdownServiceName.textContent = '';
+                dropdownServiceNameMenu.innerHTML = '';
+                dropdownServiceType.textContent = '';
+                dropdownServiceNameMenu.innerHTML = '';
+            }
+        }
+        else if (otherServiceNav.classList.contains('active')) {
+            var numberOfServiceAdded = 0;
+            var html = '';
+            for (i = 0; i < bookServiceList.length; i++) {
+                if (bookServiceList[i].category === 'other-service') {
+                    numberOfServiceAdded++;
+                    html += `<li><div class="dropdown-item dropdown-service-name-item text-wrap" onclick="updateDropdownServiceNameBtn('${bookServiceList[i].name}')">${bookServiceList[i].name}</div></li>`
+                }
+            }
+            if (numberOfServiceAdded > 0) {
+                dropdownServiceNameMenu.innerHTML = html;
+                for (i = 0; i < bookServiceList.length; i++) {
+                    if (bookServiceList[i].category === 'other-service') {
+                        dropdownServiceName.textContent = bookServiceList[i].name;
+                        renderDropdownServiceType(bookServiceList[i].name);
+                        break;
+                    }
+                }
+            }
+            else {
+                dropdownServiceName.textContent = '';
+                dropdownServiceNameMenu.innerHTML = '';
+                dropdownServiceType.textContent = '';
+                dropdownServiceNameMenu.innerHTML = '';
+            }
+        }
+    }
+
+    function updateDropdownServiceNameBtn(serviceName) {
+        dropdownServiceName.textContent = serviceName;
+
+        renderDropdownServiceType(serviceName);
+    }
+
+    function renderDropdownServiceType(serviceName) {
+        var html = '';
+        for (i = 0; i < bookServiceList.length; i++) {
+            if (serviceName === bookServiceList[i].name) {
+                dropdownServiceType.textContent = bookServiceList[i].prices[0].type;
+                for (j = 0; j < bookServiceList[i].prices.length; j++) {
+                    html += `<li><div class="dropdown-item dropdown-service-type-item text-wrap" onclick="updateDropdownServiceTypeBtn('${bookServiceList[i].prices[j].type}')">${bookServiceList[i].prices[j].type}</div></li>`;
+                }
+                break;
+            }
+        }
+        dropdownServiceTypeMenu.innerHTML = html;
+    }
+
+    function updateDropdownServiceTypeBtn(type) {
+        dropdownServiceType.textContent = type;
+    }
+
+    function renderServiceTableBody() {
         const html = bookOrderServiceList.map((element, index) => (
             `<tr>
-            <th scope="row">${index + 1}</th>
-            <td>${element.nameService}</td>
-            <td>
-                <div class="buttons_added border-none">
-                    <input aria-label="quantity" class="input-qty" max="10" min="0" type="number" id="${index}" value="${element.amount}" onchange="myFunction(this.value, this.id)">    
-                </div>
-            </td>
-        </tr>`
+                <th>${index + 1}</th>
+                <td class="text-start">${element.serviceName}</td>
+                <td class="text-center">${element.serviceType}</td>
+                <td class="text-center">
+                    <input type="number" id="service-table-quantity-${index}" class="text-center" max="10" min="0" value="${element.quantity}" onchange="serviceTableQuantityOnChanged(${index}, this.value)">
+                </td>
+                <td class="text-center">${element.servicePrice}</td>
+                <td class="text-center">${element.serviceTotal}</td>
+            </tr>`
         ));
         bookServiceTableBody.innerHTML = html.join('');
+
+        var allServiceTotalValue = 0;
+        for (i = 0; i < bookOrderServiceList.length; i++) {
+            allServiceTotalValue += bookOrderServiceList[i].serviceTotal;
+        }
+        allServiceTotal.textContent = allServiceTotalValue;
     }
 
-    function reply_click(serviceName)
-    {  
-        var b = false;
-        bookOrderServiceList.forEach((element) => { 
-            if(element.nameService == serviceName){
-                b = true;
-                if(element.amount < 10){
-                    element.amount ++;
-                    render();
+    btnAdd.addEventListener('click', () => {
+        dropdownServiceNameError.textContent = '';
+        dropdownServiceTypeError.textContent = '';
+
+        const serviceName = dropdownServiceName.textContent;
+        const serviceType = dropdownServiceType.textContent;
+        var serviceValidated = true;
+
+        if (serviceName === '') {
+            dropdownServiceNameError.textContent = 'Vui lòng chọn tên dịch vụ';
+            serviceValidated = false;
+        }
+        if (serviceType === '') {
+            dropdownServiceTypeError.textContent = 'Vui lòng chọn kiểu dịch vụ';
+            serviceValidated = false;
+        }
+
+        if (serviceValidated) {
+            var serviceAlreadyAdded = false;
+            bookOrderServiceList.forEach((element) => { 
+                if(element.serviceName == serviceName && element.serviceType == serviceType){
+                    serviceAlreadyAdded = true;
+                    if(element.quantity < 10){
+                        element.quantity ++;
+                        element.serviceTotal = element.servicePrice * element.quantity;
+                        renderServiceTableBody();
+                    }
+                } 
+            } );
+            if(!serviceAlreadyAdded){
+                var servicePrice = 0;
+                for (i = 0; i < bookServiceList.length; i++) {
+                    if (bookServiceList[i].name === serviceName) {
+                        for (j = 0; j < bookServiceList[i].prices.length; j++) {
+                            if (bookServiceList[i].prices[j].type === serviceType) {
+                                servicePrice = bookServiceList[i].prices[j].price;
+                                break;
+                            }
+                        }
+                        break;
+                    }
                 }
-            } 
-        } );
-        const Data = {
-            nameService: serviceName,
-            amount: 1
+                const Data = {
+                    serviceName: serviceName,
+                    serviceType: serviceType,
+                    quantity: 1,
+                    servicePrice: servicePrice,
+                    serviceTotal: servicePrice,
+                }
+                bookOrderServiceList.push(Data);
+                renderServiceTableBody();
+            }
+            console.log(bookOrderServiceList);
         }
-        if(!b){
-            bookOrderServiceList.push(Data);
-            render();
-        }
-        console.log(bookOrderServiceList);
-    }
+    })
 
-    function myFunction(value, id){
+    function serviceTableQuantityOnChanged(index, value){
         if(value < 1){
-            bookOrderServiceList.splice(id, 1);
-            render();
+            bookOrderServiceList.splice(index, 1);
+            renderServiceTableBody();
         }
         else if(value > 10){
-            bookOrderServiceList[id].amount = 10;
-            render();
+            bookOrderServiceList[index].quantity = 10;
+            bookOrderServiceList[index].serviceTotal = 10 * bookOrderServiceList[index].servicePrice;
+            renderServiceTableBody();
         }
         else{
-            bookOrderServiceList[id].amount = Number(value);
+            bookOrderServiceList[index].quantity = Number(value);
+            bookOrderServiceList[index].serviceTotal = Number(value) * bookOrderServiceList[index].servicePrice;
+            renderServiceTableBody();
         }
         console.log(bookOrderServiceList);
     }
@@ -1058,17 +1227,22 @@
 
     btnBook.addEventListener('click', async ()=>{
         console.log('btn-book clicked');
+        inputBookUserCodeError.textContent = '';
         inputBookNameError.textContent = '';
         inputBookPhoneError.textContent = '';
         bookServiceTableError.textContent = '';
+        inputBookAppointmentError.textContent = '';
 
         const userCode = inputBookUserCode.value;
         const name = inputBookName.value;
         const phone = inputBookPhone.value;
-        const email = inputBookEmail.value;
+        const mail = inputBookEmail.value;
         const appointment = inputBookAppointment.value;
         const note = inputBookNote.value;
+        const total = Number(allServiceTotal.textContent);
         var orderValidated = true;
+
+        const appointmentDate = new Date(appointment);
 
         if (userCode === '') {
             inputBookUserCodeError.textContent = 'Vui lòng nhập mã khách hàng';
@@ -1082,6 +1256,14 @@
             inputBookPhoneError.textContent = 'Vui lòng nhập số điện thoại';
             orderValidated = false;
         }
+        if (appointment === '') {
+            inputBookAppointmentError.textContent = 'Vui lòng nhập thời gian hẹn';
+            orderValidated = false;
+        }
+        if (appointmentDate.getTime() < Date.now()) {
+            inputBookAppointmentError.textContent = 'Thời gian hẹn không hợp lệ';
+            orderValidated = false;
+        }
         if (bookOrderServiceList.length < 1) {
             bookServiceTableError.textContent = 'Vui lòng chọn dịch vụ';
             orderValidated = false;
@@ -1090,14 +1272,14 @@
         if (orderValidated) {
             var services = [];
             for (i = 0; i < bookOrderServiceList.length; i++) {
-                var serviceInfo = bookServiceList.find(element => (element.name === bookOrderServiceList[i].nameService));
+                var serviceInfo = bookServiceList.find(element => (element.name === bookOrderServiceList[i].serviceName));
                 console.log(serviceInfo);
                 var service = {
                     service: serviceInfo,
-                    type: '',
-                    quantity: bookOrderServiceList[i].amount,
-                    price: 0,
-                    total:  0
+                    type: bookOrderServiceList[i].serviceType,
+                    quantity: bookOrderServiceList[i].quantity,
+                    price: bookOrderServiceList[i].servicePrice,
+                    total:  bookOrderServiceList[i].serviceTotal,
                 }
                 services.push(service);
             }
@@ -1105,15 +1287,15 @@
             try {
                 const res = await fetch('/service/admin-book', {
                     method: 'POST',
-                    body: JSON.stringify({ userCode, name, phone, email, appointment, services, note }),
+                    body: JSON.stringify({ userCode, name, phone, mail, appointment, services, note, total }),
                     headers: {'Content-Type': 'application/json'}
                 });
-                const bookedServiceData = await res.json();
-                console.log(bookedServiceData);
-                if (bookedServiceData) {
-                    if (bookedServiceData.order) {
-                        console.log('book service successful');
-                        console.log(bookedServiceData.order);
+                const orderData = await res.json();
+                console.log(orderData);
+                if (orderData) {
+                    if (orderData.order) {
+                        console.log("Đăng ký đơn thành công");
+                        console.log(orderData.order);
                         showAlertChicPet('alert-success', 'Đăng ký đơn thành công');
 
                         btnSearchOnClick();
@@ -1124,28 +1306,30 @@
                         inputBookAppointment.value = '';
                         inputBookNote.value = '';
                         bookServiceTableBody.innerHTML = '';
+                        allServiceTotal.textContent = 0;
                     }
-                    else if (bookedServiceData.error) {
-                        if (bookedServiceData.error === 'user code not found') {
-                            console.log('book service failed');
-                            console.log(bookedServiceData.error);
+                    else if (orderData.error) {
+                        if (orderData.error === 'user code not found') {
+                            console.log('Đăng ký đơn thất bại');
+                            console.log(orderData.error);
                             inputBookUserCodeError.textContent = 'Mã khách hàng không hợp lệ';
                             showAlertChicPet('alert-danger', 'Đăng ký đơn thất bại, vui lòng thử lại');
                         }
                         else {
-                            console.log('book service failed');
-                            console.log(bookedServiceData.error);
+                            console.log('Đăng ký đơn thất bại');
+                            console.log(orderData.error);
                             showAlertChicPet('alert-danger', 'Đăng ký đơn thất bại, vui lòng thử lại');
                         }
                     }
                     else {
-                        console.log('book service failed');
+                        console.log("Đăng ký đơn thất bại");
+                        console.log(orderData);
                         showAlertChicPet('alert-danger', 'Đăng ký đơn thất bại, vui lòng thử lại');
                     }
                 }
             }
             catch (err) {
-                console.log('book service error');
+                console.log("Đăng ký đơn lỗi");
                 console.log(err);
                 showAlertChicPet('alert-danger', 'Đăng ký đơn thất bại, vui lòng thử lại');
             }

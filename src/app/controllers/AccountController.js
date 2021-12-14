@@ -513,18 +513,20 @@ module.exports.adminSaveOrder_post = async (req, res) => {
                 }
 
                 if (voucherVerified) {
-                    for (i = 0; i < voucherInfo.codeList.length; i++) {
-                        if (voucherInfo.codeList[i].code === voucher) {
-                            voucherInfo.codeList[i].isUsed = true;
+                    if (voucher !== '') {
+                        for (i = 0; i < voucherInfo.codeList.length; i++) {
+                            if (voucherInfo.codeList[i].code === voucher) {
+                                voucherInfo.codeList[i].isUsed = true;
+                            }
+                            break;
                         }
-                        break;
+                        await Voucher.findOneAndUpdate(
+                            { voucherId: voucherInfo.voucherId },
+                            { codeList: voucherInfo.codeList },
+                            { runValidators: true, context: 'query', new: true },
+                        )
                     }
-                    await Voucher.findOneAndUpdate(
-                        { voucherId: voucherInfo.voucherId },
-                        { codeList: voucherInfo.codeList },
-                        { runValidators: true, context: 'query', new: true },
-                    )
-
+                    
                     await Order.findOneAndUpdate(
                         { orderCode: orderCode },
                         { 

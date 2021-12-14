@@ -237,7 +237,7 @@ module.exports.book_post = async(req, res) => {
 }
 
 module.exports.adminBook_post = async(req, res) => {
-    const { userCode, name, phone, email, appointment, services, note } = req.body;
+    const { userCode, name, phone, email, appointment, services, note, total } = req.body;
 
     try {
         if (req.session.user) {
@@ -259,10 +259,10 @@ module.exports.adminBook_post = async(req, res) => {
                 meetingTime: appointment,
                 status: 'Chờ xác nhận',
                 serviceList: services,
-                sum: 0,
+                sum: total,
                 discount: 0,
                 voucher: '',
-                total: 0,
+                total: total,
                 note: note,
                 payment: 'Tiền mặt',
             });
