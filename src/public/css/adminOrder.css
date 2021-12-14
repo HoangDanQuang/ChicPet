@@ -162,6 +162,10 @@ a:hover {
     font-weight: 700;
 }
 
+.order-detail-header__order-meeting-time {
+    font-weight: 700;
+}
+
 .order-detail-header__order-status-title {
     font-size: 18px;
 }

@@ -90,7 +90,8 @@
                             <th scope="col">#</th>
                             <th scope="col">Mã đơn</th>
                             <th scope="col">Mã KH</th>
-                            <th scope="col">Thời gian</th>
+                            <th scope="col">Thời gian tạo</th>
+                            <th scope="col">Thời gian hẹn</th>
                             <th scope="col">Khách hàng</th>
                             <th scope="col">Thành tiền</th>
                             <th scope="col">Trạng thái</th>
@@ -103,7 +104,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="order-option-container">
+            <div class="order-option-container" id="orderOptionContainer">
                 <div class="row">
                     <button type="button" class="btn btn-option-info btn-order-option btn-order-option--active">Thông tin hóa đơn</button>
                     <button type="button" class="btn btn-option-create btn-order-option">Tạo hóa đơn</button>
@@ -115,15 +116,17 @@
                         <h2 class="text-uppercase order-detail-header__title">Thông tin đơn hàng</h2>
                         <div class="my-3">
                             Dưới đây là thông tin đơn hàng 
-                            <span class="order-detail-header__order-code">123456789</span>
-                            <span class="order-detail-header__order-time"> - 10:30 01/01/2021</span>
+                            <span class="order-detail-header__order-code"></span>
+                            <span class="order-detail-header__order-time"></span>
+                        </div>
+                        <div class="my-3">
+                            Thời gian hẹn: 
+                            <span class="order-detail-header__order-meeting-time">Tue Dec 14 2021 21:15</span>
                         </div>
                         <div class="mb-4">
                             <div class="order-detail-header__order-status-title mb-3">Trạng thái đơn hàng:</div>
                             <div class="dropdown">
-                                <button class="btn btn-dropdown-status dropdown-toggle" type="button" id="dropdownOrderStatusButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Đã hoàn thành
-                                </button>
+                                <button class="btn btn-dropdown-status dropdown-toggle" type="button" id="dropdownOrderStatusButton" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownOrderStatusButton">
                                     <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Chờ xác nhận')">Chờ xác nhận</div></li>
                                     <li><div class="dropdown-item dropdown-status-item" onclick="updateDropdownStatusBtn('Đã xác nhận')">Đã xác nhận</div></li>
@@ -378,6 +381,7 @@
     const orderDetailContainer = document.querySelector('.admin-order-detail-container');
     const orderDetailCode = document.querySelector('.order-detail-header__order-code');
     const orderDetailTime = document.querySelector('.order-detail-header__order-time');
+    const orderDetailMeetingTime = document.querySelector('.order-detail-header__order-meeting-time');
     const orderDetailDropdownStatus = document.getElementById('dropdownOrderStatusButton');
     const orderDetailServiceTableBody = document.querySelector('.service-table-body');
     const orderDetailInputVoucher = document.getElementById('inputVoucher');
@@ -428,8 +432,10 @@
         currentIndex = rowIndex - 1;
         console.log(data.orderList[currentIndex]);
         var orderDate = new Date(data.orderList[currentIndex].createdAt);
+        var orderMeetingTime = new Date(data.orderList[currentIndex].meetingTime);
         orderDetailCode.textContent = data.orderList[currentIndex].orderCode;
         orderDetailTime.textContent = ' - ' + orderDate.toDateString() + ' ' + orderDate.toTimeString().substring(0, 5);
+        orderDetailMeetingTime.textContent = orderMeetingTime.toDateString() + ' ' + orderMeetingTime.toTimeString().substring(0, 5);
         orderDetailDropdownStatus.textContent = data.orderList[currentIndex].status;
         orderDetailCustomerCode.textContent = data.orderList[currentIndex].userCode;
         orderDetailCustomerName.value = data.orderList[currentIndex].fullname;
@@ -443,11 +449,7 @@
             var row = '<tr>'
                         + '<td class="text-start" style="width: 40%;">' + data.orderList[currentIndex].serviceList[i].service.name + '</td>'
                         //+ '<td style="width: 15%;"">' + data.orderList[currentIndex].serviceList[i].quantity + '</td>'
-                        + '<td>'
-                            + '<div>'
-                                + '<input type="number" class="service-table__service-quantity-' + i + ' text-center border-0" max="10" min="1" value="' + data.orderList[currentIndex].serviceList[i].quantity + '">'
-                            + '</div>'
-                        + '</td>'
+                        + '<td class="service-table__service-quantity-' + i + '">' + data.orderList[currentIndex].serviceList[i].quantity + '</td>'
                         + '<td class="service-table__service-price-' + i + '" style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].price + '</td>'
                         + '<td style="width: 15%;">'
                             + '<div class="dropdown">'
@@ -463,6 +465,7 @@
                     + '<td class="service-table__service-total-' + i +'" style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].total + '</td>'
                     + '</tr>';
             serviceTableBody += row;
+            window.location.href = "#orderOptionContainer";
         }
 
         orderDetailServiceTableBody.innerHTML = serviceTableBody;
@@ -480,7 +483,7 @@
 
         servicePrice.textContent = data.orderList[currentIndex].serviceList[indexService].service.prices[indexType].price;
         serviceType.textContent = data.orderList[currentIndex].serviceList[indexService].service.prices[indexType].type;
-        serviceTotal.textContent = servicePrice.textContent * serviceQuantity.value;
+        serviceTotal.textContent = Number(servicePrice.textContent) * Number(serviceQuantity.textContent);
 
         var sum = 0;
         for (i = 0; i < data.orderList[currentIndex].serviceList.length; i++) {
@@ -522,11 +525,15 @@
                 var tableBody = '';
                 for (i = 0; i < data.orderList.length; i++) {
                     var date = new Date(data.orderList[i].createdAt);
+                    var dateString = (date.getDate() < 10 ? ('0' + date.getDate().toString()) : date.getDate().toString()) + '/' + (date.getMonth() < 9 ? ('0' + (date.getMonth() + 1).toString()) : (date.getMonth() + 1).toString()) + '/' + date.getFullYear().toString() + ' ' + date.toTimeString().substring(0, 5);
+                    var appointment = new Date(data.orderList[i].meetingTime);
+                    var appointmentString = (appointment.getDate() < 10 ? ('0' + appointment.getDate().toString()) : appointment.getDate().toString()) + '/' + (appointment.getMonth() < 9 ? ('0' + (appointment.getMonth() + 1).toString()) : (appointment.getMonth() + 1).toString()) + '/' + appointment.getFullYear().toString() + ' ' + appointment.toTimeString().substring(0, 5);
                     var row = '<tr class="" onclick="orderTableRowClick(' + (i + 1) + ')">'
                                 + '<th scope="row">' + (i + 1) + '</th>'
                                 + '<td>' + data.orderList[i].orderCode + '</td>'
                                 + '<td>' + data.orderList[i].userCode + '</td>'
-                                + '<td>' + date.toDateString() + ' ' + date.toTimeString().substring(0, 5) + '</td>'
+                                + '<td>' + dateString + '</td>'
+                                + '<td>' + appointmentString + '</td>'
                                 + '<td id="order-table__customer-name-' + i + '">' + data.orderList[i].fullname + '</td>'
                                 + '<td id="order-table__order-total-' + i + '">' + data.orderList[i].total + '</td>'
                                 + '<td id="order-table__order-status-' + i + '">' + data.orderList[i].status + '</td>'
@@ -539,6 +546,7 @@
                     if (orderDetailContainer.classList.contains('d-none')) {
                         orderDetailContainer.classList.remove('d-none');
                     }
+                    window.location.href = "#";
                 }
                 else {
                     if (!orderDetailContainer.classList.contains('d-none')) {
@@ -699,7 +707,7 @@
                 var service = {
                     service: data.orderList[currentIndex].serviceList[i].service,
                     type: serviceType.textContent,
-                    quantity: Number(serviceQuantity.value),
+                    quantity: Number(serviceQuantity.textContent),
                     price: Number(servicePrice.textContent),
                     total:  Number(serviceTotal.textContent),
                 };
