@@ -199,7 +199,7 @@ module.exports.book_get = (req, res) => {
 }
 
 module.exports.book_post = async(req, res) => {
-    const { name, phone, email, appointment, services, note } = req.body;
+    const { name, phone, mail, appointment, services, note, total } = req.body;
 
     try {
         if (req.session.user) {
@@ -212,14 +212,14 @@ module.exports.book_post = async(req, res) => {
             userCode: req.session.user.userCode,
             fullname: name,
             phone: phone,
-            mail: email,
+            mail: mail,
             meetingTime: appointment,
             status: 'Chờ xác nhận',
             serviceList: services,
-            sum: 0,
+            sum: total,
             discount: 0,
             voucher: '',
-            total: 0,
+            total: total,
             note: note,
             payment: 'Tiền mặt',
         });
@@ -237,7 +237,7 @@ module.exports.book_post = async(req, res) => {
 }
 
 module.exports.adminBook_post = async(req, res) => {
-    const { userCode, name, phone, email, appointment, services, note } = req.body;
+    const { userCode, name, phone, email, appointment, services, note, total } = req.body;
 
     try {
         if (req.session.user) {
@@ -259,10 +259,10 @@ module.exports.adminBook_post = async(req, res) => {
                 meetingTime: appointment,
                 status: 'Chờ xác nhận',
                 serviceList: services,
-                sum: 0,
+                sum: total,
                 discount: 0,
                 voucher: '',
-                total: 0,
+                total: total,
                 note: note,
                 payment: 'Tiền mặt',
             });

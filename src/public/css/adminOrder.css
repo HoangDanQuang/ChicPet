@@ -162,6 +162,10 @@ a:hover {
     font-weight: 700;
 }
 
+.order-detail-header__order-meeting-time {
+    font-weight: 700;
+}
+
 .order-detail-header__order-status-title {
     font-size: 18px;
 }
@@ -265,43 +269,76 @@ a:hover {
     background-color: rgba(255, 101, 80, 75%);
 }
 
+.btn-delete {
+    background-color: rgb(220,20,60);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    padding: 8px 0px;
+    margin: 16px 40px 16px 0;
+    border-radius: 8px;
+}
+
+.btn-delete:hover {
+    background-color: rgba(220, 20, 60, 75%);
+}
 
 .nav-pills .nav-link{
     border: 1px solid rgb(255, 101, 80);
     border-radius: 0%;
     width: 100%;
+    min-height: 54px;
 }
 
 .nav-pills .nav-link.active{
     background-color: rgb(255, 101, 80)!important;
     color: white !important;
 }
-.tab-content{
-    border: 1px solid rgb(255, 101, 80);
-    min-height: 126px;
+
+.dropdown-service-name {
+    border: 1px solid #ced4da;
+    text-overflow: ellipsis;
+    overflow:hidden; 
 }
 
-.service-item{
-    height: 100%;
-    width: 100%;
-    margin: 0;
+.dropdown-service-name-item {
+    line-height: 1.5;
+    padding: 6px 24px;
 }
 
-.service-item:hover{
+.dropdown-service-name-item:hover {
+    color: rgb(255, 101, 80);
+    background-color: #f8f9fa;
+}
+
+.dropdown-service-type {
+    border: 1px solid #ced4da;
+    text-overflow: ellipsis;
+    overflow:hidden; 
+}
+
+.dropdown-service-type-item {
+    line-height: 1.5;
+    padding: 6px 24px;
+}
+
+.dropdown-service-type-item:hover {
+    color: rgb(255, 101, 80);
+    background-color: #f8f9fa;
+}
+
+.btn-add-service {
     background-color: rgb(255, 101, 80);
     color: white;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    border-radius: 8px;
 }
-.service-item .btn-add{
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    color: black;
-    font-size: 0.8rem;
-    background-color: white;
-}
-.service-item .btn-add:hover{
-    color: black;
-    opacity: 0.8;
+
+.btn-add-service:hover {
+    background-color: rgba(255, 101, 80, 75%);
 }
 
 .book-form__appointment-input {
@@ -312,7 +349,7 @@ a:hover {
     padding: 6px 12px;
 }
 
-.service-table {
+.book-service-table {
     min-height: 100px;
 }
 
