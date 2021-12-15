@@ -484,7 +484,7 @@ module.exports.adminSaveOrder_post = async (req, res) => {
     if (res.locals.user) {
         if (res.locals.user.role === 'admin') {
             try {
-                const { orderCode, customerName, customerPhone, customerMail, orderStatus, serviceList, sum, discount, voucher, total, note, payment } = req.body;
+                const { orderCode, customerName, customerPhone, customerMail, appointment, orderStatus, serviceList, sum, discount, voucher, total, note, payment } = req.body;
                 var voucherVerified = true;
                 var voucherInfo;
 
@@ -534,6 +534,7 @@ module.exports.adminSaveOrder_post = async (req, res) => {
                             phone: customerPhone,
                             mail: customerMail,
                             status: orderStatus,
+                            meetingTime: appointment,
                             serviceList: serviceList,
                             sum: sum,
                             discount: discount,
