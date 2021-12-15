@@ -122,6 +122,7 @@
                         <div class="my-3">
                             Thời gian hẹn: 
                             <span class="order-detail-header__order-meeting-time">Tue Dec 14 2021 21:15</span>
+                            {{!-- <input type="datetime-local" class="order-detail-header__appointment-input" id="orderDetailAppointment" name="appointment"> --}}
                         </div>
                         <div class="mb-4">
                             <div class="order-detail-header__order-status-title mb-3">Trạng thái đơn hàng:</div>
@@ -413,6 +414,7 @@
     const orderDetailCode = document.querySelector('.order-detail-header__order-code');
     const orderDetailTime = document.querySelector('.order-detail-header__order-time');
     const orderDetailMeetingTime = document.querySelector('.order-detail-header__order-meeting-time');
+    {{!-- const orderDetailMeetingTimeInput = document..querySelector('.order-detail-header__appointment-input'); --}}
     const orderDetailDropdownStatus = document.getElementById('dropdownOrderStatusButton');
     const orderDetailServiceTableBody = document.querySelector('.service-table-body');
     const orderDetailInputVoucher = document.getElementById('inputVoucher');
@@ -1306,6 +1308,7 @@
                         inputBookAppointment.value = '';
                         inputBookNote.value = '';
                         bookServiceTableBody.innerHTML = '';
+                        bookOrderServiceList = [];
                         allServiceTotal.textContent = 0;
                     }
                     else if (orderData.error) {

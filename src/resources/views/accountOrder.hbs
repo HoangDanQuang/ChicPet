@@ -33,6 +33,11 @@
                                     <span>Đã hoàn thành</span>
                                 </div>
                             {{/ifCond}}
+                            {{#ifCond this.status '==' 'Đã hủy'}}
+                                <div class="order-status order-status--canceled align-self-center">
+                                    <span>Đã hủy</span>
+                                </div>
+                            {{/ifCond}}
                         </a>
                         <div class="col service-list">
                             {{#each this.serviceList}}
