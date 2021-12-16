@@ -162,8 +162,11 @@ a:hover {
     font-weight: 700;
 }
 
-.order-detail-header__order-meeting-time {
-    font-weight: 700;
+.order-detail-header__appointment-input {
+    height: 38px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 6px 12px;
 }
 
 .order-detail-header__order-status-title {

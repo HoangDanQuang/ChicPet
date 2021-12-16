@@ -121,7 +121,8 @@
                         </div>
                         <div class="my-3">
                             Thời gian hẹn: 
-                            <span class="order-detail-header__order-meeting-time">Tue Dec 14 2021 21:15</span>
+                            {{!-- <span class="order-detail-header__order-meeting-time d-none">Tue Dec 14 2021 21:15</span> --}}
+                            <input type="datetime-local" class="order-detail-header__appointment-input ms-2" id="orderDetailAppointment" name="appointment">
                         </div>
                         <div class="mb-4">
                             <div class="order-detail-header__order-status-title mb-3">Trạng thái đơn hàng:</div>
@@ -412,7 +413,8 @@
     const orderDetailContainer = document.querySelector('.admin-order-detail-container');
     const orderDetailCode = document.querySelector('.order-detail-header__order-code');
     const orderDetailTime = document.querySelector('.order-detail-header__order-time');
-    const orderDetailMeetingTime = document.querySelector('.order-detail-header__order-meeting-time');
+    {{!-- const orderDetailMeetingTime = document.querySelector('.order-detail-header__order-meeting-time'); --}}
+    const orderDetailMeetingTimeInput = document.querySelector('.order-detail-header__appointment-input');
     const orderDetailDropdownStatus = document.getElementById('dropdownOrderStatusButton');
     const orderDetailServiceTableBody = document.querySelector('.service-table-body');
     const orderDetailInputVoucher = document.getElementById('inputVoucher');
@@ -463,10 +465,20 @@
         currentIndex = rowIndex - 1;
         console.log(data.orderList[currentIndex]);
         var orderDate = new Date(data.orderList[currentIndex].createdAt);
-        var orderMeetingTime = new Date(data.orderList[currentIndex].meetingTime);
+        var orderMeetingTimeInputValue = '';
+
+        if (data.orderList[currentIndex].meetingTime) {
+            var orderMeetingTime = new Date(data.orderList[currentIndex].meetingTime);
+            orderMeetingTimeInputValue = orderMeetingTime.getFullYear() + '-' + (orderMeetingTime.getMonth() + 1).toString() + '-' + orderMeetingTime.getDate() + 'T' + orderMeetingTime.toTimeString().substring(0, 5);
+            console.log(orderMeetingTimeInputValue);
+        }
+        
+
+
         orderDetailCode.textContent = data.orderList[currentIndex].orderCode;
         orderDetailTime.textContent = ' - ' + orderDate.toDateString() + ' ' + orderDate.toTimeString().substring(0, 5);
-        orderDetailMeetingTime.textContent = orderMeetingTime.toDateString() + ' ' + orderMeetingTime.toTimeString().substring(0, 5);
+        {{!-- orderDetailMeetingTime.textContent = orderMeetingTime.toDateString() + ' ' + orderMeetingTime.toTimeString().substring(0, 5); --}}
+        orderDetailMeetingTimeInput.value = orderMeetingTimeInputValue;
         orderDetailDropdownStatus.textContent = data.orderList[currentIndex].status;
         orderDetailCustomerCode.textContent = data.orderList[currentIndex].userCode;
         orderDetailCustomerName.value = data.orderList[currentIndex].fullname;
@@ -496,7 +508,6 @@
                     + '<td class="service-table__service-total-' + i +'" style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].total + '</td>'
                     + '</tr>';
             serviceTableBody += row;
-            window.location.href = "#orderOptionContainer";
         }
 
         orderDetailServiceTableBody.innerHTML = serviceTableBody;
@@ -504,6 +515,8 @@
         orderDetailTotalTableSum.textContent = data.orderList[currentIndex].sum;
         orderDetailTotalTableDiscount.textContent = data.orderList[currentIndex].discount;
         orderDetailTotalTableTotal.textContent = data.orderList[currentIndex].total;
+        
+        window.location.href = "#orderOptionContainer";
     }
 
     function updateDropdownServiceType(indexService, indexType) {
@@ -564,7 +577,7 @@
                                 + '<td>' + data.orderList[i].orderCode + '</td>'
                                 + '<td>' + data.orderList[i].userCode + '</td>'
                                 + '<td>' + dateString + '</td>'
-                                + '<td>' + appointmentString + '</td>'
+                                + '<td id="order-table__appointment-' + i + '"">' + appointmentString + '</td>'
                                 + '<td id="order-table__customer-name-' + i + '">' + data.orderList[i].fullname + '</td>'
                                 + '<td id="order-table__order-total-' + i + '">' + data.orderList[i].total + '</td>'
                                 + '<td id="order-table__order-status-' + i + '">' + data.orderList[i].status + '</td>'
@@ -737,6 +750,7 @@
             const customerName = orderDetailCustomerName.value;
             const customerPhone = orderDetailCustomerPhone.value;
             const customerMail = orderDetailCustomerMail.value;
+            const appointment = orderDetailMeetingTimeInput.value;
             const orderStatus = orderDetailDropdownStatus.textContent;
             var serviceList = [];
             const sum = orderDetailTotalTableSum.textContent;
@@ -766,7 +780,7 @@
 
             const res = await fetch('/account/admin-save-order', {
                 method: 'POST',
-                body: JSON.stringify({ orderCode, customerName, customerPhone, customerMail, orderStatus, serviceList, sum, discount, voucher, total, note, payment }),
+                body: JSON.stringify({ orderCode, customerName, customerPhone, customerMail, appointment, orderStatus, serviceList, sum, discount, voucher, total, note, payment }),
                 headers: {'Content-Type': 'application/json'}
             });
             const savedOrderData = await res.json();
@@ -775,10 +789,13 @@
                     console.log('save order successful');
                     data.orderList[currentIndex] = savedOrderData.savedOrder;
 
+                    const orderTableAppointment = document.getElementById('order-table__appointment-' + currentIndex);
                     const orderTableCustomerName = document.getElementById('order-table__customer-name-' + currentIndex);
                     const orderTableOrderTotal = document.getElementById('order-table__order-total-' + currentIndex);
                     const orderTableOrderStatus = document.getElementById('order-table__order-status-' + currentIndex);
 
+                    var date = new Date(data.orderList[currentIndex].meetingTime);
+                    orderTableAppointment.textContent = (date.getDate() < 10 ? ('0' + date.getDate().toString()) : date.getDate().toString()) + '/' + (date.getMonth() < 9 ? ('0' + (date.getMonth() + 1).toString()) : (date.getMonth() + 1).toString()) + '/' + date.getFullYear().toString() + ' ' + date.toTimeString().substring(0, 5);
                     orderTableCustomerName.textContent = data.orderList[currentIndex].fullname;
                     orderTableOrderTotal.textContent = data.orderList[currentIndex].total;
                     orderTableOrderStatus.textContent = data.orderList[currentIndex].status;
@@ -1306,6 +1323,7 @@
                         inputBookAppointment.value = '';
                         inputBookNote.value = '';
                         bookServiceTableBody.innerHTML = '';
+                        bookOrderServiceList = [];
                         allServiceTotal.textContent = 0;
                     }
                     else if (orderData.error) {
