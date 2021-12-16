@@ -508,7 +508,6 @@
                     + '<td class="service-table__service-total-' + i +'" style="width: 15%;">' + data.orderList[currentIndex].serviceList[i].total + '</td>'
                     + '</tr>';
             serviceTableBody += row;
-            window.location.href = "#orderOptionContainer";
         }
 
         orderDetailServiceTableBody.innerHTML = serviceTableBody;
@@ -516,6 +515,8 @@
         orderDetailTotalTableSum.textContent = data.orderList[currentIndex].sum;
         orderDetailTotalTableDiscount.textContent = data.orderList[currentIndex].discount;
         orderDetailTotalTableTotal.textContent = data.orderList[currentIndex].total;
+        
+        window.location.href = "#orderOptionContainer";
     }
 
     function updateDropdownServiceType(indexService, indexType) {
